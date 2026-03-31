@@ -110,7 +110,7 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Navigation Arrows - Contained within max-w-7xl boundary for better desktop feel */}
-      <div className="absolute inset-0 pointer-events-none z-20">
+      <div className="absolute inset-0 pointer-events-none z-20 hidden md:block">
         <div className="max-w-[1440px] mx-auto h-full relative px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <button 
             onClick={prev} 
