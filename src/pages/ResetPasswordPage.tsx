@@ -20,7 +20,7 @@ const ResetPasswordPage: React.FC = () => {
   const { getSiteSetting } = useSettings();
   const navigate = useNavigate();
 
-  const siteName = getSiteSetting('site_name') || 'Aligarh Attars';
+  const siteName = getSiteSetting('site_name') || 'Serique Avenue';
 
   useEffect(() => {
     // Supabase fires PASSWORD_RECOVERY when it detects the hash fragment

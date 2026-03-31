@@ -90,7 +90,7 @@ const AuthPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const siteName = getSiteSetting('site_name') || 'Aligarh Attars';
+  const siteName = getSiteSetting('site_name') || 'Serique Avenue';
   const logoUrl = getSiteSetting('logo_url');
   const isProduction = !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1');
 

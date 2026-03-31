@@ -12,7 +12,7 @@ interface SearchOverlayProps {
   initialQuery?: string;
 }
 
-const trendingSearches = ['Rose Attar', 'Oud', 'Hijab', 'Bakhoor', 'Islamic Books', 'Gift Sets'];
+const trendingSearches = ['Elegant Dresses', 'Floral Tops', 'Silk Scarves', 'Modern Abaya', 'Accessories', 'Gift Cards'];
 
 export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose, initialQuery = '' }) => {
   const [query, setQuery] = useState('');
@@ -23,7 +23,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose, i
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const siteName = getSiteSetting('site_name') || 'Aligarh Attars';
+  const siteName = getSiteSetting('site_name') || 'Serique Avenue';
   const logoUrl = getSiteSetting('logo_url');
 
   // Sync initial query when overlay opens
