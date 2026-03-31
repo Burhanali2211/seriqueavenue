@@ -16,7 +16,7 @@ import { ProductReview } from '../components/Product/ProductReview';
 import { ReviewForm } from '../components/Product/ReviewForm';
 import { ProductRecommendations } from '../components/Product/ProductRecommendations';
 import { Modal } from '../components/Common/Modal';
-import { LoadingSpinner } from '../components/Common/LoadingSpinner';
+import { ProfessionalLoader } from '@/components/Common/ProfessionalLoader';
 import { Review, Product } from '../types';
 import { useCartButtonState } from '../hooks/useCartButtonState';
 import { LuxuryGallery } from '../components/Product/LuxuryGallery';
@@ -74,7 +74,7 @@ export const ProductDetailPage: React.FC = () => {
     })();
   }, [product, fetchReviewsForProduct]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><LoadingSpinner /></div>;
+  if (loading) return <ProfessionalLoader fullPage={true} text="Loading product details..." />;
 
   if (!product) {
     return (
@@ -348,7 +348,7 @@ export const ProductDetailPage: React.FC = () => {
                       Write a Review
                     </button>
                   </div>
-                  {reviewsLoading ? <LoadingSpinner /> : reviews.length > 0 ? (
+                  {reviewsLoading ? <ProfessionalLoader fullPage={false} text="Loading reviews..." /> : reviews.length > 0 ? (
                     <div className="space-y-4">
                       {reviews.map(review => <ProductReview key={review.id} review={review} />)}
                     </div>

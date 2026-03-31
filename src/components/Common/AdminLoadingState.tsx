@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingSpinner } from './LoadingSpinner';
+import { ProfessionalLoader } from './ProfessionalLoader';
 
 interface AdminLoadingStateProps {
   title?: string;
@@ -17,7 +17,7 @@ export const AdminLoadingState: React.FC<AdminLoadingStateProps> = ({
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
         {showSpinner && (
           <div className="flex justify-center mb-4">
-            <LoadingSpinner />
+            <ProfessionalLoader fullPage={false} />
           </div>
         )}
         <h2 className="text-xl font-bold text-gray-900 mb-2">{title}</h2>

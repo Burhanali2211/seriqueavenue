@@ -1,12 +1,12 @@
 // Common Components Barrel Exports
-export { LoadingSpinner, ProgressiveLoading, EnhancedLoadingSpinner } from './LoadingSpinner';
+export { ProfessionalLoader } from './ProfessionalLoader';
 export { SkeletonLoader, TableSkeleton, CardSkeleton, AdminLoadingState, EmptyState } from './EnhancedLoadingStates';
 export { ErrorBoundary } from './ErrorBoundary';
 export { AdminErrorBoundary } from './AdminErrorBoundary';
 export { ErrorFallback } from './ErrorFallback';
 export { Modal } from './Modal';
 export { LazyImage } from './LazyImage';
-export { ResponsiveImage } from './ResponsiveImage';
+export { EnhancedResponsiveImage as ResponsiveImage } from './EnhancedResponsiveImage';
 export { SafeImage, SafeVideo, GlobalMediaErrorHandler } from './MediaErrorHandler';
 export { ResponsiveTable } from './ResponsiveTable';
 export { ScrollToTop } from './ScrollToTop';
@@ -26,4 +26,4 @@ export {
   getAnimationClass 
 } from './AdminDesignSystem';
 export { ImageUpload } from './ImageUpload';
-export { PerformanceDashboard } from './PerformanceDashboard';
+export { default as PerformanceDashboard } from './PerformanceDashboard';

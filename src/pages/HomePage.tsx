@@ -4,7 +4,7 @@ import { CategoryChips } from '@/components/Home/CategoryChips';
 import { FlashSale } from '@/components/Home/FlashSale';
 import { BestSellers } from '@/components/Home/BestSellers';
 import { useProducts } from '@/contexts/ProductContext';
-import { LoadingSpinner } from '@/components/Common/LoadingSpinner';
+import { ProfessionalLoader } from '@/components/Common/ProfessionalLoader';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Truck, RotateCcw, Headphones } from 'lucide-react';
 
@@ -13,7 +13,7 @@ const LatestArrivals = lazy(() => import('@/components/Home/LatestArrivals'));
 
 const SectionLoader = memo(() => (
   <div className="py-6 bg-white">
-    <div className="max-w-7xl mx-auto px-4"><LoadingSpinner /></div>
+    <div className="max-w-7xl mx-auto px-4"><ProfessionalLoader fullPage={false} /></div>
   </div>
 ));
 SectionLoader.displayName = 'SectionLoader';

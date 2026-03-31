@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Eye, Truck, CreditCard, Wallet } from 'lucide-react';
 import { apiClient } from '../../../lib/apiClient';
 import { useNotification } from '../../../contexts/NotificationContext';
-import { LoadingSpinner } from '../../Common/LoadingSpinner';
+import { ProfessionalLoader } from '@/components/Common/ProfessionalLoader';
 import { SellerOrderDetails } from './SellerOrderDetails';
 
 interface Order {
@@ -184,7 +184,7 @@ export const SellerOrdersPage: React.FC = () => {
 
       {/* Orders Table */}
       {loading ? (
-        <LoadingSpinner text="Loading orders..." />
+        <ProfessionalLoader fullPage={false} text="Loading orders..." />
       ) : (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {orders.length === 0 ? (

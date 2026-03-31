@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AdminDashboard } from '../components/Dashboard/AdminDashboard';
 import { CustomerDashboard } from '../components/Customer/CustomerDashboard';
 import { SellerDashboard } from '../components/Dashboard/SellerDashboard';
-import { LoadingSpinner } from '../components/Common/LoadingSpinner';
+import { ProfessionalLoader } from '@/components/Common/ProfessionalLoader';
 
 export const DashboardPage: React.FC = () => {
   const { user, loading } = useAuth();
@@ -23,7 +23,7 @@ export const DashboardPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <LoadingSpinner />
+        <ProfessionalLoader fullPage={false} text="Loading dashboard..." />
       </div>
     );
   }

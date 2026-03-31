@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LoadingSpinner } from './LoadingSpinner';
+import { ProfessionalLoader } from './ProfessionalLoader';
 
 interface StagedLoaderProps {
   stages: Array<{
@@ -77,7 +77,7 @@ export const StagedLoader: React.FC<StagedLoaderProps> = ({
       
       {currentStageIndex < sortedStages.length && (
         <div className="loading-overlay">
-          <LoadingSpinner text={`Loading ${getCurrentStageName()}...`} />
+          <ProfessionalLoader fullPage={false} text={`Loading ${getCurrentStageName()}...`} />
         </div>
       )}
     </div>
