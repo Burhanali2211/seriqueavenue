@@ -1,17 +1,8 @@
-import { useAuth } from '../contexts/AuthContext';
+/**
+ * Mobile Auth Hook (Deprecated)
+ *
+ * For backward compatibility, this file now re-exports from the unified mobile hook.
+ * New code should import directly from './useMobile'
+ */
 
-export const useMobileAuth = () => {
-  const {
-    isMobileAuthOpen,
-    mobileAuthMode,
-    openMobileAuth,
-    closeMobileAuth
-  } = useAuth();
-
-  return {
-    isOpen: isMobileAuthOpen,
-    mode: mobileAuthMode,
-    open: openMobileAuth,
-    close: closeMobileAuth
-  };
-};
+export { useMobileAuth } from './useMobile';
