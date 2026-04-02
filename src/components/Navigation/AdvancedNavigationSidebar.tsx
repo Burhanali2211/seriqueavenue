@@ -4,9 +4,9 @@ import { Search, Star, Clock, TrendingUp, Filter, ChevronDown, ChevronRight, Mor
 import {
   useEnhancedNavigation,
   useNavigationAnalytics,
-  useNavigationPerformance
-} from '../../hooks/useEnhancedNavigation';
-import { NavigationItem } from '../../utils/navigationEnhancement';
+  useNavigationPerformance,
+  NavigationItem
+} from '../../hooks/useNavigation';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface AdvancedNavigationSidebarProps {
