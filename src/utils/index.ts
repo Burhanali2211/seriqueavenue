@@ -4,7 +4,7 @@
 export * from './performance';
 export * from './resourceManager.tsx';
 export * from './metricsTracker';
-export * from './analytics';
+export * from './tracking'; // Consolidated analytics and tracking
 
 // Database utilities
 export * from './database';
