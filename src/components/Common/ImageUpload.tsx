@@ -1,8 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect, useId } from 'react';
-import { Upload, X, Link, CheckCircle, Image as ImageIcon, Loader, Camera, Star } from 'lucide-react';
+import { Upload, X, Link, CheckCircle, Image as ImageIcon, Loader, Camera, Star, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { StorageService, UploadProgress } from '../../services/storageService';
+import { ImageCompressionService } from '../../services/imageCompressionService';
 import { useNotification } from '../../contexts/NotificationContext';
 import { normalizeImageUrl, isValidImageUrl } from '../../utils/images';
 
@@ -93,8 +94,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      showError('Upload Error', 'Each image must be less than 5MB');
+    if (file.size > 50 * 1024 * 1024) {
+      showError('Upload Error', 'Each image must be less than 50MB');
       return;
     }
 
@@ -102,10 +103,26 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     setUploadProgress(null);
 
     try {
+      // Optimize image before uploading
+      let optimizedFile = file;
+      try {
+        optimizedFile = await ImageCompressionService.optimizeImage(file);
+        const originalSize = ImageCompressionService.formatFileSize(file.size);
+        const compressedSize = ImageCompressionService.formatFileSize(optimizedFile.size);
+        const ratio = ImageCompressionService.getCompressionRatio(file.size, optimizedFile.size);
+
+        if (ratio > 5) {
+          console.info(`Image compressed from ${originalSize} to ${compressedSize} (${ratio.toFixed(1)}% reduction)`);
+        }
+      } catch (compressionError) {
+        console.warn('Image compression failed, using original file:', compressionError);
+        // Continue with original file if compression fails
+      }
+
       if (useCloudStorage) {
-        // Use cloud storage
+        // Use cloud storage with optimized file
         const imageUrl = await StorageService.uploadImage(
-          file,
+          optimizedFile,
           folder,
           (progress) => { setUploadProgress(progress); }
         );
@@ -127,17 +144,17 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             onChange(imageUrl);
             setUrlInput(imageUrl);
           }
-          showSuccess('Upload Successful', 'Image uploaded successfully');
+          showSuccess('Upload Successful', 'Image uploaded and optimized successfully');
         } else {
           showError('Upload Failed', 'Failed to get image URL');
         }
       } else {
-        // Use base64 encoding
+        // Use base64 encoding with optimized file
         const reader = new FileReader();
         const base64Promise = new Promise<string>((resolve, reject) => {
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = reject;
-          reader.readAsDataURL(file);
+          reader.readAsDataURL(optimizedFile);
         });
 
         const base64 = await base64Promise;
@@ -156,7 +173,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           onChange(base64);
           setUrlInput(base64);
         }
-        showSuccess('Upload Successful', 'Image uploaded successfully');
+        showSuccess('Upload Successful', 'Image uploaded and optimized successfully');
       }
     } catch (error) {
       showError('Upload Error', error instanceof Error ? error.message : 'Failed to upload image');
@@ -433,13 +450,22 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+                      className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center rounded-lg"
                     >
                       <div className="text-center text-white">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-3"></div>
+                        <p className="text-sm font-medium">Processing Image</p>
                         {uploadProgress && (
-                          <div className="text-sm">
-                            {uploadProgress.percentage}%
+                          <div className="mt-3 w-32">
+                            <div className="bg-white bg-opacity-20 rounded-full h-2 overflow-hidden">
+                              <div
+                                className="bg-white h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${uploadProgress.percentage}%` }}
+                              />
+                            </div>
+                            <p className="text-xs mt-2 font-medium">
+                              {uploadProgress.percentage}%
+                            </p>
                           </div>
                         )}
                       </div>
@@ -494,16 +520,17 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               {isUploading ? (
                 <>
                   <Loader className="h-8 w-8 text-amber-500 animate-spin mb-3" />
-                  <p className="text-sm text-gray-600">Uploading...</p>
+                  <p className="text-sm text-gray-600">Processing & Uploading...</p>
+                  <p className="text-xs text-gray-500 mt-1">Image is being compressed and optimized</p>
                   {uploadProgress && (
-                    <div className="mt-2 w-full max-w-xs">
+                    <div className="mt-3 w-full max-w-xs">
                       <div className="bg-gray-200 rounded-full h-2">
                         <div
                           className="bg-amber-500 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${uploadProgress.percentage}%` }}
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">{uploadProgress.percentage}%</p>
+                      <p className="text-xs text-gray-500 mt-2 font-medium">{uploadProgress.percentage}%</p>
                     </div>
                   )}
                 </>
@@ -539,7 +566,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                     </button>
                   </div>
 
-                  <p className="text-xs text-gray-500 mt-3">PNG, JPG, WebP up to 5MB</p>
+                  <p className="text-xs text-gray-500 mt-3">PNG, JPG, WebP up to 50MB (auto-compressed)</p>
                 </>
               )}
             </div>
