@@ -1,12 +1,9 @@
 import React, { memo, ReactNode } from 'react';
 import { AuthProvider } from './AuthContext';
-import { CartProvider } from './CartContext';
-import { WishlistProvider } from './WishlistContext';
+import { ShoppingProvider } from './ShoppingContext';
 import { NotificationProvider } from './NotificationContext';
 import { ProductProvider } from './ProductContext';
 import { ErrorProvider } from './ErrorContext';
-import { OrderProvider } from './OrderContext';
-import { AddressProvider } from './AddressContext';
 import { ThemeProvider } from './ThemeContext';
 import { SettingsProvider } from './SettingsContext';
 import { NetworkStatusProvider } from '../components/Common/NetworkStatusProvider';
@@ -27,17 +24,11 @@ export const CombinedProvider = memo<CombinedProviderProps>(({ children }) => {
                     <AuthProvider>
                         <SettingsProvider>
                             <ProductProvider>
-                                <CartProvider>
-                                    <WishlistProvider>
-                                        <OrderProvider>
-                                            <AddressProvider>
-                                                <NetworkStatusProvider>
-                                                    {children}
-                                                </NetworkStatusProvider>
-                                            </AddressProvider>
-                                        </OrderProvider>
-                                    </WishlistProvider>
-                                </CartProvider>
+                                <ShoppingProvider>
+                                    <NetworkStatusProvider>
+                                        {children}
+                                    </NetworkStatusProvider>
+                                </ShoppingProvider>
                             </ProductProvider>
                         </SettingsProvider>
                     </AuthProvider>
