@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, ReactNode, useCallback, use
 import { Product, ProductContextType, Category, Review } from '../types';
 import { supabase, db } from '../lib/supabase';
 import { useNotification } from './NotificationContext';
+import { cache } from '../lib/storage/cache'; // ✅ PHASE 1: Use unified cache
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -18,73 +19,22 @@ interface PaginationState {
   pages: number;
 }
 
-// ─── Module-level cache (survives SPA navigation, resets on full page reload) ───
-// TTL: 5 minutes
-const CACHE_TTL = 5 * 60 * 1000;
-
-interface CacheEntry<T> {
-  data: T;
-  ts: number;
-}
-
-function cacheGet<T>(key: string): T | null {
-  try {
-    const raw = sessionStorage.getItem(key);
-    if (!raw) return null;
-    const entry: CacheEntry<T> = JSON.parse(raw);
-    if (Date.now() - entry.ts > CACHE_TTL) {
-      sessionStorage.removeItem(key);
-      return null;
-    }
-    return entry.data;
-  } catch {
-    return null;
-  }
-}
-
-function cacheSet<T>(key: string, data: T) {
-  try {
-    sessionStorage.setItem(key, JSON.stringify({ data, ts: Date.now() }));
-  } catch {
-    // sessionStorage full or unavailable — silently ignore
-  }
-}
-
-function cacheClear(pattern: string) {
-  try {
-    Object.keys(sessionStorage)
-      .filter(k => k.startsWith(pattern))
-      .forEach(k => sessionStorage.removeItem(k));
-  } catch { /* ignore */ }
-}
-
-// ─── Cache versioning — bump on any mutation to instantly invalidate all stale caches ───
-let cacheVersion = (() => {
-  try { return parseInt(sessionStorage.getItem('pc_cache_version') || '0', 10); } catch { return 0; }
-})();
-
-function bumpCacheVersion() {
-  cacheVersion++;
-  try { sessionStorage.setItem('pc_cache_version', String(cacheVersion)); } catch { /* ignore */ }
-  cacheClear('pc_'); // nuke all versioned keys immediately
-}
-
-// Keys include version so any bump makes old cached data unreachable
+// ✅ PHASE 1: Simple cache key generation (no versioning - cache system handles it)
 const getCacheKeys = () => ({
-  products: (page: number, filters: string) => `pc_v${cacheVersion}_products_${page}_${filters}`,
-  featured:    `pc_v${cacheVersion}_featured`,
-  latest:      `pc_v${cacheVersion}_latest`,
-  bestSellers: `pc_v${cacheVersion}_bestsellers`,
-  categories:  `pc_v${cacheVersion}_categories`,
+  products: (page: number, filters: string) => `products_${page}_${filters}`,
+  featured: 'featured_products',
+  latest: 'latest_products',
+  bestSellers: 'bestsellers',
+  categories: 'categories',
 });
 
 export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // ── State initialised from cache immediately — zero loading flash ──
-  const [products, setProducts]           = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().featured) ? [] : []);
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().featured) || []);
-  const [bestSellers, setBestSellers]     = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().bestSellers) || []);
-  const [latestProducts, setLatestProducts] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().latest) || []);
-  const [categories, setCategories]       = useState<Category[]>(cacheGet<Category[]>(getCacheKeys().categories) || []);
+  const [products, setProducts]           = useState<Product[]>(cache.get<Product[]>(getCacheKeys().featured)?.data ? [] : []);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(cache.get<Product[]>(getCacheKeys().featured)?.data || []);
+  const [bestSellers, setBestSellers]     = useState<Product[]>(cache.get<Product[]>(getCacheKeys().bestSellers)?.data || []);
+  const [latestProducts, setLatestProducts] = useState<Product[]>(cache.get<Product[]>(getCacheKeys().latest)?.data || []);
+  const [categories, setCategories]       = useState<Category[]>(cache.get<Category[]>(getCacheKeys().categories)?.data || []);
   const [loading, setLoading]             = useState(false);
   const [featuredLoading, setFeaturedLoading] = useState(featuredProducts.length === 0);
   const [bestSellersLoading, setBestSellersLoading] = useState(bestSellers.length === 0);
@@ -147,18 +97,32 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchCategories = useCallback(async (background = false, force = false) => {
     const keys = getCacheKeys();
-    const cached = cacheGet<Category[]>(keys.categories);
-    // Always show cache instantly if available
-    if (cached) setCategories(cached);
-    // Skip network if: background mode AND not forced AND we have cached data
-    if (cached && background && !force) return;
+    // ✅ PHASE 1: Use unified cache
+    const result = cache.get<Category[]>(keys.categories);
+
+    // Show cached data instantly if available
+    if (result?.data) {
+      setCategories(result.data);
+      // In background mode and data not stale, skip refetch
+      if (background && !result.isStale && !force) {
+        return;
+      }
+    }
+
+    // Fetch fresh data
+    if (!result?.data) setLoading(true);
     try {
       const data = await db.getCategories();
       const mapped = data.map(mapDbCategoryToAppCategory);
       setCategories(mapped);
-      cacheSet(keys.categories, mapped);
+      cache.set(keys.categories, mapped);
     } catch (error) {
-      if (!cached) showError('Failed to load categories', error instanceof Error ? error.message : undefined);
+      // Only show error if no fallback cache
+      if (!result?.data) {
+        showError('Failed to load categories', error instanceof Error ? error.message : undefined);
+      }
+    } finally {
+      if (!result?.data) setLoading(false);
     }
   }, [showError, mapDbCategoryToAppCategory]);
 
@@ -168,30 +132,29 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     const cacheKey = keys.products(page, filterKey);
 
     const isDefault = page === 1 && (!filters || Object.keys(filters).length === 0);
-    const cached = isDefault ? cacheGet<{ products: Product[]; pagination: PaginationState }>(cacheKey) : null;
+    // ✅ PHASE 1: Use unified cache
+    const result = isDefault ? cache.get<{ products: Product[]; pagination: PaginationState }>(cacheKey) : null;
 
     // Show cache instantly (zero loading flash)
-    if (cached) {
-      setProducts(cached.products);
-      setPagination(cached.pagination);
+    if (result?.data) {
+      setProducts(result.data.products);
+      setPagination(result.data.pagination);
     }
 
     // Always fetch fresh when forced OR when no cache exists
-    // When forced: runs immediately but doesn't block (stale shown first)
-    // When not forced + cached: silent background refresh
-    if (force || !cached) {
-      if (!cached) setLoading(true);
+    if (force || !result?.data) {
+      if (!result?.data) setLoading(true);
       (async () => {
         try {
           const response = await db.getProducts({ page, limit, ...filters });
           const mapped = response.data.map(mapDbProductToAppProduct);
           setProducts(mapped);
           setPagination(response.pagination);
-          if (isDefault) cacheSet(cacheKey, { products: mapped, pagination: response.pagination });
+          if (isDefault) cache.set(cacheKey, { products: mapped, pagination: response.pagination });
         } catch (error) {
-          if (!cached) showError('Failed to load products', error instanceof Error ? error.message : undefined);
+          if (!result?.data) showError('Failed to load products', error instanceof Error ? error.message : undefined);
         } finally {
-          if (!cached) setLoading(false);
+          if (!result?.data) setLoading(false);
         }
       })();
     }
@@ -199,22 +162,23 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchFeaturedProducts = useCallback(async (limit: number = 8, force = false) => {
     const keys = getCacheKeys();
-    const cached = cacheGet<Product[]>(keys.featured);
+    // ✅ PHASE 1: Use unified cache
+    const result = cache.get<Product[]>(keys.featured);
     // Show cached data instantly
-    if (cached) { setFeaturedProducts(cached); setFeaturedLoading(false); }
+    if (result?.data) { setFeaturedProducts(result.data); setFeaturedLoading(false); }
     // Fetch fresh when forced OR no cache
-    if (force || !cached) {
-      if (!cached) setFeaturedLoading(true);
+    if (force || !result?.data) {
+      if (!result?.data) setFeaturedLoading(true);
       (async () => {
         try {
           const data = await db.getFeaturedProducts(limit);
           const mapped = data.map(mapDbProductToAppProduct);
           setFeaturedProducts(mapped);
-          cacheSet(keys.featured, mapped);
+          cache.set(keys.featured, mapped);
         } catch (error) {
-          if (!cached) showError('Failed to load featured products', error instanceof Error ? error.message : undefined);
+          if (!result?.data) showError('Failed to load featured products', error instanceof Error ? error.message : undefined);
         } finally {
-          if (!cached) setFeaturedLoading(false);
+          if (!result?.data) setFeaturedLoading(false);
         }
       })();
     }
@@ -222,20 +186,21 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchBestSellers = useCallback(async (limit: number = 8, force = false) => {
     const keys = getCacheKeys();
-    const cached = cacheGet<Product[]>(keys.bestSellers);
-    if (cached) { setBestSellers(cached); setBestSellersLoading(false); }
-    if (force || !cached) {
-      if (!cached) setBestSellersLoading(true);
+    // ✅ PHASE 1: Use unified cache
+    const result = cache.get<Product[]>(keys.bestSellers);
+    if (result?.data) { setBestSellers(result.data); setBestSellersLoading(false); }
+    if (force || !result?.data) {
+      if (!result?.data) setBestSellersLoading(true);
       (async () => {
         try {
           const response = await db.getProducts({ bestSellers: true, limit });
           const mapped = response.data.map(mapDbProductToAppProduct);
           setBestSellers(mapped);
-          cacheSet(keys.bestSellers, mapped);
+          cache.set(keys.bestSellers, mapped);
         } catch (error) {
-          if (!cached) showError('Failed to load best sellers', error instanceof Error ? error.message : undefined);
+          if (!result?.data) showError('Failed to load best sellers', error instanceof Error ? error.message : undefined);
         } finally {
-          if (!cached) setBestSellersLoading(false);
+          if (!result?.data) setBestSellersLoading(false);
         }
       })();
     }
@@ -243,20 +208,21 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchLatestProducts = useCallback(async (limit: number = 8, force = false) => {
     const keys = getCacheKeys();
-    const cached = cacheGet<Product[]>(keys.latest);
-    if (cached) { setLatestProducts(cached); setLatestLoading(false); }
-    if (force || !cached) {
-      if (!cached) setLatestLoading(true);
+    // ✅ PHASE 1: Use unified cache
+    const result = cache.get<Product[]>(keys.latest);
+    if (result?.data) { setLatestProducts(result.data); setLatestLoading(false); }
+    if (force || !result?.data) {
+      if (!result?.data) setLatestLoading(true);
       (async () => {
         try {
           const data = await db.getLatestProducts(limit);
           const mapped = data.map(mapDbProductToAppProduct);
           setLatestProducts(mapped);
-          cacheSet(keys.latest, mapped);
+          cache.set(keys.latest, mapped);
         } catch (error) {
-          if (!cached) showError('Failed to load latest products', error instanceof Error ? error.message : undefined);
+          if (!result?.data) showError('Failed to load latest products', error instanceof Error ? error.message : undefined);
         } finally {
-          if (!cached) setLatestLoading(false);
+          if (!result?.data) setLatestLoading(false);
         }
       })();
     }
@@ -290,7 +256,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
         .select()
         .single();
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('products');
       await fetchProducts(1, 20, undefined, true);
       return mapDbProductToAppProduct(data);
     } catch (error) {
@@ -358,7 +325,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
         .select()
         .single();
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('products');
       await fetchProducts(pagination?.page || 1, 20, undefined, true);
       return mapDbProductToAppProduct(data);
     } catch (error) {
@@ -371,7 +339,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     try {
       const { error } = await supabase.from('products').delete().eq('id', id);
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('products');
       await fetchProducts(pagination?.page || 1, 20, undefined, true);
     } catch (error) {
       showError('Failed to delete product', error instanceof Error ? error.message : undefined);
@@ -387,7 +356,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
         .select()
         .single();
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('categories');
       await fetchCategories(false, true);
       return mapDbCategoryToAppCategory(category);
     } catch (error) {
@@ -405,7 +375,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
         .select()
         .single();
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('categories');
       await fetchCategories(false, true);
       return mapDbCategoryToAppCategory(category);
     } catch (error) {
@@ -418,7 +389,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     try {
       const { error } = await supabase.from('categories').delete().eq('id', id);
       if (error) throw error;
-      bumpCacheVersion(); // invalidates all versioned cache keys instantly
+      // ✅ PHASE 1: Use unified cache invalidation
+      cache.invalidatePattern('categories');
       await fetchCategories(false, true);
     } catch (error) {
       showError('Failed to delete category', error instanceof Error ? error.message : undefined);
