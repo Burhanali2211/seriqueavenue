@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
-import { useCart } from '../contexts/CartContext';
+import { useCart } from '../contexts/ShoppingContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { Product } from '../types';
 

@@ -8,8 +8,8 @@ import {
     ChevronLeft, ChevronRight, Zap, Droplet, Wind, Sun, Info, ArrowRight
 } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
-import { useWishlist } from '../contexts/WishlistContext';
-import { useCart } from '../contexts/CartContext';
+import { useWishlist } from '../contexts/ShoppingContext';
+import { useCart } from '../contexts/ShoppingContext';
 import { Product } from '../types';
 import { ProductCard } from '../components/Product/ProductCard';
 import { motion, AnimatePresence } from 'framer-motion';

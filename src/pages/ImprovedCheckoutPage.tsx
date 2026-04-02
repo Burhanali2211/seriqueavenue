@@ -13,9 +13,9 @@ import {
   Banknote,
   ChevronRight
 } from 'lucide-react';
-import { useCart } from '../contexts/CartContext';
+import { useCart } from '../contexts/ShoppingContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useOrders } from '../contexts/OrderContext';
+import { useOrders } from '../contexts/ShoppingContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { RazorpayPayment } from '../components/Payment/RazorpayPayment';
 import { supabase } from '../lib/supabase';

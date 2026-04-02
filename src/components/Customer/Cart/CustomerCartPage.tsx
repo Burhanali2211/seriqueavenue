@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShoppingCart, Sparkles } from 'lucide-react';
-import { useCart } from '../../../contexts/CartContext';
+import { useCart } from '../../../contexts/ShoppingContext';
 import { useNotification } from '../../../contexts/NotificationContext';
 import { Link, useNavigate } from 'react-router-dom';
 

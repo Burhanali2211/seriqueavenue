@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, Trash2, Share2, Sparkles, TrendingUp } from 'lucide-react';
-import { useWishlist } from '../../../contexts/WishlistContext';
-import { useCart } from '../../../contexts/CartContext';
+import { useWishlist } from '../../../contexts/ShoppingContext';
+import { useCart } from '../../../contexts/ShoppingContext';
 import { useNotification } from '../../../contexts/NotificationContext';
 import { ProductCard } from '../../Product/ProductCard';
 import { ProductDetails } from '../../Product/ProductDetails';

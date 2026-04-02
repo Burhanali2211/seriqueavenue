@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
-import { useWishlist } from '../contexts/WishlistContext';
+import { useWishlist } from '../contexts/ShoppingContext';
 import { Product } from '../types';
 
 interface UseAddToWishlistWithAuthReturn {

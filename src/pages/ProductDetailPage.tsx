@@ -6,8 +6,8 @@ import {
   ArrowRight, Package, TrendingUp, FileText, Star
 } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
-import { useCart } from '../contexts/CartContext';
-import { useWishlist } from '../contexts/WishlistContext';
+import { useCart } from '../contexts/ShoppingContext';
+import { useWishlist } from '../contexts/ShoppingContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { useAuth } from '../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
