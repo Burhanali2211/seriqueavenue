@@ -1,6 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
-import { useAuthModal } from '../contexts/AuthModalContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { Product } from '../types';
 
@@ -9,9 +8,8 @@ interface UseAddToCartWithAuthReturn {
 }
 
 export const useAddToCartWithAuth = (): UseAddToCartWithAuthReturn => {
-  const { user } = useAuth();
+  const { user, showAuthModal } = useAuth();
   const { addItem: addToCart, items } = useCart();
-  const { showAuthModal } = useAuthModal();
   const { showNotification } = useNotification();
 
   const handleAddToCart = (product: Product, quantity: number = 1) => {

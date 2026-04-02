@@ -10,7 +10,6 @@ import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useNotification } from '../contexts/NotificationContext';
 import { useAuth } from '../contexts/AuthContext';
-import { useAuthModal } from '../contexts/AuthModalContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProductReview } from '../components/Product/ProductReview';
 import { ReviewForm } from '../components/Product/ReviewForm';
@@ -32,7 +31,7 @@ export const ProductDetailPage: React.FC = () => {
   const { addItem: addToCart } = useCart();
   const { addItem: addToWishlist, isInWishlist } = useWishlist();
   const { showNotification } = useNotification();
-  const { showAuthModal } = useAuthModal();
+  const { showAuthModal } = useAuth();
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);

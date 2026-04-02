@@ -18,7 +18,6 @@ import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 import { MobileCompactCarousel } from '../Mobile/MobileProductCarousel';
 import { useMobileDetection } from '../../hooks/useMobileGestures';
 import { useCartButtonState } from '../../hooks/useCartButtonState';
@@ -94,8 +93,7 @@ export const ProductRecommendations: React.FC<ProductRecommendationsProps> = ({
   const { addItem: addToCart, items } = useCart();
   const { addItem: addToWishlist, isInWishlist } = useWishlist();
   const { showNotification } = useNotification();
-  const { user } = useAuth();
-  const { showAuthModal } = useAuthModal();
+  const { user, showAuthModal } = useAuth();
   const { isMobile } = useMobileDetection();
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);

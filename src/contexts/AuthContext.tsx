@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { User, AuthContextType } from '../types';
+import { createPortal } from 'react-dom';
+import { User, AuthContextType, Product } from '../types';
 import { supabase } from '../lib/supabase';
+import AuthModal from '../components/Auth/AuthModal';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -21,6 +23,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isMobileAuthOpen, setIsMobileAuthOpen] = useState(false);
   const [mobileAuthMode, setMobileAuthMode] = useState<'login' | 'signup' | 'profile'>('login');
+
+  // AuthModal state (merged from AuthModalContext)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState<'cart' | 'wishlist' | 'compare' | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const mapSupabaseUserToAppUser = (sbUser: any, profile: any): User => {
     return {
@@ -302,6 +309,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsMobileAuthOpen(false);
   };
 
+  // AuthModal methods (merged from AuthModalContext)
+  const showAuthModal = (product: Product, action: 'cart' | 'wishlist' | 'compare') => {
+    setSelectedProduct(product);
+    setModalAction(action);
+    setIsModalOpen(true);
+  };
+
+  const hideAuthModal = () => {
+    setIsModalOpen(false);
+    setModalAction(null);
+    setSelectedProduct(null);
+  };
+
+  const handleModalClose = () => {
+    hideAuthModal();
+  };
+
   const value: AuthContextType = {
     user,
     loading,
@@ -319,12 +343,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     openMobileAuth,
     closeMobileAuth,
     isMobileAuthOpen,
-    mobileAuthMode
+    mobileAuthMode,
+    // AuthModal methods (merged from AuthModalContext)
+    showAuthModal,
+    hideAuthModal,
+    isModalOpen,
+    modalAction,
+    selectedProduct
   };
 
   return (
     <AuthContext.Provider value={value}>
       {children}
+      {isModalOpen && createPortal(
+        <AuthModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          initialMode="login"
+          action={modalAction}
+          product={selectedProduct}
+        />,
+        document.body
+      )}
     </AuthContext.Provider>
   );
 };

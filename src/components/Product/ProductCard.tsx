@@ -4,7 +4,6 @@ import { Product } from '../../types';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 import { Link } from 'react-router-dom';
 import ProductImage from '../Common/ProductImage';
 import { AddToCartButton } from './AddToCartButton';
@@ -25,8 +24,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
 }) => {
   const { isInWishlist, addItem: addToWishlist } = useWishlist();
   const { addItem: addToCart } = useCart();
-  const { user } = useAuth();
-  const { showAuthModal } = useAuthModal();
+  const { user, showAuthModal } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleWishlistToggle = useCallback((e: React.MouseEvent) => {

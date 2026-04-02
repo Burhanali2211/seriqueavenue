@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Star, Heart, ShoppingCart } from 'lucide-react';
 import { Product } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useCartButtonStyles } from '../../hooks/useCartButtonStyles';
@@ -22,8 +21,7 @@ export const FeaturedProductCard: React.FC<FeaturedProductCardProps> = ({ produc
   const { addItem: addToCart } = useCart();
   const { addItem: addToWishlist, isInWishlist } = useWishlist();
   const { cartButtonStyle, cartButtonHoverStyle } = useCartButtonStyles();
-  const { user } = useAuth();
-  const { showAuthModal } = useAuthModal();
+  const { user, showAuthModal } = useAuth();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();

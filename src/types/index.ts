@@ -324,6 +324,13 @@ export interface AuthContextType {
   closeMobileAuth: () => void;
   isMobileAuthOpen: boolean;
   mobileAuthMode: 'login' | 'signup' | 'profile';
+
+  // Auth Modal functionality (merged from AuthModalContext)
+  showAuthModal: (product: Product, action: 'cart' | 'wishlist' | 'compare') => void;
+  hideAuthModal: () => void;
+  isModalOpen: boolean;
+  modalAction: 'cart' | 'wishlist' | 'compare' | null;
+  selectedProduct: Product | null;
 }
 
 export interface CartContextType {

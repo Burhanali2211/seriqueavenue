@@ -1,6 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useWishlist } from '../contexts/WishlistContext';
-import { useAuthModal } from '../contexts/AuthModalContext';
 import { Product } from '../types';
 
 interface UseAddToWishlistWithAuthReturn {
@@ -8,9 +7,8 @@ interface UseAddToWishlistWithAuthReturn {
 }
 
 export const useAddToWishlistWithAuth = (): UseAddToWishlistWithAuthReturn => {
-  const { user } = useAuth();
+  const { user, showAuthModal } = useAuth();
   const { addItem: addToWishlist } = useWishlist();
-  const { showAuthModal } = useAuthModal();
 
   const handleAddToWishlist = (product: Product) => {
     // Check if user is authenticated

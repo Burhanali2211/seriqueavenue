@@ -6,7 +6,6 @@ import { useCartButtonStyles } from '../../hooks/useCartButtonStyles';
 import { useCartButtonState } from '../../hooks/useCartButtonState';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 
 interface AddToCartButtonProps {
   product: Product;
@@ -22,8 +21,7 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   showIcon = true,
 }) => {
   const { addItem: addToCart } = useCart();
-  const { user } = useAuth();
-  const { showAuthModal } = useAuthModal();
+  const { user, showAuthModal } = useAuth();
   const { cartButtonText, cartButtonStyle, cartButtonHoverStyle } = useCartButtonStyles();
   const { buttonState, markAsJustAdded } = useCartButtonState(product);
   const [isHovered, setIsHovered] = useState(false);

@@ -8,10 +8,7 @@ import { ErrorProvider } from './ErrorContext';
 import { OrderProvider } from './OrderContext';
 import { AddressProvider } from './AddressContext';
 import { ThemeProvider } from './ThemeContext';
-import { AuthModalProvider } from './AuthModalContext';
 import { SettingsProvider } from './SettingsContext';
-
-import { SecurityProvider } from '../components/Security/SecurityProvider';
 import { NetworkStatusProvider } from '../components/Common/NetworkStatusProvider';
 
 interface CombinedProviderProps {
@@ -28,25 +25,21 @@ export const CombinedProvider = memo<CombinedProviderProps>(({ children }) => {
             <ThemeProvider>
                 <NotificationProvider>
                     <AuthProvider>
-                        <SecurityProvider>
-                            <AuthModalProvider>
-                                <SettingsProvider>
-                                    <ProductProvider>
-                                        <CartProvider>
-                                            <WishlistProvider>
-                                                <OrderProvider>
-                                                    <AddressProvider>
-                                                        <NetworkStatusProvider>
-                                                            {children}
-                                                        </NetworkStatusProvider>
-                                                    </AddressProvider>
-                                                </OrderProvider>
-                                            </WishlistProvider>
-                                        </CartProvider>
-                                    </ProductProvider>
-                                </SettingsProvider>
-                            </AuthModalProvider>
-                        </SecurityProvider>
+                        <SettingsProvider>
+                            <ProductProvider>
+                                <CartProvider>
+                                    <WishlistProvider>
+                                        <OrderProvider>
+                                            <AddressProvider>
+                                                <NetworkStatusProvider>
+                                                    {children}
+                                                </NetworkStatusProvider>
+                                            </AddressProvider>
+                                        </OrderProvider>
+                                    </WishlistProvider>
+                                </CartProvider>
+                            </ProductProvider>
+                        </SettingsProvider>
                     </AuthProvider>
                 </NotificationProvider>
             </ThemeProvider>

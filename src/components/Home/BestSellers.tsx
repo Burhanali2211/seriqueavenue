@@ -4,14 +4,12 @@ import { useProducts } from '../../contexts/ProductContext';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAuthModal } from '../../contexts/AuthModalContext';
 import { BuyNowButton } from '../Product/BuyNowButton';
 
 export const BestSellers: React.FC = memo(() => {
   const { bestSellers, bestSellersLoading, fetchBestSellers } = useProducts();
   const { addItem } = useCart();
-  const { user } = useAuth();
-  const { showAuthModal } = useAuthModal();
+  const { user, showAuthModal } = useAuth();
 
   useEffect(() => {
     fetchBestSellers(1);
