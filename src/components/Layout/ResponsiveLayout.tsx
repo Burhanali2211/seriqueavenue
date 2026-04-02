@@ -6,11 +6,11 @@ import {
   useResponsiveGrid,
   BreakpointKey 
 } from '../../utils/responsiveDesign';
-import { 
-  useAccessibilityPreferences, 
+import {
+  useAccessibilityPreferences,
   useFocusManagement,
-  useScreenReaderAnnouncements 
-} from '../../utils/accessibilityUtils';
+  useScreenReaderAnnouncements
+} from '../../utils/accessibility';
 
 // Layout configuration
 interface LayoutConfig {

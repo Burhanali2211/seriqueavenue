@@ -1,4 +1,53 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+/**
+ * Unified Accessibility Utilities Module
+ *
+ * Consolidated from:
+ * - accessibilityEnhancements.tsx (ARIA constants and keyboard navigation hook)
+ * - accessibilityUtils.ts (Preferences, focus management, screen reader announcements)
+ */
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+
+// ==================== ACCESSIBILITY CONSTANTS ====================
+
+// Accessibility Constants
+export const ARIA_ROLES = {
+  button: 'button',
+  link: 'link',
+  menu: 'menu',
+  menuitem: 'menuitem',
+  tab: 'tab',
+  tabpanel: 'tabpanel',
+  dialog: 'dialog',
+  alert: 'alert',
+  status: 'status',
+  progressbar: 'progressbar',
+  grid: 'grid',
+  gridcell: 'gridcell',
+  columnheader: 'columnheader',
+  rowheader: 'rowheader'
+} as const;
+
+export const ARIA_STATES = {
+  expanded: 'aria-expanded',
+  selected: 'aria-selected',
+  checked: 'aria-checked',
+  disabled: 'aria-disabled',
+  hidden: 'aria-hidden',
+  pressed: 'aria-pressed',
+  current: 'aria-current'
+} as const;
+
+export const ARIA_PROPERTIES = {
+  label: 'aria-label',
+  labelledby: 'aria-labelledby',
+  describedby: 'aria-describedby',
+  controls: 'aria-controls',
+  owns: 'aria-owns',
+  live: 'aria-live',
+  atomic: 'aria-atomic',
+  relevant: 'aria-relevant'
+} as const;
 
 // WCAG compliance levels
 export type WCAGLevel = 'A' | 'AA' | 'AAA';
@@ -31,6 +80,8 @@ export interface FocusManager {
 
 // Announcement types for screen readers
 export type AnnouncementPriority = 'polite' | 'assertive' | 'off';
+
+// ==================== ACCESSIBILITY HOOKS ====================
 
 /**
  * Hook for managing accessibility preferences
@@ -78,7 +129,7 @@ export const useAccessibilityPreferences = () => {
       try {
         // Safely check if event exists and has required properties
         if (!event) return;
-        
+
         // Only process events related to our accessibility preferences
         // Check if event.key exists before accessing it
         if (event.key === 'accessibility_preferences' || event.key === null) {
@@ -108,7 +159,7 @@ export const useAccessibilityPreferences = () => {
     value: AccessibilityPreferences[K]
   ) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
-    
+
     // Save to localStorage
     try {
       const saved = JSON.parse(localStorage.getItem('accessibility_preferences') || '{}');
@@ -179,8 +230,8 @@ export const useFocusManagement = (): FocusManager => {
     return Array.from(container.querySelectorAll(focusableSelectors))
       .filter(el => {
         const element = el as HTMLElement;
-        return element.offsetWidth > 0 && 
-               element.offsetHeight > 0 && 
+        return element.offsetWidth > 0 &&
+               element.offsetHeight > 0 &&
                !element.hidden &&
                window.getComputedStyle(element).visibility !== 'hidden';
       }) as HTMLElement[];
@@ -300,14 +351,14 @@ export const useScreenReaderAnnouncements = () => {
   }, []);
 
   const announce = useCallback((
-    message: string, 
+    message: string,
     priority: AnnouncementPriority = 'polite'
   ) => {
     if (!announcementRef.current) return;
 
     // Update aria-live attribute
     announcementRef.current.setAttribute('aria-live', priority);
-    
+
     // Clear and set message
     announcementRef.current.textContent = '';
     setTimeout(() => {
@@ -321,7 +372,96 @@ export const useScreenReaderAnnouncements = () => {
 };
 
 /**
- * Hook for keyboard navigation
+ * Hook for keyboard navigation (from accessibilityEnhancements)
+ */
+export const useKeyboardNavigationHook = (
+  items: Array<{ id: string; disabled?: boolean }>,
+  options: {
+    loop?: boolean;
+    orientation?: 'horizontal' | 'vertical';
+    onSelect?: (id: string) => void;
+  } = {}
+) => {
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const { loop = true, orientation = 'vertical', onSelect } = options;
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    const { key } = event;
+    const enabledItems = items.filter(item => !item.disabled);
+    const currentEnabledIndex = enabledItems.findIndex(
+      item => item.id === items[focusedIndex]?.id
+    );
+
+    let nextIndex = currentEnabledIndex;
+
+    switch (key) {
+      case 'ArrowDown':
+        if (orientation === 'vertical') {
+          event.preventDefault();
+          nextIndex = currentEnabledIndex + 1;
+          if (nextIndex >= enabledItems.length) {
+            nextIndex = loop ? 0 : enabledItems.length - 1;
+          }
+        }
+        break;
+      case 'ArrowUp':
+        if (orientation === 'vertical') {
+          event.preventDefault();
+          nextIndex = currentEnabledIndex - 1;
+          if (nextIndex < 0) {
+            nextIndex = loop ? enabledItems.length - 1 : 0;
+          }
+        }
+        break;
+      case 'ArrowRight':
+        if (orientation === 'horizontal') {
+          event.preventDefault();
+          nextIndex = currentEnabledIndex + 1;
+          if (nextIndex >= enabledItems.length) {
+            nextIndex = loop ? 0 : enabledItems.length - 1;
+          }
+        }
+        break;
+      case 'ArrowLeft':
+        if (orientation === 'horizontal') {
+          event.preventDefault();
+          nextIndex = currentEnabledIndex - 1;
+          if (nextIndex < 0) {
+            nextIndex = loop ? enabledItems.length - 1 : 0;
+          }
+        }
+        break;
+      case 'Home':
+        event.preventDefault();
+        nextIndex = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        nextIndex = enabledItems.length - 1;
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        onSelect?.(enabledItems[currentEnabledIndex]?.id);
+        return;
+      default:
+        return;
+    }
+
+    const nextEnabledItem = enabledItems[nextIndex];
+    const nextFocusedIndex = items.findIndex(item => item.id === nextEnabledItem?.id);
+    setFocusedIndex(nextFocusedIndex);
+    onSelect?.(nextEnabledItem?.id);
+  };
+
+  return {
+    focusedIndex,
+    handleKeyDown
+  };
+};
+
+/**
+ * Hook for keyboard navigation (handlers based)
  */
 export const useKeyboardNavigation = (
   handlers: Record<string, (event: KeyboardEvent) => void>
@@ -330,14 +470,14 @@ export const useKeyboardNavigation = (
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
       const modifiers = [];
-      
+
       if (event.ctrlKey) modifiers.push('ctrl');
       if (event.altKey) modifiers.push('alt');
       if (event.shiftKey) modifiers.push('shift');
       if (event.metaKey) modifiers.push('meta');
-      
+
       const keyCombo = modifiers.length > 0 ? `${modifiers.join('+')}+${key}` : key;
-      
+
       if (handlers[keyCombo]) {
         handlers[keyCombo](event);
       }
@@ -347,6 +487,8 @@ export const useKeyboardNavigation = (
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handlers]);
 };
+
+// ==================== COLOR CONTRAST UTILITIES ====================
 
 /**
  * Color contrast utilities
@@ -375,22 +517,22 @@ export const colorContrast = {
   getContrastRatio: (color1: string, color2: string): number => {
     const rgb1 = colorContrast.hexToRgb(color1);
     const rgb2 = colorContrast.hexToRgb(color2);
-    
+
     if (!rgb1 || !rgb2) return 0;
-    
+
     const lum1 = colorContrast.getLuminance(rgb1.r, rgb1.g, rgb1.b);
     const lum2 = colorContrast.getLuminance(rgb2.r, rgb2.g, rgb2.b);
-    
+
     const brightest = Math.max(lum1, lum2);
     const darkest = Math.min(lum1, lum2);
-    
+
     return (brightest + 0.05) / (darkest + 0.05);
   },
 
   // Check WCAG compliance
   checkWCAGCompliance: (
-    foreground: string, 
-    background: string, 
+    foreground: string,
+    background: string,
     level: WCAGLevel = 'AA',
     isLargeText: boolean = false
   ): boolean => {
@@ -399,6 +541,8 @@ export const colorContrast = {
     return ratio >= required;
   }
 };
+
+// ==================== ARIA UTILITIES ====================
 
 /**
  * ARIA utilities
@@ -437,6 +581,8 @@ export const ariaUtils = {
   }
 };
 
+// ==================== SKIP LINK UTILITIES ====================
+
 /**
  * Skip link utilities
  */
@@ -452,14 +598,16 @@ export const skipLinks = {
   install: (links: Array<{ target: string; text: string }>): void => {
     const container = document.createElement('div');
     container.className = 'skip-links';
-    
+
     links.forEach(({ target, text }) => {
       container.appendChild(skipLinks.create(target, text));
     });
-    
+
     document.body.insertBefore(container, document.body.firstChild);
   }
 };
+
+// ==================== ACCESSIBILITY TESTING ====================
 
 /**
  * Accessibility testing utilities
@@ -468,9 +616,9 @@ export const accessibilityTest = {
   // Check for missing alt text
   checkAltText: (container: HTMLElement = document.body): HTMLImageElement[] => {
     const images = container.querySelectorAll('img');
-    return Array.from(images).filter(img => 
-      !img.alt && 
-      !img.getAttribute('aria-label') && 
+    return Array.from(images).filter(img =>
+      !img.alt &&
+      !img.getAttribute('aria-label') &&
       !img.getAttribute('aria-labelledby') &&
       img.getAttribute('role') !== 'presentation'
     );
@@ -481,8 +629,8 @@ export const accessibilityTest = {
     const inputs = container.querySelectorAll('input, select, textarea');
     return Array.from(inputs).filter(input => {
       const element = input as HTMLInputElement;
-      return !element.labels?.length && 
-             !element.getAttribute('aria-label') && 
+      return !element.labels?.length &&
+             !element.getAttribute('aria-label') &&
              !element.getAttribute('aria-labelledby') &&
              element.type !== 'hidden';
     });
@@ -492,21 +640,21 @@ export const accessibilityTest = {
   checkHeadingHierarchy: (container: HTMLElement = document.body): Array<{ element: HTMLElement; issue: string }> => {
     const headings = Array.from(container.querySelectorAll('h1, h2, h3, h4, h5, h6'));
     const issues: Array<{ element: HTMLElement; issue: string }> = [];
-    
+
     let previousLevel = 0;
     headings.forEach(heading => {
       const level = parseInt(heading.tagName.charAt(1));
-      
+
       if (level > previousLevel + 1) {
         issues.push({
           element: heading as HTMLElement,
           issue: `Heading level ${level} follows level ${previousLevel}, skipping levels`
         });
       }
-      
+
       previousLevel = level;
     });
-    
+
     return issues;
   },
 
@@ -519,4 +667,21 @@ export const accessibilityTest = {
       timestamp: new Date().toISOString()
     };
   }
+};
+
+// Default exports for backward compatibility
+export default {
+  ARIA_ROLES,
+  ARIA_STATES,
+  ARIA_PROPERTIES,
+  CONTRAST_RATIOS,
+  useAccessibilityPreferences,
+  useFocusManagement,
+  useScreenReaderAnnouncements,
+  useKeyboardNavigationHook,
+  useKeyboardNavigation,
+  colorContrast,
+  ariaUtils,
+  skipLinks,
+  accessibilityTest,
 };
