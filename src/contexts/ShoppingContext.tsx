@@ -10,7 +10,16 @@ import { useAuth } from './AuthContext';
 import { useNotification } from './NotificationContext';
 
 // Merged context type combining Cart + Wishlist + Order + Address
-export interface ShoppingContextType extends CartContextType, WishlistContextType, OrderContextType, AddressContextType {}
+// Note: We don't extend directly due to conflicting property names (addItem, removeItem)
+// Instead, we pick the properties we need from each
+export interface ShoppingContextType extends CartContextType, OrderContextType, AddressContextType {
+  // Wishlist properties (prefixed to avoid conflicts with Cart)
+  wishedItems: WishlistItem[];
+  addToWishlist: (product: Product) => Promise<void>;
+  removeFromWishlist: (productId: string) => Promise<void>;
+  isInWishlist: (productId: string) => boolean;
+  clearWishlist: () => Promise<void>;
+}
 
 const ShoppingContext = createContext<ShoppingContextType | undefined>(undefined);
 
@@ -39,9 +48,9 @@ export const useCart = () => {
 export const useWishlist = () => {
   const context = useShopping();
   return {
-    items: context.items as WishlistItem[],
-    addItem: context.addItem as any,
-    removeItem: context.removeItem as any,
+    items: context.wishedItems,
+    addItem: context.addToWishlist,
+    removeItem: context.removeFromWishlist,
     isInWishlist: context.isInWishlist,
     clearWishlist: context.clearWishlist,
     loading: context.loading
@@ -827,9 +836,10 @@ export const ShoppingProvider: React.FC<ShoppingProviderProps> = ({ children }) 
     removeFromCart,
     clearCart,
 
-    // Wishlist
-    addItem: addToWishlist as any,
-    removeItem: removeFromWishlist as any,
+    // Wishlist (with proper property names to avoid conflicts)
+    wishedItems: wishlistItems,
+    addToWishlist,
+    removeFromWishlist,
     isInWishlist,
     clearWishlist,
 
