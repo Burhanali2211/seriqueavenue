@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { normalizeImageUrl, isValidImageUrl } from '../../utils/imageUrlUtils';
+import { normalizeImageUrl, isValidImageUrl } from '../../utils/images';
 
 // Public logo path fallbacks (in order of preference)
 const LOGO_FALLBACKS = ['/logo-optimized.webp', '/logo.png', '/logo.webp'];

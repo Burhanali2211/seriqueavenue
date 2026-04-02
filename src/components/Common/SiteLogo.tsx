@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Leaf } from 'lucide-react';
 import { useSettings } from '../../contexts/SettingsContext';
-import { normalizeImageUrl, isValidImageUrl } from '../../utils/imageUrlUtils';
+import { normalizeImageUrl, isValidImageUrl } from '../../utils/images';
 
 const LOGO_FALLBACKS = ['/logo-optimized.webp', '/logo.png', '/logo.webp'];
 

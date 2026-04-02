@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useAdminDashboardSettings } from '../../../hooks/useAdminDashboardSettings';
-import { isValidImageUrl } from '../../../utils/imageUrlUtils';
+import { isValidImageUrl } from '../../../utils/images';
 
 interface AdminDashboardLayoutProps {
   children: React.ReactNode;

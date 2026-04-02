@@ -4,7 +4,7 @@ import { RequestPriority } from '../../utils/networkResilience';
 import { useNetwork, useNetworkAdaptation } from '@/contexts/NetworkStatusContext';
 import { performanceMonitor } from '../../utils/performance';
 import { useImagePerformance } from '../../utils/performance';
-import { normalizeImageUrl, isValidImageUrl, getFirstValidImage } from '../../utils/imageUrlUtils';
+import { normalizeImageUrl, isValidImageUrl, getFirstValidImage } from '../../utils/images';
 
 interface ProductImageProps {
     product: {

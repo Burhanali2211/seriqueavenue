@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Category } from '../../types';
 import { ArrowRight } from 'lucide-react';
 import { useMobileDetection } from '../../hooks/useMobileGestures';
-import { normalizeImageUrl, isValidImageUrl, getSafeImageUrl } from '../../utils/imageUrlUtils';
+import { normalizeImageUrl, isValidImageUrl, getSafeImageUrl } from '../../utils/images';
 
 interface CategoryDisplayCardProps {
   category: Category;

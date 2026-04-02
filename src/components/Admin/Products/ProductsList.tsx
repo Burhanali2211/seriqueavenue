@@ -4,7 +4,7 @@ import { Plus, Search, Edit, Trash2, Package, CheckCircle, AlertTriangle, XCircl
 import { ConfirmModal } from '../../Common/Modal';
 import { supabase } from '../../../lib/supabase';
 import { useNotification } from '../../../contexts/NotificationContext';
-import { isValidImageUrl, getFirstValidImage } from '../../../utils/imageUrlUtils';
+import { isValidImageUrl, getFirstValidImage } from '../../../utils/images';
 
 interface Product {
   id: string;

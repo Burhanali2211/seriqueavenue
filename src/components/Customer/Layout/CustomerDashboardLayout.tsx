@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSettings } from '../../../contexts/SettingsContext';
-import { isValidImageUrl } from '../../../utils/imageUrlUtils';
+import { isValidImageUrl } from '../../../utils/images';
 
 interface CustomerDashboardLayoutProps {
   children: React.ReactNode;

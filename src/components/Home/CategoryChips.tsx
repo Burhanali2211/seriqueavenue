@@ -2,7 +2,7 @@ import React, { useRef, useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, LayoutGrid } from 'lucide-react';
 import { Category } from '../../types';
-import { getSafeImageUrl } from '../../utils/imageUrlUtils';
+import { getSafeImageUrl } from '../../utils/images';
 
 interface CategoryChipsProps {
   categories: Category[];

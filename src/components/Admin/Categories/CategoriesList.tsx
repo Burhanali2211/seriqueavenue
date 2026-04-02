@@ -16,7 +16,7 @@ import {
 import { ConfirmModal } from '../../Common/Modal';
 import { supabase } from '../../../lib/supabase';
 import { useNotification } from '../../../contexts/NotificationContext';
-import { getSafeImageUrl, isValidImageUrl } from '../../../utils/imageUrlUtils';
+import { getSafeImageUrl, isValidImageUrl } from '../../../utils/images';
 
 interface Category {
   id: string;

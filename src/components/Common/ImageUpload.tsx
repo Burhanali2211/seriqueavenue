@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import { StorageService, UploadProgress } from '../../services/storageService';
 import { useNotification } from '../../contexts/NotificationContext';
-import { normalizeImageUrl, isValidImageUrl } from '../../utils/imageUrlUtils';
+import { normalizeImageUrl, isValidImageUrl } from '../../utils/images';
 
 type ImageUploadValue = string | string[];
 type ImageUploadOnChange = (url: ImageUploadValue | ((prev: ImageUploadValue) => ImageUploadValue)) => void;

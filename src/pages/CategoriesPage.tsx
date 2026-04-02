@@ -2,7 +2,7 @@ import React, { useMemo, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { LayoutGrid, ArrowRight, ChevronRight } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
-import { getSafeImageUrl } from '../utils/imageUrlUtils';
+import { getSafeImageUrl } from '../utils/images';
 
 // ── Attar / perfume emoji map ────────────────────────────────────────────────
 const EMOJI_MAP: [string, string][] = [
