@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { Product } from '../../types';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useAddToCartWithAuth } from '../../hooks/useAddToCartWithAuth';
 import { useAddToWishlistWithAuth } from '../../hooks/useAddToWishlistWithAuth';
 import { Link } from 'react-router-dom';

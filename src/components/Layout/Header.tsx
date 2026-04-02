@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, User, Heart, ChevronDown, LogOut, Leaf, ArrowRight, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart, useWishlist } from '../../contexts/ShoppingContext';
 import { useProducts } from '../../contexts/ProductContext';
 import { useSettings } from '../../contexts/SettingsContext';
 import { Product } from '../../types';

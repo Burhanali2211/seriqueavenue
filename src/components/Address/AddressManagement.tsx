@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, MapPin, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useAddresses } from '../../contexts/AddressContext';
+import { useAddresses } from '../../contexts/ShoppingContext';
 import { Address } from '../../types';
 import { Modal } from '../Common/Modal';
 import { AddressForm } from './AddressForm';

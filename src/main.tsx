@@ -7,6 +7,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './App.tsx';
 import './index.css';
 
+// ✅ PHASE 1: Initialize cache system FIRST (before anything else)
+import { initializeCache, monitorCache } from './lib/storage/cache';
+initializeCache(); // Clear old poisoned caches
+monitorCache();    // Monitor cache health
+
 // Initialize analytics and error tracking
 import { initGA } from './services/analytics';
 import { initSentry, ErrorBoundary } from './services/errorTracking';
@@ -16,12 +21,6 @@ initSentry();
 
 // Initialize Google Analytics
 initGA();
-
-// Initialize Service Worker management (unregister existing workers to prevent caching issues)
-import { initServiceWorker } from './utils/serviceWorker';
-initServiceWorker().catch(error => {
-  console.warn('[SW] Failed to initialize Service Worker management:', error);
-});
 
 // Initialize admin dashboard styles from cache immediately (prevents flash of old colors)
 if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {

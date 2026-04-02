@@ -5,8 +5,8 @@ import {
   ChevronRight, LogOut, Package
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../contexts/ShoppingContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useSwipeGesture } from '../../hooks/useMobileGestures';
 import { useProducts } from '../../contexts/ProductContext';
 

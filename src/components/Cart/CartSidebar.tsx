@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../contexts/ShoppingContext';
 import { Link } from 'react-router-dom';
 
 interface CartSidebarProps {

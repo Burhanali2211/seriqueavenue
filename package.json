@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.82.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@sentry/browser": "^10.10.0",
     "@sentry/react": "^10.10.0",

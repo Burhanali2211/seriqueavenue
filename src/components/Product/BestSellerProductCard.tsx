@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, Star, Heart, ShoppingBag, Flame } from 'lucide-react';
 import { Product } from '../../types';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../contexts/ShoppingContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useCartButtonStyles } from '../../hooks/useCartButtonStyles';
 import { AddToCartButton } from './AddToCartButton';
 

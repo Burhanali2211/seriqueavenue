@@ -1,8 +1,8 @@
 import React, { useMemo, useCallback, memo, useState } from 'react';
 import { Star, Heart, ShoppingCart, Check, Zap } from 'lucide-react';
 import { Product } from '../../types';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../contexts/ShoppingContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import ProductImage from '../Common/ProductImage';

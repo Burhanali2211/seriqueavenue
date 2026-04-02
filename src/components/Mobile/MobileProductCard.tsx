@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 
 import { Product } from '../../types';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../contexts/ShoppingContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { MobileTouchButton, MobileIconButton } from './MobileTouchButton';
 import { useSwipeGesture } from '../../hooks/useMobileGestures';

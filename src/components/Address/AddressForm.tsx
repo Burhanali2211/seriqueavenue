@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useAddresses } from '../../contexts/AddressContext';
+import { useAddresses } from '../../contexts/ShoppingContext';
 import { Address } from '../../types';
 
 interface AddressFormProps {

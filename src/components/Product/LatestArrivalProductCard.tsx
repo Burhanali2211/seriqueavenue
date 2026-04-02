@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
 import { Product } from '../../types';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useAddToWishlistWithAuth } from '../../hooks/useAddToWishlistWithAuth';
 import ProductImage from '../Common/ProductImage';
 

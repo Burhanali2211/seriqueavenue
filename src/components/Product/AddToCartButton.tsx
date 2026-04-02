@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '../../types';
 import { useCartButtonStyles } from '../../hooks/useCartButtonStyles';
 import { useCartButtonState } from '../../hooks/useCartButtonState';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../contexts/ShoppingContext';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface AddToCartButtonProps {

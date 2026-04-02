@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Star, Heart, ShoppingCart, Check } from 'lucide-react';
 import { Product } from '../../types';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../contexts/ShoppingContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { Link } from 'react-router-dom';
 import { MiniTrustIndicators } from '../Trust';

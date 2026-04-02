@@ -2,7 +2,7 @@ import React, { useEffect, memo } from 'react';
 import { Star, TrendingUp, ArrowRight, Flame, Tag } from 'lucide-react';
 import { useProducts } from '../../contexts/ProductContext';
 import { Link } from 'react-router-dom';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../contexts/ShoppingContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { BuyNowButton } from '../Product/BuyNowButton';
 

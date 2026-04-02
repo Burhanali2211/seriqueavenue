@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, LayoutGrid, Store, ShoppingCart, Heart, User, LogIn } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
+import { useCart } from '../../contexts/ShoppingContext';
+import { useWishlist } from '../../contexts/ShoppingContext';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface BottomNavProps {
