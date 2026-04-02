@@ -18,8 +18,8 @@ export const FeaturedProducts: React.FC = memo(() => {
     }, [fetchFeaturedProducts]);
 
     return (
-        <section className="py-6 sm:py-8 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-6 sm:py-8 bg-white w-full">
+            <div className="w-full px-4 sm:px-6 lg:px-8">
                 {/* Section Header - Amazon style */}
                 <div className="flex items-center justify-between gap-4 mb-5">
                     <div className="flex items-center gap-2">

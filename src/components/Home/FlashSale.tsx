@@ -47,8 +47,8 @@ export const FlashSale: React.FC = memo(() => {
   if (flashSaleProducts.length === 0) return null;
 
   return (
-    <section className="py-6 sm:py-8 bg-white border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-6 sm:py-8 bg-white w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-5">

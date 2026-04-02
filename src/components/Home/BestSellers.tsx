@@ -33,8 +33,8 @@ export const BestSellers: React.FC = memo(() => {
   };
 
   return (
-    <section className="py-4 sm:py-6 bg-white border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-4 sm:py-6 bg-white w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
         <div className="flex items-center justify-between mb-3">

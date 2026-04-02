@@ -47,8 +47,8 @@ export const LatestArrivals: React.FC = memo(() => {
   };
 
   return (
-    <section className="py-6 sm:py-8 bg-gray-50 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-6 sm:py-8 bg-gray-50 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between gap-4 mb-5">
           <span className="text-lg sm:text-xl font-bold text-gray-900 flex items-center gap-1.5">

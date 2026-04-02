@@ -12,8 +12,8 @@ const FeaturedProducts = lazy(() => import('@/components/Home/FeaturedProducts')
 const LatestArrivals = lazy(() => import('@/components/Home/LatestArrivals'));
 
 const SectionLoader = memo(() => (
-  <div className="py-6 bg-white">
-    <div className="max-w-7xl mx-auto px-4"><ProfessionalLoader fullPage={false} /></div>
+  <div className="py-6 bg-white w-full">
+    <div className="w-full px-4 sm:px-6 lg:px-8"><ProfessionalLoader fullPage={false} /></div>
   </div>
 ));
 SectionLoader.displayName = 'SectionLoader';
@@ -59,8 +59,8 @@ const BENTO_TILES = [
 ];
 
 const DealTiles: React.FC = memo(() => (
-  <section className="bg-white border-t border-gray-100 pt-2.5 pb-3">
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+  <section className="bg-white w-full pt-0 pb-3">
+    <div className="w-full px-3 sm:px-6 lg:px-8">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {BENTO_TILES.map((tile) => (
           <Link
@@ -100,8 +100,8 @@ const PRICE_FILTERS = [
 ];
 
 const ShopByPrice: React.FC = memo(() => (
-  <section className="py-5 sm:py-6 bg-white border-t border-gray-100">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section className="py-5 sm:py-6 bg-white w-full">
+    <div className="w-full px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between mb-4">
         <span className="text-base sm:text-lg font-bold text-gray-900">Price Palette</span>
       </div>
@@ -121,9 +121,9 @@ const ShopByPrice: React.FC = memo(() => (
 ));
 ShopByPrice.displayName = 'ShopByPrice';
 
-/* ─── Mini Promo Banner ─── */
+/* ─── Mini Promo Banner - Full Width ─── */
 const PromoBanner: React.FC = memo(() => (
-  <div className="mx-4 sm:mx-6 lg:mx-8 my-2 max-w-7xl xl:mx-auto">
+  <div className="w-full px-4 sm:px-6 lg:px-8 my-2">
     <Link
       to="/deals"
       className="flex items-center justify-between bg-stone-900 rounded-2xl px-4 sm:px-6 py-3 sm:py-4 group"
@@ -149,8 +149,8 @@ const TRUST_ITEMS = [
 ];
 
 const TrustBar: React.FC = memo(() => (
-  <section className="bg-white border-t border-gray-100 pt-4 pb-0">
-    <div className="max-w-7xl mx-auto px-4">
+  <section className="bg-white pt-4 pb-0 w-full">
+    <div className="w-full px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         {TRUST_ITEMS.map(({ icon: Icon, title, desc }) => (
           <div key={title} className="flex items-center gap-2.5">
@@ -210,10 +210,10 @@ export default function HomePage() {
         </Suspense>
       </div>
 
-      {/* 9. CTA Banner */}
-      <section className="mt-4 bg-stone-900 py-12 sm:py-16 overflow-hidden relative">
+      {/* 9. CTA Banner - Full Width */}
+      <section className="mt-4 bg-stone-900 py-12 sm:py-16 overflow-hidden relative w-full">
         <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=75')] bg-cover bg-center" />
-        <div className="relative max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="relative w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <h2 className="text-white text-2xl sm:text-3xl font-serif font-bold mb-2">Sustainable Elegance</h2>
             <p className="text-stone-300 text-sm sm:text-base max-w-lg">Join 10,000+ conscious homes who chose artisan-crafted organic goods over mass production.</p>

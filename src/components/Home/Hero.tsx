@@ -65,7 +65,7 @@ export const Hero: React.FC = () => {
   }, [next]);
 
   return (
-    <section className="relative w-full h-[280px] sm:h-[360px] md:h-[480px] lg:h-[580px] xl:h-[640px] overflow-hidden bg-stone-100">
+    <section className="relative w-full h-[220px] sm:h-[320px] md:h-[420px] lg:h-[520px] xl:h-[600px] overflow-hidden bg-stone-100">
       <div className="absolute inset-0">
         {slides.map((slide, i) => (
           <div
@@ -83,23 +83,23 @@ export const Hero: React.FC = () => {
             <div className={`absolute inset-0 bg-gradient-to-r ${slide.accent} mix-blend-multiply opacity-60`} />
             <div className="absolute inset-0 bg-black/20" />
 
-            {/* Content Container */}
+            {/* Content Container - Full width */}
             <div className="absolute inset-0 flex items-center">
-              <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-                <div className="max-w-xl">
+              <div className="w-full px-4 sm:px-6 lg:px-8">
+                <div className="max-w-2xl">
                   <div className={`transition-all duration-700 delay-300 transform ${i === current ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                     <p className="text-white/90 text-xs sm:text-sm md:text-base font-medium tracking-widest uppercase mb-2">
                       {slide.subtitle}
                     </p>
-                    <h2 className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] mb-6 drop-shadow-lg">
+                    <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-[1.1] mb-4 sm:mb-6 drop-shadow-lg">
                       {slide.title}
                     </h2>
                     <Link
                       to={slide.ctaLink}
-                      className="inline-flex items-center gap-3 bg-white text-stone-900 hover:bg-stone-100 text-sm sm:text-base font-bold px-8 py-3.5 sm:py-4 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95"
+                      className="inline-flex items-center gap-2 bg-white text-stone-900 hover:bg-stone-100 text-xs sm:text-sm md:text-base font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-all shadow-xl hover:scale-105 active:scale-95"
                     >
                       {slide.cta}
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Link>
                   </div>
                 </div>

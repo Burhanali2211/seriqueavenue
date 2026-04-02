@@ -354,22 +354,22 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
         <SearchBar mobile />
       </div>
 
-      {/* DESKTOP ROW 2: Nav */}
-      <div className="hidden md:block border-t border-green-100/70 bg-green-50/30">
+      {/* DESKTOP ROW 2: Nav - Professional Monochromatic */}
+      <div className="hidden md:block border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <nav className="flex items-center justify-center h-11 gap-0.5 text-sm">
+          <nav className="flex items-center justify-start h-11 gap-1 text-sm">
 
             {/* Home */}
             <Link
               to="/"
               className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                 isActive('/')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
+                  ? 'text-gray-900 bg-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               Home
-              {isActive('/') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+              {isActive('/') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
             </Link>
 
             {/* Shop dropdown */}
@@ -378,13 +378,13 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
                 onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
                 className={`relative flex items-center gap-1.5 px-4 h-8 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                   isActive('/products')
-                    ? 'text-green-900 bg-green-100'
-                    : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
+                    ? 'text-gray-900 bg-gray-100'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 Shop All
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isShopDropdownOpen ? 'rotate-180' : ''}`} />
-                {isActive('/products') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+                {isActive('/products') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
               </button>
 
               {isShopDropdownOpen && (
@@ -392,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
                   <div className="px-3 pb-1.5 mb-1 border-b border-gray-100">
                     <Link
                       to="/products"
-                      className="flex items-center justify-between w-full px-2 py-2 text-[13px] font-bold text-green-900 hover:bg-green-50 rounded-lg transition-colors"
+                      className="flex items-center justify-between w-full px-2 py-2 text-[13px] font-bold text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                       onClick={() => setIsShopDropdownOpen(false)}
                     >
                       View All Products
@@ -405,10 +405,10 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
                       <Link
                         key={cat.id}
                         to={`/products?category=${cat.slug || cat.id}`}
-                        className="flex items-center gap-2 px-2 py-1.5 text-[13px] text-gray-700 hover:bg-green-50 hover:text-green-900 rounded-lg transition-colors"
+                        className="flex items-center gap-2 px-2 py-1.5 text-[13px] text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors"
                         onClick={() => setIsShopDropdownOpen(false)}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0" />
                         {cat.name}
                       </Link>
                     ))}
@@ -422,15 +422,15 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
               to="/new-arrivals"
               className={`relative px-4 h-8 flex items-center gap-1.5 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                 isActive('/new-arrivals')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
+                  ? 'text-gray-900 bg-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               New Arrivals
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-green-600 text-white rounded-full leading-none">
+              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-gray-900 text-white rounded-full leading-none">
                 NEW
               </span>
-              {isActive('/new-arrivals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+              {isActive('/new-arrivals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
             </Link>
 
             {/* Deals */}
@@ -438,15 +438,15 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
               to="/deals"
               className={`relative px-4 h-8 flex items-center gap-1.5 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                 isActive('/deals')
-                  ? 'text-red-700 bg-red-50'
-                  : 'text-red-600 hover:text-red-700 hover:bg-red-50'
+                  ? 'text-gray-900 bg-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               Deals
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-red-500 text-white rounded-full leading-none">
+              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-gray-900 text-white rounded-full leading-none">
                 SALE
               </span>
-              {isActive('/deals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-red-500 rounded-full" />}
+              {isActive('/deals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
             </Link>
 
             {/* About */}
@@ -454,12 +454,12 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
               to="/about"
               className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                 isActive('/about')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
+                  ? 'text-gray-900 bg-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               About
-              {isActive('/about') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+              {isActive('/about') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
             </Link>
 
             {/* Contact */}
@@ -467,12 +467,12 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
               to="/contact"
               className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
                 isActive('/contact')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
+                  ? 'text-gray-900 bg-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               Contact
-              {isActive('/contact') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+              {isActive('/contact') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gray-900 rounded-full" />}
             </Link>
 
           </nav>
