@@ -1,6 +1,6 @@
 # 🚀 Production Deployment Guide
 
-**Website:** Aligarh Attars (React SPA + Supabase)  
+**Website:** SeriqueAvenue (React SPA + Supabase)  
 **Status:** ✅ Code Complete | ⏳ Awaiting Deployment  
 **Security:** 4-Phase hardening implemented  
 

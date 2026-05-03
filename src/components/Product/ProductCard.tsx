@@ -90,7 +90,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
             
             {/* Product Name */}
             <Link to={`/products/${product.id}`}>
-              <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-green-800 transition-colors line-clamp-2 sm:line-clamp-1">
+              <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-green-800 transition-colors line-clamp-1">
                 {product.name}
               </h3>
             </Link>
@@ -224,7 +224,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
 
         {/* Product name */}
         <Link to={`/products/${product.id}`}>
-          <h3 className="font-bold text-gray-900 text-xs sm:text-sm leading-snug line-clamp-2 hover:text-gray-700 transition-colors">
+          <h3 className="font-bold text-gray-900 text-xs sm:text-sm leading-snug line-clamp-1 hover:text-gray-700 transition-colors">
             {product.name}
           </h3>
         </Link>

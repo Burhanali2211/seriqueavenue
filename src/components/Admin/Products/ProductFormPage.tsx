@@ -514,7 +514,7 @@ export const ProductFormPage: React.FC = () => {
               value={formData.specifications}
               onChange={handleChange}
               rows={5}
-              placeholder='{"brand": "Aligarh Attar House", "volume": "5ml", "type": "Pure Attar"}'
+              placeholder='{"brand": "SeriqueAvenue", "volume": "5ml", "type": "Pure Attar"}'
               error={errors.specifications || ''}
               helperText='Enter as JSON. Example: {"key": "value"}'
               className="font-mono text-sm"

@@ -1,4 +1,4 @@
-# Aligarh Attars — Project Status (2026-04-08)
+# SeriqueAvenue — Project Status (2026-04-08)
 
 ## Overview
 E-commerce frontend for Islamic perfumes/attars + accessories. Deployed on Vercel.

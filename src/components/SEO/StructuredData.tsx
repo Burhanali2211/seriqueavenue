@@ -39,17 +39,17 @@ export const ProductStructuredData: React.FC<{ product: Product }> = ({ product 
     sku: product.sku || product.id,
     brand: {
       '@type': 'Brand',
-      name: product.brand || 'Aligarh Attar House'
+      name: product.brand || 'SeriqueAvenue'
     },
     offers: {
       '@type': 'Offer',
-      url: `https://aligarhattar.com/products/${product.id}`,
+      url: `https://SeriqueAvenue.com/products/${product.id}`,
       priceCurrency: 'INR',
       price: product.price,
       availability: `https://schema.org/${product.availability || 'InStock'}`,
       seller: {
         '@type': 'Organization',
-        name: 'Aligarh Attar House'
+        name: 'SeriqueAvenue'
       }
     }
   };
@@ -195,10 +195,10 @@ export const ArticleStructuredData: React.FC<{
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Aligarh Attar House',
+      name: 'SeriqueAvenue',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://aligarhattar.com/logo.png'
+        url: 'https://SeriqueAvenue.com/logo.png'
       }
     }
   };
@@ -219,16 +219,16 @@ export const LocalBusinessStructuredData: React.FC = () => {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Aligarh Attar House',
-    image: 'https://aligarhattar.com/logo.png',
-    '@id': 'https://aligarhattar.com',
-    url: 'https://aligarhattar.com',
+    name: 'SeriqueAvenue',
+    image: 'https://SeriqueAvenue.com/logo.png',
+    '@id': 'https://SeriqueAvenue.com',
+    url: 'https://SeriqueAvenue.com',
     telephone: '+91-XXXXXXXXXX',
     priceRange: '₹₹',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Your Street Address',
-      addressLocality: 'Aligarh',
+      addressLocality: 'SeriqueAvenue',
       addressRegion: 'Uttar Pradesh',
       postalCode: 'XXXXXX',
       addressCountry: 'IN'

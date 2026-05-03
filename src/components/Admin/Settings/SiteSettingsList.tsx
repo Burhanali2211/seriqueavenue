@@ -15,14 +15,14 @@ interface SiteSetting {
 
 // Essential settings that should always be available
 const ESSENTIAL_SETTINGS = [
-  { key: 'site_name', type: 'text', category: 'general', description: 'Website name', is_public: true, icon: Globe, defaultValue: 'Aligarh Attar House' },
+  { key: 'site_name', type: 'text', category: 'general', description: 'Website name', is_public: true, icon: Globe, defaultValue: 'SeriqueAvenue' },
   { key: 'logo_url', type: 'text', category: 'general', description: 'Website logo URL', is_public: true, icon: Upload, defaultValue: '/logo.png' },
-  { key: 'site_description', type: 'text', category: 'general', description: 'Website description/meta description', is_public: true, icon: FileText, defaultValue: 'Pure Attars, Oud & Islamic Lifestyle Products from Aligarh' },
-  { key: 'contact_email', type: 'email', category: 'contact', description: 'Contact email address', is_public: true, icon: Mail, defaultValue: 'support@aligarhattar.com' },
+  { key: 'site_description', type: 'text', category: 'general', description: 'Website description/meta description', is_public: true, icon: FileText, defaultValue: 'Pure Attars, Oud & Islamic Lifestyle Products from SeriqueAvenue' },
+  { key: 'contact_email', type: 'email', category: 'contact', description: 'Contact email address', is_public: true, icon: Mail, defaultValue: 'support@SeriqueAvenue.com' },
   { key: 'contact_phone', type: 'text', category: 'contact', description: 'Contact phone number', is_public: true, icon: Phone, defaultValue: '+91-XXXXXXXXXX' },
   { key: 'currency', type: 'text', category: 'general', description: 'Default currency code (e.g., INR, USD)', is_public: true, icon: DollarSign, defaultValue: 'INR' },
   { key: 'free_shipping_threshold', type: 'number', category: 'shipping', description: 'Free shipping above this amount', is_public: true, icon: Truck, defaultValue: '2000' },
-  { key: 'copyright_text', type: 'text', category: 'general', description: 'Copyright text for footer', is_public: true, icon: FileText, defaultValue: '© 2024 Aligarh Attar House. All rights reserved.' },
+  { key: 'copyright_text', type: 'text', category: 'general', description: 'Copyright text for footer', is_public: true, icon: FileText, defaultValue: '© 2024 SeriqueAvenue. All rights reserved.' },
 ];
 
 const ModifiedBadge = () => (
@@ -354,10 +354,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Site Name */}
             {siteName && (
-              <FieldWrapper 
-                settingKey={siteName.setting_key} 
-                label="Website Name" 
-                icon={Globe} 
+              <FieldWrapper
+                settingKey={siteName.setting_key}
+                label="Website Name"
+                icon={Globe}
                 isSaved={isSettingSaved(siteName.setting_key)}
                 isModified={isModified(siteName.setting_key)}
               >
@@ -374,10 +374,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Logo Upload */}
             {logoUrl && (
-              <FieldWrapper 
-                settingKey={logoUrl.setting_key} 
-                label="Website Logo" 
-                icon={Upload} 
+              <FieldWrapper
+                settingKey={logoUrl.setting_key}
+                label="Website Logo"
+                icon={Upload}
                 isSaved={isSettingSaved(logoUrl.setting_key)}
                 isModified={isModified(logoUrl.setting_key)}
               >
@@ -386,8 +386,8 @@ export const SiteSettingsList: React.FC = () => {
                   {logoUrl.setting_value && (
                     <div className="flex items-center justify-center p-4 bg-gray-50 rounded-xl border border-gray-200 min-h-[80px]">
                       <img
-                        src={logoUrl.setting_value.startsWith('/uploads') && !logoUrl.setting_value.startsWith('http') 
-                          ? `${window.location.origin}${logoUrl.setting_value}` 
+                        src={logoUrl.setting_value.startsWith('/uploads') && !logoUrl.setting_value.startsWith('http')
+                          ? `${window.location.origin}${logoUrl.setting_value}`
                           : logoUrl.setting_value}
                         alt="Logo preview"
                         className="h-20 w-auto max-w-full object-contain rounded"
@@ -419,10 +419,10 @@ export const SiteSettingsList: React.FC = () => {
             {/* Site Description - full width */}
             {siteDescription && (
               <div className="lg:col-span-2">
-                <FieldWrapper 
-                  settingKey={siteDescription.setting_key} 
-                  label="Website Description" 
-                  icon={FileText} 
+                <FieldWrapper
+                  settingKey={siteDescription.setting_key}
+                  label="Website Description"
+                  icon={FileText}
                   isSaved={isSettingSaved(siteDescription.setting_key)}
                   isModified={isModified(siteDescription.setting_key)}
                 >
@@ -430,9 +430,8 @@ export const SiteSettingsList: React.FC = () => {
                   <textarea
                     value={siteDescription.setting_value}
                     onChange={(e) => handleChange(siteDescription.setting_key, e.target.value)}
-                    className={`w-full px-3 sm:px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-400 text-sm text-gray-900 placeholder-gray-400 resize-y transition-colors ${
-                      isModified(siteDescription.setting_key) ? 'border-orange-300 bg-orange-50' : 'border-gray-200 bg-white'
-                    }`}
+                    className={`w-full px-3 sm:px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-400 text-sm text-gray-900 placeholder-gray-400 resize-y transition-colors ${isModified(siteDescription.setting_key) ? 'border-orange-300 bg-orange-50' : 'border-gray-200 bg-white'
+                      }`}
                     placeholder="Enter website description"
                     rows={3}
                   />
@@ -442,10 +441,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Contact Email */}
             {contactEmail && (
-              <FieldWrapper 
-                settingKey={contactEmail.setting_key} 
-                label="Contact Email" 
-                icon={Mail} 
+              <FieldWrapper
+                settingKey={contactEmail.setting_key}
+                label="Contact Email"
+                icon={Mail}
                 isSaved={isSettingSaved(contactEmail.setting_key)}
                 isModified={isModified(contactEmail.setting_key)}
               >
@@ -462,10 +461,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Contact Phone */}
             {contactPhone && (
-              <FieldWrapper 
-                settingKey={contactPhone.setting_key} 
-                label="Contact Phone" 
-                icon={Phone} 
+              <FieldWrapper
+                settingKey={contactPhone.setting_key}
+                label="Contact Phone"
+                icon={Phone}
                 isSaved={isSettingSaved(contactPhone.setting_key)}
                 isModified={isModified(contactPhone.setting_key)}
               >
@@ -482,10 +481,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Currency */}
             {currency && (
-              <FieldWrapper 
-                settingKey={currency.setting_key} 
-                label="Currency" 
-                icon={DollarSign} 
+              <FieldWrapper
+                settingKey={currency.setting_key}
+                label="Currency"
+                icon={DollarSign}
                 isSaved={isSettingSaved(currency.setting_key)}
                 isModified={isModified(currency.setting_key)}
               >
@@ -502,10 +501,10 @@ export const SiteSettingsList: React.FC = () => {
 
             {/* Free Shipping Threshold */}
             {freeShippingThreshold && (
-              <FieldWrapper 
-                settingKey={freeShippingThreshold.setting_key} 
-                label="Free Shipping Threshold" 
-                icon={Truck} 
+              <FieldWrapper
+                settingKey={freeShippingThreshold.setting_key}
+                label="Free Shipping Threshold"
+                icon={Truck}
                 isSaved={isSettingSaved(freeShippingThreshold.setting_key)}
                 isModified={isModified(freeShippingThreshold.setting_key)}
               >
@@ -523,10 +522,10 @@ export const SiteSettingsList: React.FC = () => {
             {/* Copyright Text - full width */}
             {copyrightText && (
               <div className="lg:col-span-2">
-                <FieldWrapper 
-                  settingKey={copyrightText.setting_key} 
-                  label="Copyright Text" 
-                  icon={FileText} 
+                <FieldWrapper
+                  settingKey={copyrightText.setting_key}
+                  label="Copyright Text"
+                  icon={FileText}
                   isSaved={isSettingSaved(copyrightText.setting_key)}
                   isModified={isModified(copyrightText.setting_key)}
                 >
@@ -571,9 +570,9 @@ export const SiteSettingsList: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
                       {colorItems.map((setting) => (
                         <div key={setting.setting_key} className="flex flex-col gap-2">
-                          <FieldWrapper 
-                            settingKey={setting.setting_key} 
-                            label={formatKey(setting.setting_key)} 
+                          <FieldWrapper
+                            settingKey={setting.setting_key}
+                            label={formatKey(setting.setting_key)}
                             isModified={isModified(setting.setting_key)}
                             isSaved={Boolean(setting.id && setting.id !== '')}
                           >
@@ -614,9 +613,9 @@ export const SiteSettingsList: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {(isDesignCategory ? nonColorItems : items).map((setting) => (
                     <div key={setting.setting_key} className="flex flex-col gap-2">
-                      <FieldWrapper 
-                        settingKey={setting.setting_key} 
-                        label={formatKey(setting.setting_key)} 
+                      <FieldWrapper
+                        settingKey={setting.setting_key}
+                        label={formatKey(setting.setting_key)}
                         isModified={isModified(setting.setting_key)}
                         isSaved={Boolean(setting.id && setting.id !== '')}
                       >
@@ -626,12 +625,12 @@ export const SiteSettingsList: React.FC = () => {
                             <div className="flex flex-col gap-3">
                               {setting.setting_value && (
                                 <div className="flex items-center justify-center p-4 bg-gray-50 rounded-xl border border-gray-200">
-                                  <img 
-                                    src={setting.setting_value.startsWith('/uploads') && !setting.setting_value.startsWith('http') 
-                                      ? `${window.location.origin}${setting.setting_value}` 
-                                      : setting.setting_value} 
-                                    alt="Logo" 
-                                    className="h-20 w-auto max-w-full object-contain" 
+                                  <img
+                                    src={setting.setting_value.startsWith('/uploads') && !setting.setting_value.startsWith('http')
+                                      ? `${window.location.origin}${setting.setting_value}`
+                                      : setting.setting_value}
+                                    alt="Logo"
+                                    className="h-20 w-auto max-w-full object-contain"
                                   />
                                 </div>
                               )}

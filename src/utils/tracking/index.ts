@@ -101,7 +101,7 @@ export const trackEcommerce = {
           item_id: product.id,
           item_name: product.name,
           item_category: product.category,
-          item_brand: product.brand || 'Aligarh Attar House',
+          item_brand: product.brand || 'SeriqueAvenue',
           price: product.price
         }]
       });
@@ -249,7 +249,7 @@ export const trackUserEngagement = {
 /**
  * Set user properties for segmentation and analysis
  */
-export const setUserProperties = (properties: { userId?: string; userType?: 'customer' | 'admin'; [key: string]: any }) => {
+export const setUserProperties = (properties: { userId?: string; userType?: 'customer' | 'admin';[key: string]: any }) => {
   if (!gaInitialized) return;
   try {
     if (properties.userId) ReactGA.set({ userId: properties.userId });

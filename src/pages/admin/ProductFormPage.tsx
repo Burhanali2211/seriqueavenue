@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { 
-  useProduct, 
-  useCreateProductMutation, 
-  useUpdateProductMutation, 
-  useCategories 
+import {
+  useProduct,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useCategories
 } from '@/hooks/useProductQueries';
 import { useNotification } from '@/contexts/NotificationContext';
 import { Save, Loader2, ArrowLeft } from 'lucide-react';
@@ -47,14 +47,14 @@ export const ProductFormPage: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  
+
   const { showSuccess, showError } = useNotification();
-  
+
   const { data: product, isLoading: fetching } = useProduct(id);
-  
+
   const createMutation = useCreateProductMutation();
   const updateMutation = useUpdateProductMutation();
-  
+
   const loading = createMutation.isPending || updateMutation.isPending;
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const ProductFormPage: React.FC = () => {
       const tags = formData.tags ? formData.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
       let specifications = null;
       if (formData.specifications) { specifications = JSON.parse(formData.specifications); }
-      
+
       const productData: any = {
         name: formData.name,
         slug: formData.slug || undefined,
@@ -148,7 +148,7 @@ export const ProductFormPage: React.FC = () => {
         metaDescription: formData.meta_description || undefined,
         images: Array.isArray(formData.images) ? formData.images : (formData.images ? [formData.images] : []),
         sellerId: product?.sellerId || 'common-seller-id',
-        sellerName: product?.sellerName || 'Aligarh Attars',
+        sellerName: product?.sellerName || 'SeriqueAvenue',
         rating: product?.rating || 0,
         reviews: product?.reviews || [],
       };

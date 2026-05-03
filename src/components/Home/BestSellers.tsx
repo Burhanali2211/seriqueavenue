@@ -1,5 +1,6 @@
 import React, { useEffect, memo } from 'react';
-import { Star, TrendingUp, ArrowRight, Flame, Tag } from 'lucide-react';
+import { Star, TrendingUp, ArrowRight, Flame, Tag, ShoppingBag, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useProducts } from '../../contexts/ProductContext';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
@@ -35,143 +36,153 @@ export const BestSellers: React.FC = memo(() => {
   };
 
   return (
-    <section className="py-4 sm:py-6 bg-white border-t border-gray-100">
+    <section className="py-16 sm:py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
-            <TrendingUp className="h-4 w-4 text-green-700" />
-            Best Seller
-          </span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div className="space-y-3">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 text-stone-400 font-bold text-[10px] uppercase tracking-[0.3em]"
+            >
+              <TrendingUp className="h-3 w-3" />
+              The Spotlight
+            </motion.div>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl sm:text-6xl font-serif italic text-black leading-tight"
+            >
+              Curated Essentials
+            </motion.h2>
+            <p className="text-stone-400 text-sm font-medium">Exceptional artisanal pieces handpicked for your space.</p>
+          </div>
+
           <Link
             to="/products?sort=best_sellers"
-            className="text-xs font-medium text-green-700 hover:text-green-900 flex items-center gap-0.5"
+            className="group flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors"
           >
-            View all <ArrowRight className="h-3 w-3" />
+            Discover More <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Card container — horizontal, precious feel */}
-        <div className="relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-sm overflow-hidden">
-
-          {/* Subtle premium accent line at top */}
-          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 via-emerald-500 to-green-400" />
-
-          <div className="flex flex-row h-full">
+        {/* Card container — Spotilight Editorial Feel */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative group rounded-[2rem] bg-stone-50 border border-stone-100 shadow-sm overflow-hidden"
+        >
+          <div className="flex flex-row lg:flex-row min-h-[300px] sm:min-h-[450px]">
 
             {/* ── LEFT: Product image ── */}
-            <Link
-              to={`/products/${product.id}`}
-              className="relative flex-shrink-0 w-[42%] sm:w-[38%] md:w-[40%] block"
-            >
-              <div className="relative h-full min-h-[180px] sm:min-h-[220px] md:min-h-[240px] overflow-hidden rounded-l-2xl">
+            <div className="relative w-[35%] sm:w-[45%] aspect-square sm:aspect-auto overflow-hidden border-r border-stone-100 bg-white">
+              <Link to={`/products/${product.id}`} className="block h-full w-full">
                 {image ? (
                   <img
                     src={image}
                     alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = 'none';
-                    }}
+                    className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-green-800 to-emerald-600 flex items-center justify-center">
-                    <ShoppingBag className="h-12 w-12 text-white/40" />
+                  <div className="w-full h-full bg-stone-100 flex items-center justify-center">
+                    <ShoppingBag className="h-8 w-8 text-stone-300" />
                   </div>
                 )}
+              </Link>
 
-                {/* Discount badge pinned to top-right of image */}
-                {hasDiscount && (
-                  <div className="absolute top-2.5 right-2.5">
-                    <span className="flex items-center gap-0.5 bg-red-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow">
-                      -{discountPct}%
-                    </span>
+              {/* Discount badge - Refined for mobile */}
+              {hasDiscount && (
+                <div className="absolute top-2 left-2 sm:top-8 sm:left-8">
+                  <div className="bg-white/90 backdrop-blur-md text-black text-[8px] sm:text-xs font-bold px-2 py-0.5 sm:px-4 sm:py-2 rounded-full shadow-sm">
+                    -{discountPct}%
                   </div>
-                )}
-              </div>
-            </Link>
+                </div>
+              )}
+            </div>
 
             {/* ── RIGHT: Info + actions ── */}
-            <div className="flex flex-col flex-1 min-w-0 p-4 sm:p-5 md:p-6">
+            <div className="flex flex-col flex-1 p-3.5 sm:p-12 lg:p-16 justify-center">
 
-              {/* 1. Trust badge — first thing eyes see on the right */}
-              <div className="flex items-center gap-1.5 mb-2.5">
-                <span className="inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
-                  <Flame className="h-2.5 w-2.5" />
-                  #1 Best Seller
+              {/* 1. Category & Trust - Refined */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 mb-2 sm:mb-8">
+                <span className="inline-flex items-center gap-1 text-amber-600 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider">
+                  <Flame className="h-2.5 w-2.5 fill-amber-600" />
+                  Trending
                 </span>
                 {product.category && (
-                  <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-[10px] font-medium px-2 py-0.5 rounded-full">
-                    {product.category}
+                  <span className="text-[8px] sm:text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+                    • {product.category}
                   </span>
                 )}
               </div>
 
-              {/* 2. Product name */}
-              <Link to={`/products/${product.id}`} className="block group/name mb-1.5">
-                <h2 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 leading-snug line-clamp-2 group-hover/name:text-green-800 transition-colors">
+              {/* 2. Product name - Refined hierarchy */}
+              <Link to={`/products/${product.id}`} className="block mb-2 sm:mb-6">
+                <h3 className="text-lg sm:text-4xl md:text-5xl font-serif italic text-black leading-tight hover:text-stone-600 transition-colors line-clamp-2 sm:line-clamp-1">
                   {product.name}
-                </h2>
+                </h3>
               </Link>
 
-              {/* 3. Rating — social proof right after name */}
+              {/* 3. Rating - Simplified for mobile */}
               {product.rating > 0 && (
-                <div className="flex items-center gap-1.5 mb-3">
+                <div className="flex items-center gap-1.5 mb-3 sm:mb-10 pb-3 sm:pb-10 border-b border-stone-100">
                   <div className="flex items-center gap-0.5">
                     {[1, 2, 3, 4, 5].map(s => (
                       <Star
                         key={s}
-                        className={`h-3 w-3 ${s <= Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'}`}
+                        className={`h-2.5 w-2.5 sm:h-4 sm:w-4 ${s <= Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'fill-stone-200 text-stone-200'}`}
                       />
                     ))}
                   </div>
-                  <span className="text-xs font-semibold text-gray-700">{product.rating.toFixed(1)}</span>
-                  {product.reviewCount ? (
-                    <span className="text-xs text-gray-400">({product.reviewCount.toLocaleString()})</span>
-                  ) : null}
+                  <span className="text-[8px] sm:text-sm font-bold text-black">{product.rating.toFixed(1)}</span>
                 </div>
               )}
 
-              {/* Spacer — pushes price + CTAs to the bottom */}
-              <div className="flex-1" />
-
-              {/* 4. Price — anchored bottom, original first for anchoring effect */}
-              <div className="mb-3">
-                {hasDiscount && (
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="text-xs text-gray-400 line-through">
+              {/* 4. Price & Savings - Refined */}
+              <div className="mb-4 sm:mb-10">
+                <div className="flex items-baseline gap-2 sm:gap-4 mb-0.5 sm:mb-2">
+                  <span className="text-xl sm:text-4xl md:text-5xl font-bold text-black">
+                    ₹{product.price.toLocaleString()}
+                  </span>
+                  {hasDiscount && (
+                    <span className="text-[10px] sm:text-xl text-stone-300 line-through font-medium">
                       ₹{product.originalPrice!.toLocaleString()}
                     </span>
-                    <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full">
-                      <Tag className="h-2.5 w-2.5" />
-                      Save ₹{savings.toLocaleString()}
-                    </span>
+                  )}
+                </div>
+                {hasDiscount && (
+                  <div className="flex items-center gap-1 text-amber-600">
+                    <Tag className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                    <span className="text-[7px] sm:text-xs font-bold uppercase tracking-widest">Save ₹{savings.toLocaleString()}</span>
                   </div>
                 )}
-                <span className="text-xl sm:text-2xl font-extrabold text-gray-900 leading-none">
-                  ₹{product.price.toLocaleString()}
-                </span>
               </div>
 
-              {/* 5. CTAs */}
-              <div className="flex flex-col gap-2">
-                <BuyNowButton
-                  onClick={handleAddToCart}
-                  disabled={product.stock === 0}
-                />
+              {/* 5. CTAs - Refined for mobile */}
+              <div className="flex gap-2 sm:gap-3 mt-2 sm:mt-auto">
+                <div className="flex-1">
+                  <BuyNowButton
+                    onClick={handleAddToCart}
+                    disabled={product.stock === 0}
+                  />
+                </div>
                 <Link
                   to={`/products/${product.id}`}
-                  className="w-full flex items-center justify-center gap-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-gray-700 font-medium text-sm py-2.5 rounded-xl transition-all"
+                  className="px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-2xl border border-stone-200 hover:border-black hover:bg-black hover:text-white text-black font-bold text-[8px] sm:text-sm tracking-widest uppercase transition-all duration-300 text-center flex items-center justify-center"
                 >
-                  View Product
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  Details
                 </Link>
               </div>
 
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

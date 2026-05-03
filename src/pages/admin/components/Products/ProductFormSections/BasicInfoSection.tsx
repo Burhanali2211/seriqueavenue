@@ -15,7 +15,7 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, se
         <Package className="w-4 h-4 text-slate-500" />
         <h3 className="text-sm font-semibold text-gray-900">Basic Information</h3>
       </div>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Product Name</label>
@@ -25,7 +25,7 @@ export const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, se
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/20 focus:border-slate-500 transition-all text-sm"
-            placeholder="e.g. Aligarh Special Musk"
+            placeholder="e.g. SeriqueAvenue Special Musk"
           />
         </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Heart, ChevronDown, LogOut, Leaf, ArrowRight, X } from 'lucide-react';
+import { Search, ShoppingCart, User, Heart, LogOut, Leaf, ArrowRight, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
@@ -14,7 +15,7 @@ interface HeaderProps {
 }
 
 // Reusable inline search with live dropdown
-const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
+const SearchBar: React.FC<{ mobile?: boolean; isLight?: boolean }> = ({ mobile = false, isLight = false }) => {
   const { products } = useProducts();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -24,7 +25,6 @@ const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Debounced local filter — 220ms, zero DB queries
   useEffect(() => {
     if (query.trim().length < 2) {
       setResults([]);
@@ -37,8 +37,7 @@ const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
         .filter(p =>
           p.name.toLowerCase().includes(term) ||
           (p.category && p.category.toLowerCase().includes(term)) ||
-          (p.shortDescription && p.shortDescription.toLowerCase().includes(term)) ||
-          (p.tags && p.tags.some(t => t.toLowerCase().includes(term)))
+          (p.shortDescription && p.shortDescription.toLowerCase().includes(term))
         )
         .slice(0, 6);
       setResults(filtered);
@@ -48,7 +47,6 @@ const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
     return () => clearTimeout(timer);
   }, [query, products]);
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
@@ -90,18 +88,10 @@ const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
     }
   };
 
-  const clear = () => {
-    setQuery('');
-    setResults([]);
-    setOpen(false);
-    inputRef.current?.focus();
-  };
-
   return (
-    <div ref={wrapRef} className={`relative ${mobile ? 'w-full' : 'flex-1 max-w-xl'}`}>
-      {/* Input */}
-      <div className="relative flex items-center">
-        <Search className="absolute left-3 h-4 w-4 text-gray-400 pointer-events-none" />
+    <div ref={wrapRef} className={`relative ${mobile ? 'w-full' : 'w-full max-w-sm'}`}>
+      <div className="relative flex items-center group">
+        <Search className={`absolute left-4 h-3.5 w-3.5 transition-colors ${isLight ? 'text-white/40 group-focus-within:text-white' : 'text-black/30 group-focus-within:text-black'}`} />
         <input
           ref={inputRef}
           type="text"
@@ -109,93 +99,67 @@ const SearchBar: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
           onChange={e => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => query.trim().length >= 2 && results.length > 0 && setOpen(true)}
-          placeholder={mobile ? 'Search bags, baskets, artisan craft...' : 'Search woven bags, handmade baskets, woolen craft...'}
-          className="w-full pl-9 pr-16 py-2 text-sm bg-gray-100 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-gray-300 transition-all placeholder-gray-400"
+          placeholder="SEARCH COLLECTIONS"
+          className={`w-full pl-10 pr-10 py-2.5 text-[10px] font-bold tracking-[0.2em] rounded-full border transition-all outline-none ${
+            isLight 
+              ? 'bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:bg-white/10 focus:border-white/20' 
+              : 'bg-[#F9F9F9] border-black/[0.03] text-black placeholder:text-black/20 focus:bg-white focus:border-black/10'
+          }`}
           autoComplete="off"
         />
         {query && (
           <button
-            type="button"
-            onClick={clear}
-            className="absolute right-9 p-1 text-gray-400 hover:text-gray-600 transition-colors"
-            tabIndex={-1}
+            onClick={() => setQuery('')}
+            className={`absolute right-3.5 p-1 rounded-full transition-colors ${isLight ? 'hover:bg-white/10 text-white/40' : 'hover:bg-black/5 text-black/20'}`}
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-3 w-3" />
           </button>
         )}
-        <button
-          type="button"
-          onClick={goToSearch}
-          className="absolute right-0 top-0 bottom-0 px-3 text-gray-500 hover:text-gray-800 transition-colors"
-          aria-label="Search"
-        >
-          <Search className="h-4 w-4" />
-        </button>
       </div>
 
-      {/* Dropdown results */}
-      {open && (
-        <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-[200]">
-          {results.length > 0 ? (
-            <>
-              {results.map((product, idx) => (
-                <Link
-                  key={product.id}
-                  to={`/products/${product.id}`}
-                  onClick={() => { setQuery(''); setOpen(false); }}
-                  className={`flex items-center gap-3 px-3 py-2.5 transition-colors group ${activeIdx === idx ? 'bg-green-50' : 'hover:bg-gray-50'}`}
-                >
-                  {/* Thumbnail */}
-                  <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                    {product.images?.[0] ? (
-                      <img
-                        src={product.images[0]}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                        onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-300">
-                        <Search className="h-4 w-4" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate group-hover:text-green-800 transition-colors">
-                      {product.name}
-                    </p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs font-semibold text-gray-700">₹{product.price.toLocaleString('en-IN')}</span>
-                      {product.category && (
-                        <span className="text-xs text-gray-400">{product.category}</span>
-                      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute left-0 right-0 top-full mt-2 bg-white rounded-3xl shadow-2xl border border-black/5 overflow-hidden z-[200]"
+          >
+            {results.length > 0 ? (
+              <div className="p-3">
+                {results.map((product, idx) => (
+                  <Link
+                    key={product.id}
+                    to={`/products/${product.id}`}
+                    onClick={() => { setQuery(''); setOpen(false); }}
+                    className={`flex items-center gap-4 px-3 py-2.5 rounded-2xl transition-all ${activeIdx === idx ? 'bg-[#F9F9F9]' : 'hover:bg-[#F9F9F9]'}`}
+                  >
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#F9F9F9]">
+                      <img src={product.images?.[0]} alt="" className="w-full h-full object-cover" />
                     </div>
-                  </div>
-                  <ArrowRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-green-600 flex-shrink-0 transition-colors" />
-                </Link>
-              ))}
-              {/* View all */}
-              <button
-                onClick={goToSearch}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-green-700 bg-green-50 hover:bg-green-100 transition-colors border-t border-gray-100"
-              >
-                See all results for "{query}"
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </>
-          ) : (
-            <div className="px-4 py-5 text-center">
-              <p className="text-sm text-gray-500">No results for "<strong>{query}</strong>"</p>
-              <button
-                onClick={goToSearch}
-                className="mt-2 text-xs font-semibold text-green-700 hover:text-green-800"
-              >
-                Search all products →
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-black uppercase tracking-tight text-black truncate">{product.name}</p>
+                      <p className="text-[10px] font-serif italic text-black/40">₹{product.price.toLocaleString('en-IN')}</p>
+                    </div>
+                    <ArrowRight className="h-3.5 w-3.5 text-black/10" />
+                  </Link>
+                ))}
+                <button
+                  onClick={goToSearch}
+                  className="w-full mt-2 py-3 text-[10px] font-black uppercase tracking-widest text-black bg-[#F9F9F9] hover:bg-black hover:text-white rounded-2xl transition-all flex items-center justify-center gap-2"
+                >
+                  View All Collections
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="px-6 py-10 text-center">
+                <p className="text-[10px] text-black/30 font-black uppercase tracking-[0.2em]">No Matches Found</p>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -204,284 +168,163 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
   const { user, logout } = useAuth();
   const { itemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
-  const { categories } = useProducts();
   const { getSiteSetting } = useSettings();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const userMenuRef = useRef<HTMLDivElement>(null);
-  const shopDropdownRef = useRef<HTMLDivElement>(null);
 
+  const isHome = location.pathname === '/';
   const siteName = getSiteSetting('site_name') || 'Seriqueavenue';
-  const logoUrl = getSiteSetting('logo_url');
-  const nameParts = siteName.trim().split(/\s+/);
-  const nameFirst = nameParts[0];
-  const nameRest = nameParts.slice(1).join(' ');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsUserMenuOpen(false);
-    setIsShopDropdownOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setIsUserMenuOpen(false);
-      if (shopDropdownRef.current && !shopDropdownRef.current.contains(e.target as Node)) setIsShopDropdownOpen(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => { setIsScrolled(window.scrollY > 4); ticking = false; });
+  const headerStyles = useMemo(() => {
+    if (isHome && !isScrolled) {
+      return {
+        bg: 'bg-transparent',
+        text: 'text-white',
+        logo: 'text-white',
+        border: 'border-white/10',
+        searchLight: true
+      };
+    }
+    return {
+      bg: 'bg-white/80 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.03)]',
+      text: 'text-black',
+      logo: 'text-black',
+      border: 'border-black/5',
+      searchLight: false
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const categoryItems = useMemo(() => categories.filter(c => c.isActive !== false), [categories]);
-  const isActive = (path: string) => path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
+  }, [isHome, isScrolled]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-200 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
-
-      {/* ROW 1: Logo · Search · Icons */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center gap-3 h-14">
-
-        {/* Logo — raw image from DB, Leaf icon fallback, no container box */}
-        <Link
-          to="/"
-          className="flex items-center gap-2 flex-shrink-0"
-          onClick={() => window.scrollTo(0, 0)}
-        >
-          {logoUrl ? (
-            <img
-              src={logoUrl}
-              alt={siteName}
-              className="w-7 h-7 object-contain"
-              onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-            />
-          ) : (
-            <Leaf className="w-6 h-6 text-gray-900 flex-shrink-0" />
-          )}
-          <div className="leading-none">
-            <span className="block text-[13px] font-black text-gray-900 tracking-tight leading-none">
-              {nameFirst}
-            </span>
-            {nameRest && (
-              <span className="block text-[10px] font-semibold text-gray-400 tracking-widest uppercase leading-none mt-0.5">
-                {nameRest}
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${headerStyles.bg} ${isScrolled ? 'py-3' : 'py-6'}`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-12">
+          
+          {/* Logo Area */}
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <div className={`p-2 rounded-2xl transition-all duration-500 ${isHome && !isScrolled ? 'bg-white/10 ring-1 ring-white/20' : 'bg-black shadow-lg shadow-black/10'}`}>
+              <Leaf className={`h-5 w-5 text-white transition-transform group-hover:rotate-12`} />
+            </div>
+            <div className="flex flex-col">
+              <span className={`text-xl font-black tracking-tighter leading-none uppercase ${headerStyles.logo}`}>
+                {siteName.split(' ')[0]}
               </span>
-            )}
-          </div>
-        </Link>
-
-        {/* Desktop live search */}
-        <div className="hidden md:flex flex-1 mx-4">
-          <SearchBar />
-        </div>
-
-        {/* Action icons */}
-        <div className="flex items-center gap-1 ml-auto">
-
-          <Link
-            to="/wishlist"
-            className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all hidden sm:flex"
-            aria-label="Wishlist"
-          >
-            <Heart className="h-5 w-5" />
-            {wishlistItems.length > 0 && (
-              <span className="absolute top-1 right-1 h-3.5 w-3.5 bg-gray-900 text-white text-[8px] font-black rounded-full flex items-center justify-center leading-none">
-                {wishlistItems.length > 9 ? '9+' : wishlistItems.length}
+              <span className={`text-[8px] font-black tracking-[0.4em] uppercase leading-none mt-1.5 ${isHome && !isScrolled ? 'text-white/40' : 'text-black/20'}`}>
+                Est. MMXXIV
               </span>
-            )}
+            </div>
           </Link>
 
-          <div className="relative hidden sm:block" ref={userMenuRef}>
-            <button
-              onClick={() => user ? setIsUserMenuOpen(!isUserMenuOpen) : navigate('/auth')}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"
-              aria-label={user ? 'My account' : 'Sign in'}
-            >
-              <User className="h-[18px] w-[18px]" />
-              <span className="text-xs font-medium hidden lg:block">
-                {user ? (user.name?.split(' ')[0] || 'Account') : 'Sign in'}
-              </span>
-            </button>
-            {isUserMenuOpen && user && (
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-                <div className="px-4 pb-2 mb-1 border-b border-gray-100">
-                  <p className="font-semibold text-sm text-gray-900 truncate">{user.name}</p>
-                  <p className="text-xs text-gray-400 truncate">{user.email}</p>
-                </div>
-                <Link to="/dashboard" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900" onClick={() => setIsUserMenuOpen(false)}>
-                  <User className="h-4 w-4" /> My Profile
-                </Link>
-                <Link to="/orders" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900" onClick={() => setIsUserMenuOpen(false)}>
-                  <ShoppingCart className="h-4 w-4" /> My Orders
-                </Link>
-                <div className="border-t border-gray-100 mt-1 pt-1">
-                  <button onClick={() => { logout(); setIsUserMenuOpen(false); }} className="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-red-500 hover:bg-red-50">
-                    <LogOut className="h-4 w-4" /> Sign Out
-                  </button>
-                </div>
-              </div>
-            )}
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-2">
+            {[
+              { label: 'Collections', path: '/products' },
+              { label: 'Editorial', path: '/about' },
+              { label: 'Journal', path: '/blog' },
+            ].map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`px-5 py-2 text-[10px] font-black uppercase tracking-[0.25em] rounded-full transition-all hover:bg-black/5 ${headerStyles.text}`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Search Bar */}
+          <div className="hidden md:flex flex-1 max-w-sm">
+            <SearchBar isLight={headerStyles.searchLight} />
           </div>
 
-          <button
-            onClick={onCartClick}
-            className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"
-            aria-label="Cart"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {itemCount > 0 && (
-              <span className="absolute top-1 right-1 h-4 w-4 bg-gray-900 text-white text-[9px] font-black rounded-full flex items-center justify-center leading-none">
-                {itemCount > 9 ? '9+' : itemCount}
-              </span>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* MOBILE ROW 2: Live search bar */}
-      <div className="md:hidden px-4 pb-2.5">
-        <SearchBar mobile />
-      </div>
-
-      {/* DESKTOP ROW 2: Nav */}
-      <div className="hidden md:block border-t border-green-100/70 bg-green-50/30">
-        <div className="max-w-7xl mx-auto px-6">
-          <nav className="flex items-center justify-center h-11 gap-0.5 text-sm">
-
-            {/* Home */}
+          {/* Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
-              to="/"
-              className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                isActive('/')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
-              }`}
+              to="/wishlist"
+              className={`p-3 rounded-full transition-all hover:bg-black/5 relative ${headerStyles.text}`}
             >
-              Home
-              {isActive('/') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+              <Heart className="h-5 w-5" />
+              {wishlistItems.length > 0 && (
+                <span className="absolute top-2.5 right-2.5 h-2.5 w-2.5 bg-black rounded-full border-2 border-white ring-1 ring-black/10" />
+              )}
             </Link>
 
-            {/* Shop dropdown */}
-            <div className="relative h-full flex items-center" ref={shopDropdownRef}>
+            <div className="relative" ref={userMenuRef}>
               <button
-                onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
-                className={`relative flex items-center gap-1.5 px-4 h-8 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                  isActive('/products')
-                    ? 'text-green-900 bg-green-100'
-                    : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
-                }`}
+                onClick={() => user ? setIsUserMenuOpen(!isUserMenuOpen) : navigate('/auth')}
+                className={`p-3 rounded-full transition-all hover:bg-black/5 flex items-center gap-2 ${headerStyles.text}`}
               >
-                Shop All
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isShopDropdownOpen ? 'rotate-180' : ''}`} />
-                {isActive('/products') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
+                <User className="h-5 w-5" />
+                {user && user.name && <span className="hidden xl:block text-[10px] font-black uppercase tracking-widest">{user.name.split(' ')[0]}</span>}
               </button>
-
-              {isShopDropdownOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-56 bg-white shadow-2xl border border-gray-100 rounded-2xl py-2 z-50 mt-2 overflow-hidden">
-                  <div className="px-3 pb-1.5 mb-1 border-b border-gray-100">
-                    <Link
-                      to="/products"
-                      className="flex items-center justify-between w-full px-2 py-2 text-[13px] font-bold text-green-900 hover:bg-green-50 rounded-lg transition-colors"
-                      onClick={() => setIsShopDropdownOpen(false)}
-                    >
-                      View All Products
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                  <div className="px-3 pt-0.5">
-                    <p className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Categories</p>
-                    {categoryItems.slice(0, 8).map(cat => (
-                      <Link
-                        key={cat.id}
-                        to={`/products?category=${cat.slug || cat.id}`}
-                        className="flex items-center gap-2 px-2 py-1.5 text-[13px] text-gray-700 hover:bg-green-50 hover:text-green-900 rounded-lg transition-colors"
-                        onClick={() => setIsShopDropdownOpen(false)}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-                        {cat.name}
+              
+              <AnimatePresence>
+                {isUserMenuOpen && user && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 15 }}
+                    className="absolute right-0 top-full mt-4 w-64 bg-white rounded-3xl shadow-2xl border border-black/5 py-4 z-50"
+                  >
+                    <div className="px-6 py-4 border-b border-black/[0.03]">
+                      <p className="text-[11px] font-black uppercase tracking-widest text-black">{user.name}</p>
+                      <p className="text-[10px] font-serif italic text-black/30 mt-1">{user.email}</p>
+                    </div>
+                    <div className="p-2">
+                      <Link to="/dashboard" className="flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-black/60 hover:bg-[#F9F9F9] hover:text-black rounded-2xl transition-all">
+                        <User className="h-4 w-4" /> My Profile
                       </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
+                      <Link to="/orders" className="flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-black/60 hover:bg-[#F9F9F9] hover:text-black rounded-2xl transition-all">
+                        <ShoppingCart className="h-4 w-4" /> Order History
+                      </Link>
+                      <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-2xl transition-all">
+                        <LogOut className="h-4 w-4" /> Sign Out
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* New Arrivals */}
-            <Link
-              to="/new-arrivals"
-              className={`relative px-4 h-8 flex items-center gap-1.5 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                isActive('/new-arrivals')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
-              }`}
+            <button
+              onClick={onCartClick}
+              className={`p-3.5 rounded-full transition-all bg-black text-white hover:bg-black/90 relative shadow-xl shadow-black/20 active:scale-95`}
             >
-              New Arrivals
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-green-600 text-white rounded-full leading-none">
-                NEW
-              </span>
-              {isActive('/new-arrivals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
-            </Link>
-
-            {/* Deals */}
-            <Link
-              to="/deals"
-              className={`relative px-4 h-8 flex items-center gap-1.5 rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                isActive('/deals')
-                  ? 'text-red-700 bg-red-50'
-                  : 'text-red-600 hover:text-red-700 hover:bg-red-50'
-              }`}
-            >
-              Deals
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-red-500 text-white rounded-full leading-none">
-                SALE
-              </span>
-              {isActive('/deals') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-red-500 rounded-full" />}
-            </Link>
-
-            {/* About */}
-            <Link
-              to="/about"
-              className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                isActive('/about')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
-              }`}
-            >
-              About
-              {isActive('/about') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
-            </Link>
-
-            {/* Contact */}
-            <Link
-              to="/contact"
-              className={`relative px-4 h-8 flex items-center rounded-md font-semibold text-[13px] tracking-wide transition-all duration-150 ${
-                isActive('/contact')
-                  ? 'text-green-900 bg-green-100'
-                  : 'text-gray-600 hover:text-green-900 hover:bg-green-50'
-              }`}
-            >
-              Contact
-              {isActive('/contact') && <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-green-700 rounded-full" />}
-            </Link>
-
-          </nav>
+              <ShoppingCart className="h-5 w-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 h-6 w-6 bg-white text-black text-[10px] font-black rounded-full flex items-center justify-center border-2 border-black">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
-
     </header>
   );
 };
 
-export default Header;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { 
+import {
   Settings, Bell, Globe, CreditCard, Truck, Shield,
   ChevronRight, Toggle, Check
 } from 'lucide-react';
@@ -27,7 +27,7 @@ export const SellerSettingsPage: React.FC = () => {
   });
 
   const toggleNotification = (id: string) => {
-    setNotifications(prev => prev.map(n => 
+    setNotifications(prev => prev.map(n =>
       n.id === id ? { ...n, enabled: !n.enabled } : n
     ));
   };
@@ -73,11 +73,10 @@ export const SellerSettingsPage: React.FC = () => {
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                    activeSection === section.id
-                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                      : 'text-white/60 hover:bg-white/5 hover:text-white'
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeSection === section.id
+                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                    : 'text-white/60 hover:bg-white/5 hover:text-white'
+                    }`}
                 >
                   <section.icon className="w-5 h-5" />
                   <span className="font-medium">{section.label}</span>
@@ -93,7 +92,7 @@ export const SellerSettingsPage: React.FC = () => {
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
               <h2 className="text-xl font-semibold text-white mb-2">Notification Preferences</h2>
               <p className="text-white/60 mb-6">Choose how you want to be notified about important updates</p>
-              
+
               <div className="space-y-4">
                 {notifications.map((notification) => (
                   <div
@@ -106,14 +105,12 @@ export const SellerSettingsPage: React.FC = () => {
                     </div>
                     <button
                       onClick={() => toggleNotification(notification.id)}
-                      className={`w-12 h-6 rounded-full transition-all ${
-                        notification.enabled ? 'bg-cyan-500' : 'bg-white/20'
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-all ${notification.enabled ? 'bg-cyan-500' : 'bg-white/20'
+                        }`}
                     >
                       <div
-                        className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                          notification.enabled ? 'translate-x-6' : 'translate-x-0.5'
-                        }`}
+                        className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${notification.enabled ? 'translate-x-6' : 'translate-x-0.5'
+                          }`}
                       />
                     </button>
                   </div>
@@ -140,7 +137,7 @@ export const SellerSettingsPage: React.FC = () => {
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
               <h2 className="text-xl font-semibold text-white mb-2">Shipping Settings</h2>
               <p className="text-white/60 mb-6">Configure shipping options for your products</p>
-              
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-white/70 text-sm font-medium mb-2">
@@ -215,7 +212,7 @@ export const SellerSettingsPage: React.FC = () => {
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
               <h2 className="text-xl font-semibold text-white mb-2">Payment Settings</h2>
               <p className="text-white/60 mb-6">Manage your payment methods and payout preferences</p>
-              
+
               <div className="space-y-6">
                 <div>
                   <h3 className="text-white font-medium mb-4">Payout Method</h3>
@@ -246,11 +243,10 @@ export const SellerSettingsPage: React.FC = () => {
                     {['Daily', 'Weekly', 'Monthly'].map((schedule, index) => (
                       <button
                         key={schedule}
-                        className={`px-4 py-3 rounded-xl font-medium transition-all ${
-                          index === 1
-                            ? 'bg-cyan-500 text-white'
-                            : 'bg-white/5 border border-white/10 text-white/70 hover:bg-white/10'
-                        }`}
+                        className={`px-4 py-3 rounded-xl font-medium transition-all ${index === 1
+                          ? 'bg-cyan-500 text-white'
+                          : 'bg-white/5 border border-white/10 text-white/70 hover:bg-white/10'
+                          }`}
                       >
                         {schedule}
                       </button>
@@ -281,7 +277,7 @@ export const SellerSettingsPage: React.FC = () => {
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
               <h2 className="text-xl font-semibold text-white mb-2">Store Settings</h2>
               <p className="text-white/60 mb-6">Customize your seller profile and store appearance</p>
-              
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-white/70 text-sm font-medium mb-2">Store Name</label>
@@ -299,7 +295,7 @@ export const SellerSettingsPage: React.FC = () => {
                     rows={4}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 resize-none"
                     placeholder="Tell customers about your store..."
-                    defaultValue="Authentic attars and Islamic lifestyle products from Aligarh Attar House. Pure quality, sourced from Aligarh artisans."
+                    defaultValue="Authentic attars and Islamic lifestyle products from SeriqueAvenue. Pure quality, sourced from SeriqueAvenue artisans."
                   />
                 </div>
 

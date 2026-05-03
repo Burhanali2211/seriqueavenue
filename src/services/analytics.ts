@@ -82,7 +82,7 @@ export const trackEcommerce = {
   viewProduct: (product: { id: string; name: string; price: number; category?: string; brand?: string }) => {
     if (!gaInitialized) return;
     try {
-      ReactGA.event('view_item', { currency: 'INR', value: product.price, items: [{ item_id: product.id, item_name: product.name, item_category: product.category, item_brand: product.brand || 'Aligarh Attar House', price: product.price }] });
+      ReactGA.event('view_item', { currency: 'INR', value: product.price, items: [{ item_id: product.id, item_name: product.name, item_category: product.category, item_brand: product.brand || 'SeriqueAvenue', price: product.price }] });
     } catch { /* silent */ }
   },
 
@@ -153,7 +153,7 @@ export const trackUserEngagement = {
 };
 
 // Set user properties
-export const setUserProperties = (properties: { userId?: string; userType?: 'customer' | 'admin'; [key: string]: any }) => {
+export const setUserProperties = (properties: { userId?: string; userType?: 'customer' | 'admin';[key: string]: any }) => {
   if (!gaInitialized) return;
   try {
     if (properties.userId) ReactGA.set({ userId: properties.userId });

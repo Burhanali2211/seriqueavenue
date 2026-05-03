@@ -19,6 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isDashboardPage = location.pathname.startsWith('/dashboard');
   const isAuthPage = location.pathname === '/auth';
   const isCheckoutPage = location.pathname.startsWith('/checkout');
+  const isHome = location.pathname === '/';
 
   return (
     <div className="min-h-screen transition-colors duration-300 bg-background-primary">
@@ -30,7 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       )}
 
-      <main className={`${!isDashboardPage && !isAuthPage && !isCheckoutPage ? "pt-[98px] md:pt-[92px]" : ""} relative`}>
+      <main className={`${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome ? "pt-[98px] md:pt-[92px]" : ""} relative`}>
         <div className={`min-h-[calc(100vh-200px)] ${!isDashboardPage && !isAuthPage && !isCheckoutPage ? "pb-16 md:pb-0" : ""}`}>
           {children}
         </div>

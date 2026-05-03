@@ -41,7 +41,7 @@ These should be done BEFORE any deployment.
 ### C. Vercel — Set Production Environment Variables
 
 1. Go to: https://vercel.com/dashboard
-2. Select project: `aligarh-attars` (or whatever it's named)
+2. Select project: `SeriqueAvenue` (or whatever it's named)
 3. Go to: Settings → Environment Variables
 4. **For each variable below:**
    - Click "Add"

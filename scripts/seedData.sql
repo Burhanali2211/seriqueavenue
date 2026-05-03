@@ -59,7 +59,7 @@ VALUES
   ),
   (
     'Shamama Attar (12ml)', 'shamama-attar-12ml',
-    'The legendary Shamama — a complex blend of over 40 botanicals including herbs, flowers and spices. A signature of Aligarh''s attar craft.',
+    'The legendary Shamama — a complex blend of over 40 botanicals including herbs, flowers and spices. A signature of SeriqueAvenue''s attar craft.',
     'Traditional Shamama blend, 12ml',
     549, 699, (SELECT id FROM public.categories WHERE slug = 'attars'),
     ARRAY['https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80'],

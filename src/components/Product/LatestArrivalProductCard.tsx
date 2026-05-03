@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Star } from 'lucide-react';
+import { Heart, ShoppingBag, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Product } from '../../types';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useAddToWishlistWithAuth } from '../../hooks/useAddToWishlistWithAuth';
@@ -12,8 +13,7 @@ interface LatestArrivalProductCardProps {
 }
 
 /**
- * Compact marketplace-style card for horizontal scroll sections.
- * Square image ratio, minimal info below — Flipkart/Meesho style.
+ * Compact premium card for horizontal scroll sections.
  */
 export const LatestArrivalProductCard: React.FC<LatestArrivalProductCardProps> = ({ product, index = 0 }) => {
   const { isInWishlist } = useWishlist();
@@ -25,57 +25,64 @@ export const LatestArrivalProductCard: React.FC<LatestArrivalProductCardProps> =
     handleAddToWishlist(product);
   };
 
+  const isSelectedInWishlist = isInWishlist(product.id);
+
   return (
-    <Link to={`/products/${product.id}`} className="group block">
-      <article className="bg-white rounded-xl overflow-hidden border border-gray-100 hover:border-green-400 hover:shadow-md transition-all duration-200">
-        {/* Square image */}
-        <div className="relative aspect-square overflow-hidden bg-gray-50">
-          <ProductImage
-            product={product}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            alt={product.name}
-            size="small"
-            priority={index < 3 ? 'critical' : 'normal'}
-          />
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
+      className="group relative"
+    >
+      <Link to={`/products/${product.id}`} className="block">
+        <article className="bg-white rounded-[1.5rem] overflow-hidden border border-black/[0.03] transition-all duration-500 group">
+          {/* Image */}
+          <div className="relative aspect-[4/5] overflow-hidden bg-stone-100">
+            <ProductImage
+              product={product}
+              className="w-full h-full object-cover transition-transform duration-[1s] ease-out group-hover:scale-105"
+              alt={product.name}
+              size="small"
+              priority={index < 3 ? 'critical' : 'normal'}
+            />
 
-          {/* Wishlist */}
-          <button
-            onClick={handleWishlist}
-            className={`absolute top-1.5 right-1.5 p-1.5 rounded-full shadow transition-all ${
-              isInWishlist(product.id)
-                ? 'bg-red-500 text-white'
-                : 'bg-white/95 text-gray-400 hover:text-red-500'
-            }`}
-            aria-label="Wishlist"
-          >
-            <Heart className={`h-3.5 w-3.5 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
-          </button>
-        </div>
-
-        {/* Info */}
-        <div className="p-2">
-          <p className="text-xs font-medium text-gray-800 line-clamp-2 leading-tight mb-1 min-h-[2rem]">
-            {product.name}
-          </p>
-
-          {/* Rating row */}
-          {product.rating > 0 && (
-            <div className="flex items-center gap-0.5 mb-1">
-              <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-              <span className="text-[10px] font-semibold text-gray-600">{product.rating.toFixed(1)}</span>
-            </div>
-          )}
-
-          {/* Price */}
-          <div className="flex items-baseline gap-1 flex-wrap">
-            <span className="text-sm font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
-            {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-[10px] text-gray-400 line-through">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-            )}
+            {/* Wishlist */}
+            <button
+              onClick={handleWishlist}
+              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md shadow-sm flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 z-10"
+              aria-label="Wishlist"
+            >
+              <Heart className={`h-3.5 w-3.5 transition-colors ${isSelectedInWishlist ? 'fill-red-500 text-red-500' : 'text-black/30'}`} />
+            </button>
           </div>
-        </div>
-      </article>
-    </Link>
+
+          {/* Info */}
+          <div className="p-4 bg-white">
+            <div className="mb-3">
+              <span className="text-[9px] font-bold text-black/20 uppercase tracking-[0.2em] block mb-1">
+                {product.category}
+              </span>
+              <p className="text-xs font-bold text-black line-clamp-1 uppercase tracking-tight group-hover:text-stone-600 transition-colors truncate">
+                {product.name}
+              </p>
+            </div>
+
+            {/* Price */}
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-sm font-black text-black">₹{product.price.toLocaleString('en-IN')}</span>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-[10px] text-black/30 line-through font-medium">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+                )}
+              </div>
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                 <ArrowUpRight className="w-3.5 h-3.5 text-black/30" />
+              </div>
+            </div>
+          </div>
+        </article>
+      </Link>
+    </motion.div>
   );
 };
 

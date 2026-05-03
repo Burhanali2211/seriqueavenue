@@ -224,8 +224,13 @@
     }
   }
 
-  .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
+  @keyframes scroll-line {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+
+  .animate-scroll-line {
+    animation: scroll-line 2s infinite ease-in-out;
   }
 
   @keyframes fade-in-left {

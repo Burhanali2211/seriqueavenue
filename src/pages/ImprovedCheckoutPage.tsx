@@ -50,7 +50,7 @@ const Field: React.FC<{
 );
 
 const inputClass =
-  'w-full px-3.5 py-3 rounded-lg border border-gray-300 text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent transition-colors bg-white';
+  'w-full px-4 py-3 rounded-xl border-none text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-stone-500 transition-all bg-gray-100 hover:bg-gray-200/50 shadow-none';
 
 export const ImprovedCheckoutPage: React.FC = () => {
   const navigate = useNavigate();

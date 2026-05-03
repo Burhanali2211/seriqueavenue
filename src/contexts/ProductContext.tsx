@@ -72,24 +72,24 @@ function bumpCacheVersion() {
 // Keys include version so any bump makes old cached data unreachable
 const getCacheKeys = () => ({
   products: (page: number, filters: string) => `pc_v${cacheVersion}_products_${page}_${filters}`,
-  featured:    `pc_v${cacheVersion}_featured`,
-  latest:      `pc_v${cacheVersion}_latest`,
+  featured: `pc_v${cacheVersion}_featured`,
+  latest: `pc_v${cacheVersion}_latest`,
   bestSellers: `pc_v${cacheVersion}_bestsellers`,
-  categories:  `pc_v${cacheVersion}_categories`,
+  categories: `pc_v${cacheVersion}_categories`,
 });
 
 export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // ── State initialised from cache immediately — zero loading flash ──
-  const [products, setProducts]           = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().featured) ? [] : []);
+  const [products, setProducts] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().featured) ? [] : []);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().featured) || []);
-  const [bestSellers, setBestSellers]     = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().bestSellers) || []);
+  const [bestSellers, setBestSellers] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().bestSellers) || []);
   const [latestProducts, setLatestProducts] = useState<Product[]>(cacheGet<Product[]>(getCacheKeys().latest) || []);
-  const [categories, setCategories]       = useState<Category[]>(cacheGet<Category[]>(getCacheKeys().categories) || []);
-  const [loading, setLoading]             = useState(false);
+  const [categories, setCategories] = useState<Category[]>(cacheGet<Category[]>(getCacheKeys().categories) || []);
+  const [loading, setLoading] = useState(false);
   const [featuredLoading, setFeaturedLoading] = useState(featuredProducts.length === 0);
   const [bestSellersLoading, setBestSellersLoading] = useState(bestSellers.length === 0);
   const [latestLoading, setLatestLoading] = useState(latestProducts.length === 0);
-  const [pagination, setPagination]       = useState<PaginationState>({ page: 1, limit: 20, total: 0, pages: 0 });
+  const [pagination, setPagination] = useState<PaginationState>({ page: 1, limit: 20, total: 0, pages: 0 });
   const { showError } = useNotification();
 
   // Track whether initial homepage fetch has been kicked off
@@ -98,7 +98,7 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
   const mapDbProductToAppProduct = useCallback((dbProduct: any): Product => {
     const images = Array.isArray(dbProduct.images) ? dbProduct.images
       : dbProduct.image_url ? [dbProduct.image_url]
-      : [];
+        : [];
     return {
       id: dbProduct.id,
       name: dbProduct.name,
@@ -118,7 +118,7 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
       reviewCount: dbProduct.review_count || 0,
       reviews: [],
       sellerId: dbProduct.seller_id,
-      sellerName: dbProduct.seller_name || 'Aligarh Attar House',
+      sellerName: dbProduct.seller_name || 'SeriqueAvenue',
       tags: dbProduct.tags || [],
       specifications: dbProduct.specifications || {},
       featured: dbProduct.is_featured || false,
@@ -426,9 +426,9 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     }
   }, [showError, fetchCategories]);
 
-  const nextPage     = useCallback(() => { if (pagination?.page < pagination?.pages) fetchProducts(pagination.page + 1); }, [pagination, fetchProducts]);
+  const nextPage = useCallback(() => { if (pagination?.page < pagination?.pages) fetchProducts(pagination.page + 1); }, [pagination, fetchProducts]);
   const previousPage = useCallback(() => { if (pagination?.page > 1) fetchProducts(pagination.page - 1); }, [pagination, fetchProducts]);
-  const goToPage     = useCallback((page: number) => { if (page >= 1 && page <= pagination?.pages) fetchProducts(page); }, [pagination, fetchProducts]);
+  const goToPage = useCallback((page: number) => { if (page >= 1 && page <= pagination?.pages) fetchProducts(page); }, [pagination, fetchProducts]);
 
   // ── Initial data load — fire once, sequenced to avoid auth lock contention ──
   // All 5 Supabase calls used to fire simultaneously via Promise.all, causing

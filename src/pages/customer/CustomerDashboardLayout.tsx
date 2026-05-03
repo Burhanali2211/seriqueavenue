@@ -51,7 +51,7 @@ export const CustomerDashboardLayout: React.FC<CustomerDashboardLayoutProps> = (
   const { user, logout } = useAuth();
   const { settings, getSiteSetting } = useSettings();
   const logoUrl = normalizeImageUrl(getSiteSetting('logo_url'));
-  const siteName = getSiteSetting('site_name') || 'Aligarh Attar House';
+  const siteName = getSiteSetting('site_name') || 'SeriqueAvenue';
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -97,7 +97,7 @@ export const CustomerDashboardLayout: React.FC<CustomerDashboardLayoutProps> = (
           >
             <Menu className="w-6 h-6 text-gray-700" />
           </button>
-          
+
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
               {logoUrl && isValidImageUrl(logoUrl) ? (
@@ -126,9 +126,8 @@ export const CustomerDashboardLayout: React.FC<CustomerDashboardLayoutProps> = (
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-out lg:translate-x-0 lg:shadow-none lg:border-r lg:border-gray-200/50 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 left-0 z-50 h-full w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-out lg:translate-x-0 lg:shadow-none lg:border-r lg:border-gray-200/50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
@@ -177,29 +176,26 @@ export const CustomerDashboardLayout: React.FC<CustomerDashboardLayoutProps> = (
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
-            
+
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                  active
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${active
                     ? 'bg-purple-50 text-purple-700 shadow-sm'
                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                }`}
+                  }`}
               >
-                <Icon className={`w-5 h-5 transition-colors ${
-                  active ? 'text-purple-600' : 'text-gray-400 group-hover:text-gray-600'
-                }`} />
+                <Icon className={`w-5 h-5 transition-colors ${active ? 'text-purple-600' : 'text-gray-400 group-hover:text-gray-600'
+                  }`} />
                 <span className="font-medium">{item.name}</span>
                 {item.badge && item.badge > 0 && (
                   <span className="ml-auto bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                     {item.badge}
                   </span>
                 )}
-                <ChevronRight className={`w-4 h-4 ml-auto transition-opacity ${
-                  active ? 'opacity-100 text-purple-400' : 'opacity-0 group-hover:opacity-50'
-                }`} />
+                <ChevronRight className={`w-4 h-4 ml-auto transition-opacity ${active ? 'opacity-100 text-purple-400' : 'opacity-0 group-hover:opacity-50'
+                  }`} />
               </Link>
             );
           })}
@@ -249,7 +245,7 @@ export const CustomerDashboardLayout: React.FC<CustomerDashboardLayoutProps> = (
                 <Home className="w-5 h-5" />
                 <span className="font-medium">Back to Shop</span>
               </Link>
-              
+
               <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-900">{user?.fullName || 'Customer'}</p>

@@ -91,7 +91,7 @@ If any ✗ red checks, fix them before continuing.
 ### Step 3: Vercel Environment Variables (5 min)
 
 1. **Go to:** https://vercel.com/dashboard
-2. **Select:** aligarh-attars project
+2. **Select:** SeriqueAvenue project
 3. **Go to:** Settings → Environment Variables
 4. **For each variable below:**
    - Click "Add"

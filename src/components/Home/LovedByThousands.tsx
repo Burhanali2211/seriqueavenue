@@ -27,7 +27,7 @@ const features = [
   },
   {
     title: "Timeless Craft",
-    description: "Made using centuries-old methods from the attar capital of India — Aligarh.",
+    description: "Made using centuries-old methods from the attar capital of India — SeriqueAvenue.",
     icon: Clock,
   }
 ];
@@ -66,9 +66,9 @@ export const LovedByThousands: React.FC = () => {
             className="inline-flex items-center gap-2 bg-gray-100 px-4 py-1.5 rounded-full mb-6"
           >
             <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
-            <span className="text-gray-600 font-bold text-xs tracking-widest uppercase">The Aligarh Attar House Advantage</span>
+            <span className="text-gray-600 font-bold text-xs tracking-widest uppercase">The SeriqueAvenue Advantage</span>
           </motion.div>
-          
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +78,7 @@ export const LovedByThousands: React.FC = () => {
           >
             Built on <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Trust & Quality</span>
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

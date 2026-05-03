@@ -24,8 +24,8 @@ interface SEOProps {
 
 const DEFAULT_TITLE = 'Seriqueavenue – Artisan Handmade Woven Bags & Organic Craft Store';
 const DEFAULT_DESCRIPTION = 'Shop handmade woven bags, artisan baskets, hand woolen purses and organic craft at Seriqueavenue. Sustainable, eco-friendly goods crafted by local artisans. Free shipping on orders above ₹999. India & worldwide delivery.';
-const DEFAULT_IMAGE = 'https://aligarhattar.com/og-image.jpg';
-const DEFAULT_URL = 'https://aligarhattar.com';
+const DEFAULT_IMAGE = 'https://SeriqueAvenue.com/og-image.jpg';
+const DEFAULT_URL = 'https://SeriqueAvenue.com';
 const SITE_NAME = 'Seriqueavenue';
 
 export const SEO: React.FC<SEOProps> = ({
@@ -100,7 +100,7 @@ export const ProductSEO: React.FC<{
 }> = ({ productName, description, price, image, category, availability }) => {
   const title = `${productName} - Buy Online`;
   const desc = `${description.substring(0, 150)}... Price: ₹${price}. ${availability === 'InStock' ? 'In Stock' : 'Out of Stock'}. Seriqueavenue – Free shipping on orders above ₹999.`;
-  const keywords = `${productName}, ${category || 'attar'}, aligarh attar, buy ${productName} online, aligarhattar`;
+  const keywords = `${productName}, ${category || 'attar'}, SeriqueAvenue, buy ${productName} online, SeriqueAvenue`;
 
   return (
     <SEO
@@ -121,9 +121,9 @@ export const CategorySEO: React.FC<{
   description?: string;
   productCount?: number;
 }> = ({ categoryName, description, productCount }) => {
-  const title = `${categoryName} - Aligarh Attar House`;
-  const desc = description || `Browse premium ${categoryName.toLowerCase()} at Aligarh Attar House. ${productCount ? `${productCount} products available.` : ''} Authentic attars & Islamic lifestyle products. Free shipping on orders above ₹499.`;
-  const keywords = `${categoryName}, aligarh attar house, buy ${categoryName} online, ${categoryName} shop, attar perfume`;
+  const title = `${categoryName} - SeriqueAvenue`;
+  const desc = description || `Browse premium ${categoryName.toLowerCase()} at SeriqueAvenue. ${productCount ? `${productCount} products available.` : ''} Authentic attars & Islamic lifestyle products. Free shipping on orders above ₹499.`;
+  const keywords = `${categoryName}, SeriqueAvenue, buy ${categoryName} online, ${categoryName} shop, attar perfume`;
 
   return (
     <SEO

@@ -35,25 +35,25 @@ const REQUIRED_POLICY_PAGES: Omit<PolicyPage, 'exists' | 'inFooter' | 'footerLin
     id: 'shipping',
     name: 'Shipping Policy',
     route: '/shipping-policy',
-    razorpayUrl: 'https://aligarhattar.com/shipping-policy',
+    razorpayUrl: 'https://SeriqueAvenue.com/shipping-policy',
   },
   {
     id: 'terms',
     name: 'Terms and Conditions',
     route: '/terms-of-service',
-    razorpayUrl: 'https://aligarhattar.com/terms-of-service',
+    razorpayUrl: 'https://SeriqueAvenue.com/terms-of-service',
   },
   {
     id: 'refund',
     name: 'Cancellations and Refunds',
     route: '/refund-policy',
-    razorpayUrl: 'https://aligarhattar.com/refund-policy',
+    razorpayUrl: 'https://SeriqueAvenue.com/refund-policy',
   },
   {
     id: 'privacy',
     name: 'Privacy Policy',
     route: '/privacy-policy',
-    razorpayUrl: 'https://aligarhattar.com/privacy-policy',
+    razorpayUrl: 'https://SeriqueAvenue.com/privacy-policy',
   },
 ];
 
@@ -92,7 +92,7 @@ export const PolicyPagesManager: React.FC = () => {
         .from('footer_links')
         .select('*')
         .order('display_order', { ascending: true });
-      
+
       if (error) throw error;
       setFooterLinks(data || []);
       updatePolicyPagesStatus(data || []);
@@ -193,7 +193,7 @@ export const PolicyPagesManager: React.FC = () => {
 
       // Get the highest display_order for the section
       const sectionLinks = footerLinks.filter((link) => link.section_name === formData.section_name);
-      const maxOrder = sectionLinks.length > 0 
+      const maxOrder = sectionLinks.length > 0
         ? Math.max(...sectionLinks.map((link) => link.display_order))
         : 0;
 
@@ -211,7 +211,7 @@ export const PolicyPagesManager: React.FC = () => {
         .insert(newLink);
 
       if (error) throw error;
-      
+
       showSuccess(`${formData.link_text} added to footer links successfully!`);
       await fetchFooterLinks();
       closeAddModal();

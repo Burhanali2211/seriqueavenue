@@ -1,5 +1,6 @@
 import React, { useEffect, memo } from 'react';
-import { Star, ArrowRight } from 'lucide-react';
+import { Star, ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useProducts } from '../../contexts/ProductContext';
 import { ProductGridSkeleton } from '../Common/ProductCardSkeleton';
 import { HomepageProductCard } from '../Product/HomepageProductCard';
@@ -7,8 +8,7 @@ import { Link } from 'react-router-dom';
 
 /**
  * FeaturedProducts Component
- * Amazon-style section with compact header and dense grid layout
- * 2 cards per row on mobile, 4 on desktop
+ * Modernized with luxury editorial header and staggered entrance
  */
 export const FeaturedProducts: React.FC = memo(() => {
     const { featuredProducts, featuredLoading, fetchFeaturedProducts } = useProducts();
@@ -18,15 +18,34 @@ export const FeaturedProducts: React.FC = memo(() => {
     }, [fetchFeaturedProducts]);
 
     return (
-        <section className="py-6 sm:py-8 bg-white">
+        <section className="py-16 sm:py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header - Amazon style */}
-                <div className="flex items-center justify-between gap-4 mb-5">
-                    <div className="flex items-center gap-2">
-                        <span className="text-lg sm:text-xl font-bold text-gray-900">⭐ Featured Products</span>
+                
+                {/* Section Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                    <div className="space-y-3">
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 text-amber-600 font-bold text-[10px] uppercase tracking-[0.3em]"
+                        >
+                            <Sparkles className="h-3 w-3" />
+                            Curated Selection
+                        </motion.div>
+                        <motion.h2 
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-4xl sm:text-5xl font-serif italic text-black"
+                        >
+                            Featured Essentials
+                        </motion.h2>
+                        <p className="text-stone-400 text-sm font-medium">Handpicked artisanal pieces for your sustainable home.</p>
                     </div>
-                    <Link to="/products?featured=true" className="text-sm font-medium text-amber-700 hover:text-amber-800 flex items-center gap-1">
-                        View all <ArrowRight className="h-3.5 w-3.5" />
+                    
+                    <Link to="/products?featured=true" className="group flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors">
+                        Discover More <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
 
@@ -34,20 +53,18 @@ export const FeaturedProducts: React.FC = memo(() => {
                 {featuredLoading ? (
                     <ProductGridSkeleton count={4} variant="featured" />
                 ) : featuredProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-start">
                         {featuredProducts.map((product, index) => (
-                            <div key={product.id} className="w-full">
-                                <HomepageProductCard product={product} index={index} />
-                            </div>
+                            <HomepageProductCard key={product.id} product={product} index={index} />
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-16 bg-gray-50 rounded-2xl">
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-100 rounded-full mb-6">
-                            <Star className="h-10 w-10 text-amber-600" />
+                    <div className="text-center py-24 bg-[#F9F9F9] rounded-[3rem] border border-black/[0.03]">
+                        <div className="inline-flex items-center justify-center w-20 h-20 bg-white shadow-xl rounded-full mb-8">
+                            <Star className="h-10 w-10 text-amber-500" />
                         </div>
-                        <p className="text-gray-900 text-xl font-semibold mb-2">No featured products yet</p>
-                        <p className="text-gray-500">Check back soon for our curated picks!</p>
+                        <h3 className="text-black text-2xl font-black mb-3">Refining Our Picks</h3>
+                        <p className="text-black/40 font-medium max-w-xs mx-auto">Our editors are currently hand-selecting new featured pieces for you.</p>
                     </div>
                 )}
             </div>

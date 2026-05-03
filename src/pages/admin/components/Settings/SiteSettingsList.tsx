@@ -14,14 +14,14 @@ interface SiteSetting {
 }
 
 const ESSENTIAL_SETTINGS = [
-  { key: 'site_name', type: 'text', category: 'general', description: 'Website name', is_public: true, defaultValue: 'Aligarh Attar House' },
+  { key: 'site_name', type: 'text', category: 'general', description: 'Website name', is_public: true, defaultValue: 'SeriqueAvenue' },
   { key: 'logo_url', type: 'text', category: 'general', description: 'Website logo URL', is_public: true, defaultValue: '/logo.png' },
-  { key: 'site_description', type: 'text', category: 'general', description: 'Website description/meta description', is_public: true, defaultValue: 'Pure Attars, Oud & Islamic Lifestyle Products from Aligarh' },
+  { key: 'site_description', type: 'text', category: 'general', description: 'Website description/meta description', is_public: true, defaultValue: 'Pure Attars, Oud & Islamic Lifestyle Products from SeriqueAvenue' },
   { key: 'contact_email', type: 'email', category: 'contact', description: 'Contact email address', is_public: true, defaultValue: 'support@aah-teal.vercel.app' },
   { key: 'contact_phone', type: 'text', category: 'contact', description: 'Contact phone number', is_public: true, defaultValue: '+91-XXXXXXXXXX' },
   { key: 'currency', type: 'text', category: 'general', description: 'Default currency code (e.g., INR, USD)', is_public: true, defaultValue: 'INR' },
   { key: 'free_shipping_threshold', type: 'number', category: 'shipping', description: 'Free shipping above this amount', is_public: true, defaultValue: '2000' },
-  { key: 'copyright_text', type: 'text', category: 'general', description: 'Copyright text for footer', is_public: true, defaultValue: '© 2024 Aligarh Attar House. All rights reserved.' },
+  { key: 'copyright_text', type: 'text', category: 'general', description: 'Copyright text for footer', is_public: true, defaultValue: '© 2024 SeriqueAvenue. All rights reserved.' },
 ];
 
 export const SiteSettingsList: React.FC = () => {
@@ -140,7 +140,7 @@ export const SiteSettingsList: React.FC = () => {
         </div>
       )}
 
-      <EssentialSettings 
+      <EssentialSettings
         getEssentialSetting={getEssentialSetting} isSettingSaved={k => !!settings.find(s => s.setting_key === k)?.id}
         isModified={isModified} handleChange={handleChange} handleFileUpload={handleFileUpload} uploading={uploading}
         inputCls={(key) => inputCls(key, isModified)} logoFileInputRef={logoFileInputRef}

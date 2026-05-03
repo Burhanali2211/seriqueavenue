@@ -4,6 +4,7 @@ import { Home, LayoutGrid, Store, ShoppingCart, Heart, User, LogIn } from 'lucid
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { CategoryDrawer } from './CategoryDrawer';
 
 interface BottomNavProps {
   onCartClick: () => void;
@@ -38,34 +39,41 @@ export const BottomNav: React.FC<BottomNavProps> = memo(({ onCartClick }) => {
   const tabCls =
     'flex-1 flex flex-col items-center justify-center py-2 select-none';
 
+  const [isBrowseOpen, setIsBrowseOpen] = React.useState(false);
+
   return (
     // Outer nav grows to fill safe-area; inner row is always a fixed 60px
-    <nav
-      className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-      aria-label="Bottom navigation"
-    >
-      <div className="flex items-stretch h-[60px]">
+    <>
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        aria-label="Bottom navigation"
+      >
+        <div className="flex items-stretch h-[60px]">
 
-      {/* ── Home ── */}
-      <Link to="/" aria-label="Home" className={tabCls}>
-        <Home
-          size={22}
-          strokeWidth={isActive('/') ? 2.5 : 1.8}
-          color={iconColor(isActive('/'))}
-        />
-        <span className={labelCls(isActive('/'))}>Home</span>
-      </Link>
+        {/* ── Home ── */}
+        <Link to="/" aria-label="Home" className={tabCls}>
+          <Home
+            size={22}
+            strokeWidth={isActive('/') ? 2.5 : 1.8}
+            color={iconColor(isActive('/'))}
+          />
+          <span className={labelCls(isActive('/'))}>Home</span>
+        </Link>
 
-      {/* ── Categories ── */}
-      <Link to="/categories" aria-label="Categories" className={tabCls}>
-        <LayoutGrid
-          size={22}
-          strokeWidth={isActive('/categories') ? 2.5 : 1.8}
-          color={iconColor(isActive('/categories'))}
-        />
-        <span className={labelCls(isActive('/categories'))}>Browse</span>
-      </Link>
+        {/* ── Categories (Dynamic Drawer) ── */}
+        <button 
+          onClick={() => setIsBrowseOpen(true)}
+          aria-label="Categories" 
+          className={tabCls}
+        >
+          <LayoutGrid
+            size={22}
+            strokeWidth={isBrowseOpen ? 2.5 : 1.8}
+            color={iconColor(isBrowseOpen)}
+          />
+          <span className={labelCls(isBrowseOpen)}>Browse</span>
+        </button>
 
       {/* ── Center elevated button ── */}
       <div className="flex-1 flex items-center justify-center">
@@ -133,6 +141,11 @@ export const BottomNav: React.FC<BottomNavProps> = memo(({ onCartClick }) => {
 
       </div>
     </nav>
+    <CategoryDrawer 
+      isOpen={isBrowseOpen} 
+      onClose={() => setIsBrowseOpen(false)} 
+    />
+    </>
   );
 });
 

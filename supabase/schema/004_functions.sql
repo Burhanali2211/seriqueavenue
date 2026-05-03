@@ -177,7 +177,7 @@ GRANT EXECUTE ON FUNCTION public.ensure_profile_exists TO authenticated;
 
 -- ── Human-readable order number ───────────────────────────────────────────────
 -- Generates order numbers in the format:  AA-YYYYMMDD-NNNN
---   AA   = site prefix (Aligarh Attars)
+--   AA   = site prefix (SeriqueAvenue)
 --   YYYYMMDD = date of the order
 --   NNNN = daily sequence, zero-padded to 4 digits
 --

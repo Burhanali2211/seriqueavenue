@@ -1,6 +1,6 @@
 # 🗄️ ECOMMERCE DATABASE OPTIMIZATION PLAN
 
-**Project:** Aligarh Attars Ecommerce  
+**Project:** SeriqueAvenue Ecommerce  
 **Supabase Project ID:** owxchbftqhydphjplprp  
 **Date:** 2026-04-12
 

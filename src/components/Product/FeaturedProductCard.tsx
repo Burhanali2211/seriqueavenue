@@ -95,7 +95,7 @@ export const FeaturedProductCard: React.FC<FeaturedProductCardProps> = ({ produc
           )}
 
           {/* Product Name */}
-          <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-800 transition-colors leading-snug">
+          <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-2 line-clamp-1 group-hover:text-green-800 transition-colors leading-snug">
             {product.name}
           </h3>
 

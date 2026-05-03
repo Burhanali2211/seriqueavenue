@@ -1,145 +1,268 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 const slides = [
   {
-    image: '/images/banners/bag.jpg',
-    title: 'The Signature Series',
-    subtitle: 'Classic elegance · Timeless design',
+    image: '/images/hero/hero1.jpg',
+    topTitle: 'New Collection',
+    titleMain: 'Conscious',
+    titleSub: 'Living',
+    subtitle: 'Sustainable Luxury · Handcrafted Excellence',
+    cta: 'Discover More',
+    ctaLink: '/products',
+    accentColor: 'text-stone-300',
+  },
+  {
+    image: '/images/hero/hero3.jpg',
+    topTitle: 'The Essence',
+    titleMain: 'Modern',
+    titleSub: 'Minimal',
+    subtitle: 'Timeless Silhouettes · Responsibly Sourced',
     cta: 'Shop Now',
     ctaLink: '/products',
-    accent: 'from-stone-900/60 to-transparent',
+    accentColor: 'text-stone-300',
   },
   {
-    image: '/images/banners/bag-2.jpg',
-    title: 'Modern Essentials',
-    subtitle: 'Crafted for daily excellence',
-    cta: 'Explore More',
+    image: '/images/hero/hero6.jpg',
+    topTitle: 'Craftsmanship',
+    titleMain: 'Purely',
+    titleSub: 'Handmade',
+    subtitle: 'Artisan Techniques · Heritage Quality',
+    cta: 'View Edition',
     ctaLink: '/products',
-    accent: 'from-stone-900/60 to-transparent',
-  },
-  {
-    image: '/images/banners/bag-3.jpg',
-    title: 'Premium Collection',
-    subtitle: 'Luxury in every stitch',
-    cta: 'View Details',
-    ctaLink: '/products',
-    accent: 'from-stone-900/60 to-transparent',
-  },
-  {
-    image: '/images/banners/bag-4.jpg',
-    title: 'Urban Chic',
-    subtitle: 'Style meets functionality',
-    cta: 'Shop Collection',
-    ctaLink: '/products',
-    accent: 'from-stone-900/60 to-transparent',
-  },
-  {
-    image: '/images/banners/purse.jpg',
-    title: 'Exquisite Details',
-    subtitle: 'Precision handcrafted excellence',
-    cta: 'Shop Accessories',
-    ctaLink: '/products',
-    accent: 'from-stone-900/60 to-transparent',
+    accentColor: 'text-stone-300',
   },
 ];
 
+const slideVariants: Variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 0,
+    scale: 1.1
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      x: { type: 'spring', stiffness: 300, damping: 30 },
+      opacity: { duration: 0.8 },
+      scale: { duration: 1.2, ease: "easeOut" }
+    }
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? '100%' : '-100%',
+    opacity: 0,
+    scale: 0.9,
+    transition: {
+      x: { type: 'spring', stiffness: 300, damping: 30 },
+      opacity: { duration: 0.8 },
+      scale: { duration: 1.2, ease: "easeIn" }
+    }
+  })
+};
+
+const contentVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.215, 0.61, 0.355, 1] as any,
+      staggerChildren: 0.15,
+      delayChildren: 0.4
+    }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
 export const Hero: React.FC = () => {
-  const [current, setCurrent] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
+  const [[page, direction], setPage] = useState([0, 0]);
+  const current = Math.abs(page % slides.length);
 
-  const goTo = useCallback((index: number) => {
-    if (transitioning || index === current) return;
-    setTransitioning(true);
-    setCurrent(index);
-    setTimeout(() => setTransitioning(false), 400);
-  }, [current, transitioning]);
-
-  const next = useCallback(() => goTo((current + 1) % slides.length), [current, goTo]);
-  const prev = useCallback(() => goTo((current - 1 + slides.length) % slides.length), [current, goTo]);
+  const paginate = useCallback((newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  }, [page]);
 
   useEffect(() => {
-    const id = setInterval(next, 4500);
+    const id = setInterval(() => paginate(1), 8000);
     return () => clearInterval(id);
-  }, [next]);
+  }, [paginate]);
+
+  const slide = slides[current];
 
   return (
-    <section className="relative w-full h-[280px] sm:h-[360px] md:h-[480px] lg:h-[580px] xl:h-[640px] overflow-hidden bg-stone-100">
-      <div className="absolute inset-0">
-        {slides.map((slide, i) => (
-          <div
-            key={i}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${i === current ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-            aria-hidden={i !== current}
+    <section className="relative w-full h-[100vh] min-h-[600px] overflow-hidden bg-stone-900">
+      <AnimatePresence initial={false} custom={direction} mode="wait">
+        <motion.div
+          key={page}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className="absolute inset-0"
+        >
+          {/* Background Image with Ken Burns Effect */}
+          <motion.div 
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 8, ease: "linear" }}
+            className="absolute inset-0"
           >
             <img
               src={slide.image}
-              alt={slide.title}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              className={`w-full h-full object-cover transition-transform duration-[4000ms] ease-out ${i === current ? 'scale-105' : 'scale-100'}`}
+              alt={slide.titleMain}
+              className="w-full h-full object-cover"
             />
-            {/* Gradient overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${slide.accent} mix-blend-multiply opacity-60`} />
-            <div className="absolute inset-0 bg-black/20" />
+          </motion.div>
+          
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
 
-            {/* Content Container */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-                <div className="max-w-xl">
-                  <div className={`transition-all duration-700 delay-300 transform ${i === current ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                    <p className="text-white/90 text-xs sm:text-sm md:text-base font-medium tracking-widest uppercase mb-2">
-                      {slide.subtitle}
-                    </p>
-                    <h2 className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] mb-6 drop-shadow-lg">
-                      {slide.title}
-                    </h2>
-                    <Link
-                      to={slide.ctaLink}
-                      className="inline-flex items-center gap-3 bg-white text-stone-900 hover:bg-stone-100 text-sm sm:text-base font-bold px-8 py-3.5 sm:py-4 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95"
-                    >
+          {/* Content */}
+          <div className="absolute inset-0 flex items-center">
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12">
+              <motion.div 
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                className="max-w-4xl"
+              >
+                <motion.p variants={itemVariants} className="flex items-center gap-4 text-white/80 font-bold tracking-[0.4em] text-[10px] sm:text-xs uppercase mb-8">
+                  <span className="w-8 h-px bg-white/40" />
+                  {slide.topTitle}
+                </motion.p>
+                
+                <motion.h2 variants={itemVariants} className="text-white text-6xl sm:text-8xl md:text-9xl font-serif leading-[0.85] mb-8 tracking-tighter relative">
+                  <span className="block font-light italic mb-2">{slide.titleMain}</span>
+                  <span className="block font-black uppercase tracking-[-0.05em] ml-8 sm:ml-20">{slide.titleSub}</span>
+                </motion.h2>
+
+                <motion.p variants={itemVariants} className={`text-sm sm:text-lg md:text-xl font-medium tracking-wide mb-12 max-w-lg ${slide.accentColor} opacity-90`}>
+                  {slide.subtitle}
+                </motion.p>
+
+                <motion.div variants={itemVariants} className="flex flex-wrap gap-6 items-center">
+                  <Link
+                    to={slide.ctaLink}
+                    className="group relative inline-flex items-center gap-4 bg-white text-stone-900 px-10 py-5 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95"
+                  >
+                    <span className="relative z-10 text-sm font-black uppercase tracking-widest">
                       {slide.cta}
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
+                    </span>
+                    <ArrowRight className="relative z-10 h-5 w-5 transition-transform group-hover:translate-x-2" />
+                    <div className="absolute inset-0 bg-stone-100 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </Link>
+                  
+                  <Link
+                    to="/new-arrivals"
+                    className="group flex items-center gap-4 text-white text-sm font-bold uppercase tracking-widest px-4 py-2 relative"
+                  >
+                    <span className="relative z-10">New Arrivals</span>
+                    <motion.div 
+                      animate={{ scale: [1, 1.5, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="w-1.5 h-1.5 rounded-full bg-white" 
+                    />
+                    <span className="absolute bottom-0 left-4 right-10 h-px bg-white/30 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  </Link>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
-        ))}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Editorial Details - Fixed outside AnimatePresence to avoid flickering */}
+      <div className="absolute top-1/2 right-4 sm:right-8 lg:right-12 -translate-y-1/2 z-30 hidden sm:flex flex-col items-end gap-12">
+        <motion.div 
+          key={current}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+          className="flex flex-col items-end"
+        >
+          <span className="text-white/10 text-8xl md:text-9xl font-serif italic leading-none select-none">0{current + 1}</span>
+          <span className="text-white/40 text-[10px] font-black tracking-[0.5em] uppercase mt-4 translate-x-4 rotate-90 origin-right">Edition 2024</span>
+        </motion.div>
       </div>
 
-      {/* Navigation Arrows - Contained within max-w-7xl boundary for better desktop feel */}
-      <div className="absolute inset-0 pointer-events-none z-20 hidden md:block">
-        <div className="max-w-[1440px] mx-auto h-full relative px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <button 
-            onClick={prev} 
-            className="pointer-events-auto p-3 sm:p-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-full transition-all border border-white/20 group translate-x-0"
-            aria-label="Previous"
-          >
-            <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:-translate-x-1" />
-          </button>
-          <button 
-            onClick={next} 
-            className="pointer-events-auto p-3 sm:p-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-full transition-all border border-white/20 group"
-            aria-label="Next"
-          >
-            <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:translate-x-1" />
-          </button>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 pb-12 hidden lg:flex flex-col items-center gap-6">
+        <span className="text-[9px] text-white/40 uppercase tracking-[0.6em] font-black mb-2">Scroll to Explore</span>
+        <div className="w-px h-20 bg-gradient-to-b from-white/40 via-white/10 to-transparent relative overflow-hidden">
+          <motion.div 
+            animate={{ y: [-40, 80] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-full h-1/2 bg-white/80" 
+          />
         </div>
       </div>
 
-      {/* Modern Progress Dots */}
-      <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-30">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            className={`h-1.5 rounded-full transition-all duration-500 ${i === current ? 'w-10 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'}`}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
+      {/* Navigation Controls */}
+      <div className="absolute inset-x-0 bottom-12 z-30 pointer-events-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
+          <div className="flex items-center gap-6 pointer-events-auto">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage([i, i > current ? 1 : -1])}
+                className="group relative flex items-center gap-4 transition-all"
+                aria-label={`Go to slide ${i + 1}`}
+              >
+                <div className="relative flex items-center justify-center">
+                  <motion.div 
+                    animate={{ 
+                      width: i === current ? 12 : 6,
+                      height: i === current ? 12 : 6,
+                      backgroundColor: i === current ? '#ffffff' : 'rgba(255,255,255,0.2)'
+                    }}
+                    className="rounded-full" 
+                  />
+                  {i === current && (
+                    <motion.div 
+                      layoutId="activeDot"
+                      className="absolute inset-0 w-6 h-6 border border-white/40 rounded-full -translate-x-1.5 -translate-y-1.5" 
+                    />
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden sm:flex gap-4 pointer-events-auto">
+            <button 
+              onClick={() => paginate(-1)}
+              className="p-5 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 text-white rounded-full transition-all group active:scale-90"
+            >
+              <ChevronLeft className="h-6 w-6 group-hover:-translate-x-1 transition-transform" />
+            </button>
+            <button 
+              onClick={() => paginate(1)}
+              className="p-5 bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 text-white rounded-full transition-all group active:scale-90"
+            >
+              <ChevronRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
       </div>
+
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-px h-64 bg-gradient-to-b from-transparent via-white/20 to-transparent hidden xl:block" />
     </section>
   );
 };
+
+export default Hero;

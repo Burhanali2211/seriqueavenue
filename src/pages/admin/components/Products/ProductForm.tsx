@@ -3,8 +3,8 @@ import { Modal } from '@/components/Common/Modal';
 import { FormInput, FormTextarea, FormSelect, FormCheckbox } from '@/components/Common/FormInput';
 import { ImageUpload } from '@/components/Common/ImageUpload';
 import { supabase } from '@/lib/supabase';
-import { 
-  useCreateProductMutation, 
+import {
+  useCreateProductMutation,
   useUpdateProductMutation,
   useCategories
 } from '@/hooks/useProductQueries';
@@ -55,14 +55,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSu
     images: []
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  
+
   const { showSuccess, showError } = useNotification();
-  
+
   const { data: categories = [] } = useCategories();
-  
+
   const createMutation = useCreateProductMutation();
   const updateMutation = useUpdateProductMutation();
-  
+
   const loading = createMutation.isPending || updateMutation.isPending;
 
   useEffect(() => {
@@ -158,7 +158,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, onSu
         isActive: formData.is_active !== undefined ? formData.is_active : true,
         images: Array.isArray(formData.images) ? formData.images : (formData.images ? [formData.images] : []),
         sellerId: product?.sellerId || 'common-seller-id', // Use existing or default
-        sellerName: product?.sellerName || 'Aligarh Attars',
+        sellerName: product?.sellerName || 'SeriqueAvenue',
         rating: product?.rating || 0,
         reviews: product?.reviews || [],
         tags: product?.tags || []

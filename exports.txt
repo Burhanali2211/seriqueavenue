@@ -1,0 +1,29 @@
+﻿
+Path                                                 LineNumber Line                                 
+----                                                 ---------- ----                                 
+F:\seriqueavenue\src\pages\AboutPage.tsx                    353 export default AboutPage;            
+F:\seriqueavenue\src\pages\AuthCallbackPage.tsx             172 export default AuthCallbackPage;     
+F:\seriqueavenue\src\pages\AuthPage.tsx                     538 export default AuthPage;             
+F:\seriqueavenue\src\pages\CategoriesPage.tsx               217 export default CategoriesPage;       
+F:\seriqueavenue\src\pages\CheckoutPage.tsx                 257 export default CheckoutPage;         
+F:\seriqueavenue\src\pages\ComparePage.tsx                   33 export default ComparePage;          
+F:\seriqueavenue\src\pages\ContactPage.tsx                  350 export default ContactPage;          
+F:\seriqueavenue\src\pages\DashboardPage.tsx                 73 export default DashboardPage;        
+F:\seriqueavenue\src\pages\DealsPage.tsx                     68 export default DealsPage;            
+F:\seriqueavenue\src\pages\HomePage.tsx                     249 export default function HomePage() { 
+F:\seriqueavenue\src\pages\ImprovedCheckoutPage.tsx         617 export default ImprovedCheckoutPage; 
+F:\seriqueavenue\src\pages\NewArrivalsPage.tsx               47 export default NewArrivalsPage;      
+F:\seriqueavenue\src\pages\NotFoundPage.tsx                 112 export default NotFoundPage;         
+F:\seriqueavenue\src\pages\OrderConfirmationPage.tsx        342 export default OrderConfirmationPage;
+F:\seriqueavenue\src\pages\OrderTrackingPage.tsx            456 export default OrderTrackingPage;    
+F:\seriqueavenue\src\pages\PrivacyPolicyPage.tsx            263 export default PrivacyPolicyPage;    
+F:\seriqueavenue\src\pages\ProductDetailPage.tsx            399 export default ProductDetailPage;    
+F:\seriqueavenue\src\pages\ProductsPage.tsx                 527 export default ProductsPage;         
+F:\seriqueavenue\src\pages\RefundPolicyPage.tsx             331 export default RefundPolicyPage;     
+F:\seriqueavenue\src\pages\ResetPasswordPage.tsx            229 export default ResetPasswordPage;    
+F:\seriqueavenue\src\pages\SearchPage.tsx                   170 export default SearchPage;           
+F:\seriqueavenue\src\pages\ShippingPolicyPage.tsx           340 export default ShippingPolicyPage;   
+F:\seriqueavenue\src\pages\TermsOfServicePage.tsx           262 export default TermsOfServicePage;   
+F:\seriqueavenue\src\pages\WishlistPage.tsx                 132 export default WishlistPage;         
+
+

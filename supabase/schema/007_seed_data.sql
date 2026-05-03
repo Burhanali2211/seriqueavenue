@@ -15,22 +15,22 @@
 INSERT INTO public.site_settings (setting_key, setting_value, category, is_public, description)
 VALUES
   -- Branding
-  ('site_name',            '"Aligarh Attars"',                              'branding',  true,  'The public name of the store'),
-  ('site_tagline',         '"Pure Attars from the Heart of Aligarh"',       'branding',  true,  'Shown below the site name on the homepage'),
+  ('site_name',            '"SeriqueAvenue"',                              'branding',  true,  'The public name of the store'),
+  ('site_tagline',         '"Pure Attars from the Heart of SeriqueAvenue"',       'branding',  true,  'Shown below the site name on the homepage'),
   ('site_logo_url',        '"/logo.png"',                                   'branding',  true,  'Path or URL to the site logo'),
   ('site_favicon_url',     '"/favicon.ico"',                                'branding',  true,  'Path or URL to the favicon'),
   ('site_currency',        '"INR"',                                         'branding',  true,  'ISO 4217 currency code'),
   ('site_currency_symbol', '"₹"',                                           'branding',  true,  'Currency symbol displayed in the UI'),
 
   -- Contact
-  ('contact_email',        '"info@aligarhattar.com"',                       'contact',   true,  'Public contact email address'),
+  ('contact_email',        '"info@SeriqueAvenue.com"',                       'contact',   true,  'Public contact email address'),
   ('contact_phone',        '"+91 00000 00000"',                             'contact',   true,  'Public phone number'),
-  ('contact_address',      '"Aligarh, Uttar Pradesh, India"',               'contact',   true,  'Business address shown on contact page'),
-  ('support_email',        '"support@aligarhattar.com"',                    'contact',   false, 'Internal support email (not shown publicly)'),
+  ('contact_address',      '"SeriqueAvenue, Uttar Pradesh, India"',               'contact',   true,  'Business address shown on contact page'),
+  ('support_email',        '"support@SeriqueAvenue.com"',                    'contact',   false, 'Internal support email (not shown publicly)'),
 
   -- SEO
-  ('meta_title',           '"Aligarh Attars – Authentic Indian Perfumes"',  'seo',       true,  'Default HTML <title> tag'),
-  ('meta_description',     '"Shop pure, authentic attars and perfumes crafted in the tradition of Aligarh."', 'seo', true, 'Default meta description'),
+  ('meta_title',           '"SeriqueAvenue – Authentic Indian Perfumes"',  'seo',       true,  'Default HTML <title> tag'),
+  ('meta_description',     '"Shop pure, authentic attars and perfumes crafted in the tradition of SeriqueAvenue."', 'seo', true, 'Default meta description'),
 
   -- Shipping
   ('free_shipping_threshold', '499',  'shipping', true,  'Order total (INR) above which shipping is free'),
@@ -126,10 +126,10 @@ BEGIN
     INSERT INTO public.contact_information
       (contact_type, label, value, is_primary, is_active, display_order)
     VALUES
-      ('email',   'General Enquiries', 'info@aligarhattar.com',      true,  true, 1),
-      ('email',   'Support',           'support@aligarhattar.com',   false, true, 2),
+      ('email',   'General Enquiries', 'info@SeriqueAvenue.com',      true,  true, 1),
+      ('email',   'Support',           'support@SeriqueAvenue.com',   false, true, 2),
       ('phone',   'WhatsApp / Call',   '+91 00000 00000',            true,  true, 3),
-      ('address', 'Store Address',     'Aligarh, Uttar Pradesh, India', true, true, 4);
+      ('address', 'Store Address',     'SeriqueAvenue, Uttar Pradesh, India', true, true, 4);
   END IF;
 END $$;
 
@@ -145,10 +145,10 @@ BEGIN
     INSERT INTO public.social_media_accounts
       (platform, platform_name, url, is_active, display_order)
     VALUES
-      ('instagram', 'Instagram', 'https://instagram.com/aligarhattar', true,  1),
-      ('facebook',  'Facebook',  'https://facebook.com/aligarhattar',  true,  2),
+      ('instagram', 'Instagram', 'https://instagram.com/SeriqueAvenue', true,  1),
+      ('facebook',  'Facebook',  'https://facebook.com/SeriqueAvenue',  true,  2),
       ('whatsapp',  'WhatsApp',  'https://wa.me/910000000000',         true,  3),
-      ('youtube',   'YouTube',   'https://youtube.com/@aligarhattar',  false, 4);
+      ('youtube',   'YouTube',   'https://youtube.com/@SeriqueAvenue',  false, 4);
   END IF;
 END $$;
 

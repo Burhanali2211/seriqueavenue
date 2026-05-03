@@ -11,7 +11,7 @@
 --
 -- Prerequisites:
 --   • PostgreSQL 14 or higher
---   • Database already created:  CREATE DATABASE aligarh_attars;
+--   • Database already created:  CREATE DATABASE SeriqueAvenue_attars;
 --   • Run as a superuser (needs CREATEDB + CREATEROLE privileges)
 --
 -- ── How to run ─────────────────────────────────────────────────────────────
@@ -19,7 +19,7 @@
 --   Run from the supabase/schema/ directory (so \i relative paths work):
 --
 --     cd supabase/schema
---     psql -U postgres -d aligarh_attars --file=run_postgres.sql
+--     psql -U postgres -d SeriqueAvenue_attars --file=run_postgres.sql
 --
 --   The \i commands below are psql metacommands — they do not work if you
 --   paste this file into a GUI tool like pgAdmin or DBeaver. In that case,

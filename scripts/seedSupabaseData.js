@@ -80,7 +80,7 @@ const products = [
   {
     name: 'Shamama Attar (12ml)',
     slug: 'shamama-attar-12ml',
-    description: 'The legendary Shamama — a complex blend of over 40 botanicals including herbs, flowers and spices. A signature of Aligarh\'s attar craft.',
+    description: 'The legendary Shamama — a complex blend of over 40 botanicals including herbs, flowers and spices. A signature of SeriqueAvenue\'s attar craft.',
     short_description: 'Traditional Shamama blend, 12ml',
     price: 549,
     original_price: 699,
@@ -439,13 +439,13 @@ const products = [
 // SITE SETTINGS  (updated for an Islamic lifestyle store)
 // ---------------------------------------------------------------------------
 const siteSettings = [
-  { setting_key: 'site_name',            setting_value: 'Aligarh Attars',                           setting_type: 'text',  category: 'general',  description: 'Website name',                   is_public: true },
-  { setting_key: 'site_description',     setting_value: 'Pure Attars, Perfumes & Islamic Lifestyle Products', setting_type: 'text', category: 'general', description: 'Website tagline', is_public: true },
-  { setting_key: 'contact_email',        setting_value: 'info@aligarhattar.com',                    setting_type: 'email', category: 'contact',  description: 'Contact email',                  is_public: true },
-  { setting_key: 'contact_phone',        setting_value: '+91-9876543210',                           setting_type: 'text',  category: 'contact',  description: 'Contact phone',                  is_public: true },
-  { setting_key: 'currency',             setting_value: 'INR',                                      setting_type: 'text',  category: 'general',  description: 'Default currency',               is_public: true },
-  { setting_key: 'free_shipping_threshold', setting_value: '499',                                   setting_type: 'number',category: 'shipping', description: 'Free shipping above this amount', is_public: true },
-  { setting_key: 'logo_url',             setting_value: '/logo.png',                                setting_type: 'text',  category: 'general',  description: 'Site logo URL',                  is_public: true },
+  { setting_key: 'site_name', setting_value: 'SeriqueAvenue', setting_type: 'text', category: 'general', description: 'Website name', is_public: true },
+  { setting_key: 'site_description', setting_value: 'Pure Attars, Perfumes & Islamic Lifestyle Products', setting_type: 'text', category: 'general', description: 'Website tagline', is_public: true },
+  { setting_key: 'contact_email', setting_value: 'info@SeriqueAvenue.com', setting_type: 'email', category: 'contact', description: 'Contact email', is_public: true },
+  { setting_key: 'contact_phone', setting_value: '+91-9876543210', setting_type: 'text', category: 'contact', description: 'Contact phone', is_public: true },
+  { setting_key: 'currency', setting_value: 'INR', setting_type: 'text', category: 'general', description: 'Default currency', is_public: true },
+  { setting_key: 'free_shipping_threshold', setting_value: '499', setting_type: 'number', category: 'shipping', description: 'Free shipping above this amount', is_public: true },
+  { setting_key: 'logo_url', setting_value: '/logo.png', setting_type: 'text', category: 'general', description: 'Site logo URL', is_public: true },
 ];
 
 // ---------------------------------------------------------------------------
