@@ -151,11 +151,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fullName = `${firstName} ${lastName}`.trim() || 'User';
     }
 
+    const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${siteUrl}/auth/callback`,
         data: {
           full_name: fullName,
           role: additionalData?.role || 'customer',
@@ -272,8 +274,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const resetPassword = async (email: string): Promise<void> => {
+    const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${siteUrl}/reset-password`,
     });
     if (error) throw error;
   };
@@ -285,10 +288,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const resendVerification = async (): Promise<void> => {
     if (!user?.email) throw new Error('No email found');
+    const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
     const { error } = await supabase.auth.resend({
       type: 'signup',
       email: user.email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: { emailRedirectTo: `${siteUrl}/auth/callback` },
     });
     if (error) throw error;
   };
