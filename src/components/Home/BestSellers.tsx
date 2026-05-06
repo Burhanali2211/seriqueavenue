@@ -78,11 +78,11 @@ export const BestSellers: React.FC = memo(() => {
           viewport={{ once: true }}
           className="relative group rounded-[2rem] bg-stone-50 border border-stone-100 shadow-sm overflow-hidden"
         >
-          <div className="flex flex-row lg:flex-row min-h-[300px] sm:min-h-[450px]">
+          <div className="flex flex-row lg:flex-row sm:min-h-[450px]">
 
             {/* ── LEFT: Product image ── */}
-            <div className="relative w-[35%] sm:w-[45%] aspect-square sm:aspect-auto overflow-hidden border-r border-stone-100 bg-white">
-              <Link to={`/products/${product.id}`} className="block h-full w-full">
+            <div className="relative w-[48%] sm:w-[50%] overflow-hidden border-r border-stone-100 bg-white">
+              <Link to={`/products/${product.id}`} className="block h-full w-full aspect-[4/5] sm:aspect-auto">
                 {image ? (
                   <img
                     src={image}
@@ -99,7 +99,7 @@ export const BestSellers: React.FC = memo(() => {
               {/* Discount badge - Refined for mobile */}
               {hasDiscount && (
                 <div className="absolute top-2 left-2 sm:top-8 sm:left-8">
-                  <div className="bg-white/90 backdrop-blur-md text-black text-[8px] sm:text-xs font-bold px-2 py-0.5 sm:px-4 sm:py-2 rounded-full shadow-sm">
+                  <div className="bg-amber-500 text-white text-[9px] sm:text-xs font-black px-2 py-0.5 sm:px-4 sm:py-2 rounded-full shadow-md">
                     -{discountPct}%
                   </div>
                 </div>
@@ -107,74 +107,62 @@ export const BestSellers: React.FC = memo(() => {
             </div>
 
             {/* ── RIGHT: Info + actions ── */}
-            <div className="flex flex-col flex-1 p-3.5 sm:p-12 lg:p-16 justify-center">
+            <div className="flex flex-col flex-1 p-3.5 sm:p-12 lg:p-16 justify-center bg-white sm:bg-transparent">
 
               {/* 1. Category & Trust - Refined */}
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 mb-2 sm:mb-8">
-                <span className="inline-flex items-center gap-1 text-amber-600 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider">
-                  <Flame className="h-2.5 w-2.5 fill-amber-600" />
+              <div className="flex items-center gap-1.5 sm:gap-3 mb-1.5 sm:mb-8">
+                <span className="inline-flex items-center gap-1 text-amber-600 text-[9px] sm:text-[10px] font-black uppercase tracking-wider">
+                  <Flame className="h-3 w-3 fill-amber-600" />
                   Trending
                 </span>
-                {product.category && (
-                  <span className="text-[8px] sm:text-[10px] font-bold text-stone-400 uppercase tracking-widest">
-                    • {product.category}
-                  </span>
-                )}
               </div>
 
               {/* 2. Product name - Refined hierarchy */}
               <Link to={`/products/${product.id}`} className="block mb-2 sm:mb-6">
-                <h3 className="text-lg sm:text-4xl md:text-5xl font-serif italic text-black leading-tight hover:text-stone-600 transition-colors line-clamp-2 sm:line-clamp-1">
+                <h3 className="text-base sm:text-4xl md:text-5xl font-serif italic text-black leading-tight hover:text-stone-600 transition-colors line-clamp-2 sm:line-clamp-1">
                   {product.name}
                 </h3>
               </Link>
 
               {/* 3. Rating - Simplified for mobile */}
               {product.rating > 0 && (
-                <div className="flex items-center gap-1.5 mb-3 sm:mb-10 pb-3 sm:pb-10 border-b border-stone-100">
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3, 4, 5].map(s => (
-                      <Star
-                        key={s}
-                        className={`h-2.5 w-2.5 sm:h-4 sm:w-4 ${s <= Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'fill-stone-200 text-stone-200'}`}
-                      />
-                    ))}
+                <div className="flex items-center gap-1.5 mb-3 sm:mb-10 pb-2 sm:pb-10 border-b border-stone-100">
+                  <div className="flex items-center">
+                    <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    <span className="text-[10px] sm:text-sm font-black text-black ml-1">{product.rating.toFixed(1)}</span>
                   </div>
-                  <span className="text-[8px] sm:text-sm font-bold text-black">{product.rating.toFixed(1)}</span>
+                  {product.category && (
+                    <span className="text-[9px] sm:text-[10px] font-bold text-stone-300 uppercase tracking-widest truncate">
+                      • {product.category}
+                    </span>
+                  )}
                 </div>
               )}
 
               {/* 4. Price & Savings - Refined */}
               <div className="mb-4 sm:mb-10">
-                <div className="flex items-baseline gap-2 sm:gap-4 mb-0.5 sm:mb-2">
-                  <span className="text-xl sm:text-4xl md:text-5xl font-bold text-black">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4 mb-1 sm:mb-2">
+                  <span className="text-xl sm:text-4xl md:text-5xl font-black text-black">
                     ₹{product.price.toLocaleString()}
                   </span>
                   {hasDiscount && (
-                    <span className="text-[10px] sm:text-xl text-stone-300 line-through font-medium">
+                    <span className="text-[11px] sm:text-xl text-stone-300 line-through font-medium">
                       ₹{product.originalPrice!.toLocaleString()}
                     </span>
                   )}
                 </div>
-                {hasDiscount && (
-                  <div className="flex items-center gap-1 text-amber-600">
-                    <Tag className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
-                    <span className="text-[7px] sm:text-xs font-bold uppercase tracking-widest">Save ₹{savings.toLocaleString()}</span>
-                  </div>
-                )}
               </div>
 
               {/* 5. CTAs - Refined for mobile */}
-              <div className="flex gap-2 sm:gap-3 mt-2 sm:mt-auto">
-                <div className="flex-1">
-                  <BuyNowButton
-                    onClick={handleAddToCart}
-                    disabled={product.stock === 0}
-                  />
-                </div>
+              <div className="flex flex-col gap-2 sm:gap-4 mt-auto">
+                <BuyNowButton
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
+                  className="!py-2 sm:!py-3.5 shadow-sm"
+                />
                 <Link
                   to={`/products/${product.id}`}
-                  className="px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-2xl border border-stone-200 hover:border-black hover:bg-black hover:text-white text-black font-bold text-[8px] sm:text-sm tracking-widest uppercase transition-all duration-300 text-center flex items-center justify-center"
+                  className="w-full py-2 sm:py-4 rounded-lg sm:rounded-2xl border border-stone-200 hover:border-black hover:bg-black hover:text-white text-black font-black text-[9px] sm:text-sm tracking-widest uppercase transition-all duration-300 text-center flex items-center justify-center bg-stone-50/50 sm:bg-white"
                 >
                   Details
                 </Link>

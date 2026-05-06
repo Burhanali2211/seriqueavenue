@@ -11,7 +11,8 @@ import {
   Send,
 ArrowUpRight,
   Globe,
-  Zap
+  Zap,
+  Leaf
 } from 'lucide-react';
 import { useSettings } from '../../contexts/SettingsContext';
 import { motion } from 'framer-motion';
@@ -43,14 +44,18 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16">
           {/* Brand & Newsletter Section */}
-          <div className="lg:col-span-4 space-y-10">
-            <Link to="/" className="inline-flex items-center gap-4 group">
-              <SiteLogo size="xl" variant="dark" className="group-hover:scale-105 transition-transform duration-300 shadow-2xl" />
-              <div>
-                <h3 className="text-2xl font-black text-gray-900 tracking-tighter">
-                  {siteName}<span className="text-orange-600">.</span>
-                </h3>
-                <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">The Avenue of Craft & Organic</p>
+          <div className="lg:col-span-4 space-y-8">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="p-2.5 rounded-2xl bg-black shadow-lg shadow-black/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-black/20">
+                <Leaf className="h-6 w-6 text-white transition-transform group-hover:rotate-12" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black tracking-tighter leading-none uppercase text-gray-900">
+                  {siteName.split(' ')[0]}<span className="text-stone-300">.</span>
+                </span>
+                <span className="text-[8px] font-black tracking-[0.4em] uppercase leading-none mt-2 text-gray-400">
+                  Est. MMXXIV
+                </span>
               </div>
             </Link>
 

@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_ENV: string
   readonly VITE_DIRECT_LOGIN_ENABLED: string
   readonly VITE_DIRECT_LOGIN_DEFAULT_ROLE: string
+  readonly VITE_SITE_URL: string
   readonly DEV: boolean
   readonly PROD: boolean
   readonly MODE: string

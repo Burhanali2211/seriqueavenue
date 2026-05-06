@@ -101,26 +101,26 @@ export const CategoryChips: React.FC<CategoryChipsProps> = memo(({ categories, l
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="flex gap-6 sm:gap-10 px-6 py-10 sm:py-14 overflow-x-auto scrollbar-hide snap-x snap-mandatory
+        className="flex gap-4 sm:gap-10 px-6 py-8 sm:py-14 overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory
                    sm:flex-nowrap sm:justify-start lg:justify-center lg:px-12"
       >
         {/* All Categories Chip */}
         <motion.div variants={itemVariants} className="flex-shrink-0 snap-start">
           <Link
             to="/products"
-            className="flex flex-col items-center gap-4 group"
+            className="flex flex-col items-center gap-3 group"
           >
-            <div className="relative p-[3px] rounded-full transition-all duration-500 group-hover:scale-110">
+            <div className="relative p-[2px] rounded-full transition-all duration-500 group-hover:scale-110">
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black via-black/40 to-black/80 opacity-0 group-hover:opacity-10 transition-opacity" />
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-black flex items-center justify-center shadow-2xl shadow-black/10">
-                <LayoutGrid className="h-8 w-8 sm:h-10 sm:w-10 text-white/90" />
+              <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-black flex items-center justify-center shadow-xl shadow-black/5">
+                <LayoutGrid className="h-6 w-6 sm:h-10 sm:w-10 text-white/90" />
               </div>
             </div>
             <div className="text-center">
-              <span className="block text-[9px] font-black uppercase tracking-[0.3em] text-black/20 group-hover:text-black transition-colors mb-0.5">
+              <span className="block text-[8px] font-black uppercase tracking-[0.3em] text-black/20 group-hover:text-black transition-colors mb-0.5">
                 Browse
               </span>
-              <span className="text-[12px] sm:text-[13px] font-serif italic text-black font-medium leading-none">
+              <span className="text-[11px] sm:text-[13px] font-serif italic text-black font-medium leading-none">
                 All Collections
               </span>
             </div>
@@ -137,14 +137,14 @@ export const CategoryChips: React.FC<CategoryChipsProps> = memo(({ categories, l
             <motion.div key={cat.id} variants={itemVariants} className="flex-shrink-0 snap-start">
               <Link
                 to={`/products?category=${cat.slug || cat.id}`}
-                className="flex flex-col items-center gap-4 group"
+                className="flex flex-col items-center gap-3 group"
               >
-                <div className="relative p-[3px] rounded-full transition-all duration-700 group-hover:scale-110">
+                <div className="relative p-[2px] rounded-full transition-all duration-700 group-hover:scale-110">
                   {/* Luxury border ring */}
-                  <div className="absolute inset-0 rounded-full border border-black/[0.05]" />
+                  <div className="absolute inset-0 rounded-full border border-black/[0.03]" />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-[#F9F9F9] shadow-inner ring-1 ring-black/[0.02]">
+                  <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-[#F9F9F9] shadow-inner ring-1 ring-black/[0.01]">
                     {hasRealImage ? (
                       <img
                         src={imageUrl}
@@ -160,16 +160,16 @@ export const CategoryChips: React.FC<CategoryChipsProps> = memo(({ categories, l
                         }}
                       />
                     ) : null}
-                    <div className={`${hasRealImage ? 'hidden' : 'flex'} absolute inset-0 w-full h-full items-center justify-center text-3xl sm:text-4xl bg-[#F9F9F9]`}>
+                    <div className={`${hasRealImage ? 'hidden' : 'flex'} absolute inset-0 w-full h-full items-center justify-center text-2xl sm:text-4xl bg-[#F9F9F9]`}>
                       {emoji}
                     </div>
                   </div>
                 </div>
                 <div className="text-center group-hover:-translate-y-1 transition-transform duration-500">
-                  <span className="block text-[8px] font-black uppercase tracking-[0.4em] text-black/10 group-hover:text-black/30 transition-colors mb-0.5">
+                  <span className="block text-[7px] font-black uppercase tracking-[0.4em] text-black/10 group-hover:text-black/30 transition-colors mb-0.5">
                     Category
                   </span>
-                  <span className="text-[12px] sm:text-[13px] font-serif italic text-black/60 group-hover:text-black transition-colors font-medium leading-none">
+                  <span className="text-[11px] sm:text-[13px] font-serif italic text-black/60 group-hover:text-black transition-colors font-medium leading-none">
                     {cat.name}
                   </span>
                 </div>
@@ -182,16 +182,16 @@ export const CategoryChips: React.FC<CategoryChipsProps> = memo(({ categories, l
         <motion.div variants={itemVariants} className="flex-shrink-0 snap-start">
           <Link
             to="/products"
-            className="flex flex-col items-center gap-4 group"
+            className="flex flex-col items-center gap-3 group"
           >
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border border-dashed border-black/10 flex items-center justify-center group-hover:border-black/30 group-hover:bg-[#F9F9F9] transition-all duration-500">
-              <ChevronRight className="h-8 w-8 text-black/20 group-hover:text-black transition-colors" />
+            <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full border border-dashed border-black/10 flex items-center justify-center group-hover:border-black/30 group-hover:bg-[#F9F9F9] transition-all duration-500">
+              <ChevronRight className="h-6 w-6 text-black/20 group-hover:text-black transition-colors" />
             </div>
             <div className="text-center">
-              <span className="block text-[8px] font-black uppercase tracking-[0.4em] text-black/10 transition-colors mb-0.5">
+              <span className="block text-[7px] font-black uppercase tracking-[0.4em] text-black/10 transition-colors mb-0.5">
                 View
               </span>
-              <span className="text-[12px] sm:text-[13px] font-serif italic text-black/30 group-hover:text-black transition-colors font-medium">
+              <span className="text-[11px] sm:text-[13px] font-serif italic text-black/30 group-hover:text-black transition-colors font-medium">
                 Explore More
               </span>
             </div>

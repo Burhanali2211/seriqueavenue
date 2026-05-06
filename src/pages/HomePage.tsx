@@ -78,14 +78,14 @@ const itemVariants: Variants = {
 };
 
 const DealTiles: React.FC = memo(() => (
-  <section className="bg-white py-12 sm:py-20 border-t border-black/[0.03]">
+  <section className="bg-white py-10 sm:py-20 border-t border-black/[0.03]">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8"
+        className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8"
       >
         {BENTO_TILES.map((tile) => (
           <motion.div
@@ -95,7 +95,7 @@ const DealTiles: React.FC = memo(() => (
           >
             <Link
               to={tile.to}
-              className="group relative block overflow-hidden rounded-[2.5rem] h-[220px] sm:h-[280px] md:h-[340px] shadow-sm transition-all duration-700"
+              className="group relative block overflow-hidden rounded-[2rem] h-[180px] sm:h-[280px] md:h-[340px] shadow-sm transition-all duration-700"
             >
               <div className="absolute inset-0 overflow-hidden">
                 <img
@@ -107,23 +107,23 @@ const DealTiles: React.FC = memo(() => (
               </div>
               <div className={`absolute inset-0 ${tile.overlay} opacity-40 group-hover:opacity-70 transition-opacity duration-700`} />
               
-              <div className="absolute inset-0 p-8 sm:p-10 flex flex-col justify-end">
+              <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-end">
                 <div className="flex flex-col transform group-hover:-translate-y-2 transition-transform duration-700">
-                  <span className="text-[10px] font-black tracking-[0.4em] text-white/50 uppercase mb-3">
+                  <span className="text-[8px] sm:text-[10px] font-black tracking-[0.3em] text-white/60 uppercase mb-2">
                     {tile.tag}
                   </span>
-                  <p className="text-white font-serif italic text-2xl sm:text-3xl md:text-4xl leading-none drop-shadow-2xl">
+                  <p className="text-white font-serif italic text-xl sm:text-3xl md:text-4xl leading-[1.1] drop-shadow-2xl">
                     {tile.title}
                   </p>
-                  <p className="text-white/60 text-[11px] sm:text-xs mt-3 font-medium tracking-[0.1em] max-w-xs line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+                  <p className="text-white/60 text-[10px] sm:text-xs mt-2 font-medium tracking-[0.1em] max-w-xs line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
                     {tile.sub}
                   </p>
                 </div>
               </div>
 
               {/* Hover Icon */}
-              <div className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 -rotate-45 group-hover:rotate-0">
-                <ArrowUpRight className="w-5 h-5 text-white" />
+              <div className="absolute top-6 right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 -rotate-45 group-hover:rotate-0">
+                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
             </Link>
           </motion.div>
@@ -149,7 +149,7 @@ const ShopByPrice: React.FC = memo(() => (
       <div className="flex items-center justify-between mb-4">
         <span className="text-base sm:text-lg font-bold text-gray-900">Price Palette</span>
       </div>
-      <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-1">
+      <div className="flex gap-2.5 overflow-x-auto overflow-y-hidden scrollbar-hide pb-1">
         {PRICE_FILTERS.map(({ label, link, bg }) => (
           <Link
             key={label}
@@ -167,32 +167,32 @@ ShopByPrice.displayName = 'ShopByPrice';
 
 /* ─── Mini Promo Banner ─── */
 const PromoBanner: React.FC = memo(() => (
-  <div className="mx-4 sm:mx-6 lg:mx-8 my-8 max-w-7xl xl:mx-auto">
+  <div className="sm:mx-6 lg:mx-8 my-10 max-w-7xl xl:mx-auto">
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="relative overflow-hidden bg-black rounded-[2rem] p-8 sm:p-10 group"
+      className="relative overflow-hidden bg-black sm:rounded-[2.5rem] px-6 py-14 sm:p-16 group"
     >
-      <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=75')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
+      <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1544816155-12df9643f363?w=1200&q=80')] bg-cover bg-center transition-transform duration-[4s] group-hover:scale-110" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
       
-      <div className="relative flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 text-white/50 font-bold text-[10px] uppercase tracking-[0.3em]">
+      <div className="relative flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left">
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2 text-white/50 font-black text-[9px] uppercase tracking-[0.4em]">
             <Leaf className="h-3.5 w-3.5" />
             Our Commitment
           </div>
-          <h3 className="text-2xl sm:text-3xl font-serif italic text-white leading-tight">
-            Eco-Conscious <span className="font-sans not-italic font-black text-white/20 uppercase tracking-tighter">Packaging</span>
+          <h3 className="text-3xl sm:text-5xl font-serif italic text-white leading-tight">
+            Eco-Conscious <span className="font-sans not-italic font-black text-white/10 uppercase tracking-tighter">Packaging</span>
           </h3>
-          <p className="text-white/60 text-sm max-w-md font-medium">
+          <p className="text-white/40 text-xs sm:text-base max-w-md font-medium tracking-wide">
             We promise 100% plastic-free delivery on every artisanal order. Protecting the craft and the planet.
           </p>
         </div>
         <Link
           to="/products"
-          className="flex-shrink-0 group flex items-center gap-4 bg-white text-black font-black text-xs uppercase tracking-[0.2em] px-8 py-5 rounded-full transition-all hover:bg-[#F0F0F0] active:scale-95"
+          className="flex-shrink-0 group flex items-center gap-4 bg-white text-black font-black text-[10px] uppercase tracking-[0.25em] px-10 py-5 rounded-full transition-all hover:bg-[#F0F0F0] active:scale-95 shadow-xl shadow-black/20"
         >
           Explore Collection
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -203,47 +203,7 @@ const PromoBanner: React.FC = memo(() => (
 ));
 PromoBanner.displayName = 'PromoBanner';
 
-/* ─── Trust Signals ─── */
-const TRUST_ITEMS = [
-  { icon: Truck, title: 'Artisan Direct', desc: 'Crafted with heart' },
-  { icon: RotateCcw, title: 'Fair Trade', desc: 'Supporting makers' },
-  { icon: ShieldCheck, title: '100% Organic', desc: 'Natural goodness' },
-  { icon: Headphones, title: 'Expert Care', desc: 'Concierge support' },
-];
 
-const TrustBar: React.FC = memo(() => (
-  <section className="bg-white py-16 sm:py-20 border-t border-black/[0.03]">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8"
-      >
-        {TRUST_ITEMS.map(({ icon: Icon, title, desc }) => (
-          <motion.div key={title} variants={itemVariants} className="flex flex-col items-center text-center space-y-4 group">
-            <div className="relative">
-              <div className="w-16 h-16 rounded-full bg-[#F9F9F9] flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                <Icon className="h-6 w-6 text-black" />
-              </div>
-              <div className="absolute inset-0 rounded-full border border-black/5 scale-125 opacity-0 group-hover:opacity-100 transition-all duration-500" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black">
-                {title}
-              </h4>
-              <p className="text-black/40 text-[11px] font-medium italic font-serif">
-                {desc}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-));
-TrustBar.displayName = 'TrustBar';
 
 /* ─── Main Page ─── */
 export default function HomePage() {
@@ -324,9 +284,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
-      {/* 10. Trust Signals */}
-      <TrustBar />
 
     </div>
   );

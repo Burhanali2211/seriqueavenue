@@ -311,7 +311,7 @@ export const FlashSale: React.FC = memo(() => {
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUpOrLeave}
           onMouseLeave={onMouseUpOrLeave}
-          className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide pb-2
+          className="flex gap-3 sm:gap-4 overflow-x-auto overflow-y-hidden scrollbar-hide pb-2
             -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0
             snap-x snap-mandatory
             cursor-grab active:cursor-grabbing
@@ -334,35 +334,16 @@ export const FlashSale: React.FC = memo(() => {
           })}
         </div>
 
-        {/* ── Mobile bottom bar ── */}
-        <div className="flex sm:hidden items-center justify-between mt-5 pt-4 border-t border-black/[0.04]">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
-              className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center
-                hover:bg-black hover:text-white transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="h-3.5 w-3.5" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              disabled={!canScrollRight}
-              className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center
-                hover:bg-black hover:text-white transition-all disabled:opacity-20 disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
+        {/* ── Footer: Simple Link ── */}
+        <div className="mt-10 flex justify-center">
           <Link
             to="/deals"
-            className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em]
-              text-black/50 hover:text-black transition-colors"
+            className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-black/40 hover:text-black transition-all duration-300 group"
           >
-            See All <ArrowRight className="h-3 w-3" />
+            Explore All Deals
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
-
       </div>
     </section>
   );
