@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef, memo } from 'react';
 import { useSearchParams, useParams, Link, useNavigate } from 'react-router-dom';
 import {
-    Search, Grid3X3, LayoutList, Star, Heart, ShoppingCart, 
-    ChevronDown, ChevronUp, X, SlidersHorizontal, Home, 
-    Sparkles, TrendingUp, Percent, Package, ArrowUpDown, 
-    Eye, Check, Flame, Clock, Filter, RotateCcw, 
+    Search, Grid3X3, LayoutList, Star, Heart, ShoppingCart,
+    ChevronDown, ChevronUp, X, SlidersHorizontal, Home,
+    Sparkles, TrendingUp, Percent, Package, ArrowUpDown,
+    Eye, Check, Flame, Clock, Filter, RotateCcw,
     ChevronLeft, ChevronRight, Zap, Droplet, Wind, Sun, Info, ArrowRight
 } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
@@ -12,6 +12,7 @@ import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';
 import { Product } from '../types';
 import { ProductCard } from '../components/Product/ProductCard';
+import { MobileProductHeader } from '../components/Product/MobileProductHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface FilterState {
@@ -139,6 +140,18 @@ const ProductsPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[#f7f8f8]">
+            <MobileProductHeader
+                productCount={sortedProducts.length}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                onFilterClick={() => setIsFilterOpen(!isFilterOpen)}
+                isFilterActive={isFilterOpen}
+                onSearchChange={(value) => handleFilterChange('search', value)}
+                searchValue={filters.search}
+                categories={categories}
+                selectedCategory={filters.category}
+                onCategoryChange={(categoryId) => handleFilterChange('category', categoryId)}
+            />
             <div className="max-w-[1600px] mx-auto px-4 pt-3 pb-0 flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
 
                 {/* Sidebar Filters */}
@@ -329,7 +342,7 @@ const ProductsPage: React.FC = () => {
 
                 {/* Main Product Area */}
                 <main className="flex-1">
-                    <div className="flex items-center gap-2 mb-3">
+                    <div className="hidden md:flex items-center gap-2 mb-3">
                         {/* Filter icon */}
                         <button
                             onClick={() => setIsFilterOpen(!isFilterOpen)}

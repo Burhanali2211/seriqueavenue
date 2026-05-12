@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, memo, useState } from 'react';
+import React, { useMemo, useCallback, memo, useState, useRef } from 'react';
 import { Star, Heart, ShoppingCart, Check, Zap } from 'lucide-react';
 import { Product } from '../../types';
 import { useCart } from '../../contexts/CartContext';
@@ -28,6 +28,8 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
   const { user } = useAuth();
   const { showAuthModal } = useAuthModal();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const handleWishlistToggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,6 +51,25 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
     e.stopPropagation();
     if (onCompareToggle) onCompareToggle(product.id);
   }, [onCompareToggle, product.id]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 50;
+    const images = product.images && product.images.length > 0 ? product.images : [''];
+
+    if (Math.abs(diff) > minSwipeDistance) {
+      if (diff > 0) {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      } else {
+        setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+      }
+    }
+  }, [product.images]);
 
   // Memoize derived category flags — no string ops on every render
   const { isTech, isFashion } = useMemo(() => {
@@ -148,7 +169,11 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
 
       {/* Image area — 4:3 on mobile (shorter), square on sm+ */}
       <Link to={`/products/${product.id}`} className="block relative bg-gray-50">
-        <div className="aspect-[4/3] sm:aspect-square overflow-hidden">
+        <div
+          className="aspect-[4/3] sm:aspect-square overflow-hidden cursor-grab active:cursor-grabbing"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <img
             src={images[currentImageIndex] || ''}
             alt={product.name}
@@ -156,24 +181,6 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({
             onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         </div>
-
-        {/* Best Seller badge */}
-        {product.featured && (
-          <div className="absolute top-2 left-2">
-            <span className="bg-white text-gray-800 text-[10px] sm:text-[11px] font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-sm border border-gray-100">
-              Best Seller
-            </span>
-          </div>
-        )}
-
-        {/* Discount badge */}
-        {discount > 0 && !product.featured && (
-          <div className="absolute top-2 left-2">
-            <span className="bg-red-500 text-white text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shadow-sm">
-              -{discount}%
-            </span>
-          </div>
-        )}
 
         {/* Wishlist */}
         <button

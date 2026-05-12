@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Heart, ShieldCheck, Truck, Plus, Minus,
   MessageSquare, ShoppingCart, Check,
-  ArrowRight, Package, TrendingUp, FileText, Star
+  ArrowRight, Package, TrendingUp, FileText, Star, X, ThumbsUp
 } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 import { useCart } from '../contexts/CartContext';
@@ -24,13 +24,14 @@ import { StockUrgency } from '../components/Trust';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { getProductById, fetchReviewsForProduct, submitReview } = useProducts();
   const { user } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { addItem: addToCart } = useCart();
-  const { addItem: addToWishlist, isInWishlist } = useWishlist();
+  const { addItem: addToWishlist, isInWishlist, items: wishlistItems } = useWishlist();
   const { showNotification } = useNotification();
   const { showAuthModal } = useAuthModal();
 
@@ -39,6 +40,8 @@ export const ProductDetailPage: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string>('');
 
   const dummyProduct: Product = {
     id: '', name: '', price: 0, stock: 0, images: [], rating: 0,
@@ -125,184 +128,173 @@ export const ProductDetailPage: React.FC = () => {
     { id: 'reviews', name: `Reviews (${reviews.length})`, icon: MessageSquare },
   ];
 
+  const images = product.images && product.images.length > 0 ? product.images : [''];
+  const wishlistCount = wishlistItems.filter(item => item.id === product.id).length;
+
   return (
-    <div className="min-h-screen bg-stone-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-16">
+    <div className="min-h-screen bg-white overflow-hidden">
+      {/* Mobile Header with Back + Wishlist */}
+      <div className="fixed top-4 left-4 right-4 z-40 md:hidden flex items-center justify-between pointer-events-none">
+        <button onClick={() => navigate(-1)} className="w-10 h-10 bg-black/20 backdrop-blur-md hover:bg-black/30 rounded-full transition-colors pointer-events-auto flex items-center justify-center">
+          <X className="h-5 w-5 text-white" />
+        </button>
+        <Link to="/wishlist" className="relative w-10 h-10 bg-black/20 backdrop-blur-md hover:bg-black/30 rounded-full transition-colors pointer-events-auto flex items-center justify-center">
+          <Heart className="h-5 w-5 text-white" />
+          {wishlistCount > 0 && (
+            <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              {wishlistCount}
+            </span>
+          )}
+        </Link>
+      </div>
 
-        {/* ── MAIN PRODUCT GRID ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 xl:gap-20 items-start">
+      <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-2 lg:gap-8 lg:px-6 lg:py-8">
 
-          {/* LEFT: Gallery */}
-          <div className="lg:sticky lg:top-24">
-            <LuxuryGallery images={product.images} name={product.name} />
+        {/* Image Carousel Section */}
+        <div className="lg:sticky lg:top-24">
+          <div className="w-full relative overflow-hidden bg-white">
+            <img
+              src={images[currentImageIndex]}
+              alt={product.name}
+              className="w-full h-auto object-contain"
+            />
           </div>
 
-          {/* RIGHT: Info & Actions */}
-          <div className="space-y-4 sm:space-y-6">
-
-            {/* 1. Category + badges row */}
-            <div className="flex items-center gap-2 flex-wrap">
-              {product.category && (
-                <span className="text-xs font-semibold text-stone-400 tracking-widest uppercase">
-                  {product.category}
-                </span>
-              )}
-              {product.featured && (
-                <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-200 uppercase tracking-wide">
-                  <TrendingUp className="h-2.5 w-2.5" /> Popular
-                </span>
-              )}
-              {hasDiscount && (
-                <span className="inline-flex items-center bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  -{discountPct}% OFF
-                </span>
-              )}
-            </div>
-
-            {/* 2. Product name */}
-            <h1 className="text-2xl sm:text-3xl lg:text-5xl font-serif text-stone-900 leading-tight">
-              {product.name}
-            </h1>
-
-            {/* 3. Rating row — social proof right after name */}
-            {product.rating > 0 && (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-0.5">
-                  {[1, 2, 3, 4, 5].map(s => (
-                    <Star
-                      key={s}
-                      className={`h-4 w-4 ${s <= Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'fill-stone-200 text-stone-200'}`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm font-semibold text-stone-700">{product.rating.toFixed(1)}</span>
-                {reviews.length > 0 && (
-                  <button
-                    onClick={() => setActiveTab('reviews')}
-                    className="text-sm text-stone-400 hover:text-stone-600 hover:underline transition-colors"
-                  >
-                    {reviews.length} review{reviews.length !== 1 ? 's' : ''}
-                  </button>
-                )}
-              </div>
-            )}
-
-            {/* 4. Price — anchored, prominent */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl sm:text-3xl font-bold text-stone-900 leading-none">
-                ₹{product.price.toLocaleString('en-IN')}
-              </span>
-              {hasDiscount && (
-                <>
-                  <span className="text-base text-stone-400 line-through font-light">
-                    ₹{product.originalPrice!.toLocaleString('en-IN')}
-                  </span>
-                  <span className="text-sm font-semibold text-emerald-600">
-                    Save ₹{(product.originalPrice! - product.price).toLocaleString('en-IN')}
-                  </span>
-                </>
-              )}
-            </div>
-
-            {/* 5. Short description */}
-            {(product.shortDescription || product.description) && (
-              <p className="text-sm sm:text-base text-stone-600 leading-relaxed">
-                {product.shortDescription || product.description.split('.')[0] + '.'}
-              </p>
-            )}
-
-            {/* 6. Tags */}
-            {product.tags && product.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {product.tags.slice(0, 5).map((tag, i) => (
-                  <span key={i} className="px-2.5 py-1 bg-stone-100 text-stone-600 rounded-full text-xs font-medium">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* 7. Quantity + stock */}
-            <div className="flex items-center gap-4 pt-2">
-              <div className="flex items-center bg-white rounded-full border border-stone-200">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full hover:bg-stone-50 transition-colors"
-                >
-                  <Minus className="h-3.5 w-3.5 text-stone-600" />
-                </button>
-                <span className="w-10 text-center text-sm font-semibold text-stone-900">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  disabled={quantity >= product.stock}
-                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full hover:bg-stone-50 transition-colors disabled:opacity-30"
-                >
-                  <Plus className="h-3.5 w-3.5 text-stone-600" />
-                </button>
-              </div>
-              <StockUrgency stock={product.stock} lowStockThreshold={5} />
-            </div>
-
-            {/* 8. CTAs — Add to Cart (primary) + Wishlist (secondary) */}
-            <div className="flex gap-3">
-              <motion.button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                whileTap={{ scale: 0.97 }}
-                className={`flex-1 h-12 sm:h-14 rounded-full text-sm sm:text-base font-semibold tracking-wide transition-all flex items-center justify-center gap-2 ${
-                  product.stock === 0
-                    ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                    : cartButtonState.buttonState === 'added' || cartButtonState.buttonState === 'in-cart'
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-stone-900 text-white hover:bg-stone-800 shadow-md active:scale-95'
-                }`}
-              >
-                {cartButtonState.buttonState === 'added' || cartButtonState.buttonState === 'in-cart'
-                  ? <Check className="h-5 w-5" />
-                  : <ShoppingCart className="h-5 w-5" />}
-                {product.stock === 0
-                  ? 'Out of Stock'
-                  : cartButtonState.buttonState === 'added'
-                  ? 'Added!'
-                  : cartButtonState.buttonState === 'in-cart'
-                  ? 'In Cart'
-                  : 'Add to Cart'}
-              </motion.button>
-
+          {/* Image Dots */}
+          <div className="flex items-center justify-center gap-2.5 py-2 md:py-3">
+            {images.map((_, i) => (
               <button
-                onClick={handleToggleWishlist}
-                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border-2 transition-all ${
-                  isInWishlist(product.id)
-                    ? 'bg-stone-900 border-stone-900 text-white'
-                    : 'border-stone-200 hover:border-stone-900 text-stone-600 hover:text-stone-900'
+                key={i}
+                onClick={() => setCurrentImageIndex(i)}
+                className={`rounded-full transition-all ${
+                  i === currentImageIndex ? 'w-3 h-3 bg-gray-900' : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'
                 }`}
-                aria-label="Add to wishlist"
-              >
-                <Heart className="h-5 w-5" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
-              </button>
-            </div>
-
-            {/* 9. Trust markers */}
-            <div className="grid grid-cols-2 gap-3 pt-2 border-t border-stone-100">
-              <div className="flex items-center gap-2.5">
-                <ShieldCheck className="h-5 w-5 text-stone-400 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-semibold text-stone-800">Quality Guaranteed</p>
-                  <p className="text-[11px] text-stone-400">100% authentic</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Truck className="h-5 w-5 text-stone-400 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-semibold text-stone-800">Fast Delivery</p>
-                  <p className="text-[11px] text-stone-400">Safe & secure shipping</p>
-                </div>
-              </div>
-            </div>
+                aria-label={`Image ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
 
-        {/* ── TABS: Description / Reviews ── */}
+        {/* Product Info Section */}
+        <div className="px-4 py-6 md:py-0 md:px-0 space-y-4 md:space-y-6">
+
+          {/* Rating Row */}
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="flex items-center gap-0.5">
+              {[1, 2, 3, 4, 5].map(s => (
+                <Star key={s} className={`h-3.5 w-3.5 md:h-4 md:w-4 ${s <= Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'}`} />
+              ))}
+            </div>
+            <span className="text-sm md:text-base font-semibold text-gray-900">{product.rating.toFixed(1)}</span>
+            <div className="flex items-center gap-1 text-sm md:text-base text-gray-600">
+              <ThumbsUp className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              <span className="font-semibold">3.8</span>
+            </div>
+            {reviews.length > 0 && (
+              <button onClick={() => setActiveTab('reviews')} className="text-sm md:text-base text-gray-500 hover:text-gray-700 transition-colors">
+                {reviews.length} Reviews
+              </button>
+            )}
+          </div>
+
+          {/* Product Name */}
+          <div>
+            <h1 className="text-xl md:text-3xl font-bold text-gray-900 leading-tight">{product.name}</h1>
+          </div>
+
+          {/* Price */}
+          <div className="flex items-baseline gap-2 md:gap-3">
+            <span className="text-2xl md:text-3xl font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
+            {hasDiscount && (
+              <span className="text-base md:text-lg text-gray-400 line-through">₹{product.originalPrice!.toLocaleString('en-IN')}</span>
+            )}
+          </div>
+
+          {/* About This Product */}
+          <div>
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+              {product.shortDescription || product.description.split('.')[0] + '.'}
+            </p>
+          </div>
+
+          {/* Key Details */}
+          <div className="grid grid-cols-2 gap-4 py-2">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+              <span className="text-xs md:text-sm text-gray-700">Authentic</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Truck className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+              <span className="text-xs md:text-sm text-gray-700">Free Shipping</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Package className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+              <span className="text-xs md:text-sm text-gray-700">Easy Returns</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+              <span className="text-xs md:text-sm text-gray-700">Warranty</span>
+            </div>
+          </div>
+
+          {/* Quantity + Stock */}
+          <div className="flex items-center gap-4 pt-2">
+            <div className="flex items-center bg-gray-100 rounded-full">
+              <button
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              >
+                <Minus className="h-4 w-4 text-gray-900" />
+              </button>
+              <span className="w-8 text-center text-sm font-semibold text-gray-900">{quantity}</span>
+              <button
+                onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                disabled={quantity >= product.stock}
+                className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-30"
+              >
+                <Plus className="h-4 w-4 text-gray-900" />
+              </button>
+            </div>
+            {product.stock > 0 && product.stock < 10 && (
+              <span className="text-xs md:text-sm text-red-500 font-semibold">Only {product.stock} left</span>
+            )}
+          </div>
+
+          {/* CTAs */}
+          <div className="flex gap-3 pt-4">
+            <motion.button
+              onClick={handleAddToCart}
+              disabled={product.stock === 0}
+              whileTap={{ scale: 0.97 }}
+              className={`flex-1 h-12 md:h-14 rounded-lg md:rounded-full font-semibold transition-all flex items-center justify-center gap-2 ${
+                product.stock === 0
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : cartButtonState.buttonState === 'added' || cartButtonState.buttonState === 'in-cart'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-900 text-white hover:bg-gray-800'
+              }`}
+            >
+              {cartButtonState.buttonState === 'added' || cartButtonState.buttonState === 'in-cart' ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
+              {product.stock === 0 ? 'Out of Stock' : cartButtonState.buttonState === 'added' ? 'Added!' : 'Add to Cart'}
+            </motion.button>
+
+            <button
+              onClick={handleToggleWishlist}
+              className={`w-12 h-12 md:w-14 md:h-14 rounded-lg md:rounded-full flex items-center justify-center border-2 transition-all ${
+                isInWishlist(product.id)
+                  ? 'bg-gray-900 border-gray-900 text-white'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-900'
+              }`}
+              aria-label="Add to wishlist"
+            >
+              <Heart className="h-5 w-5" fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── TABS: Description / Reviews ── */}
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="mt-10 sm:mt-16 lg:mt-20">
           <div className="flex border-b border-stone-200 mb-6 sm:mb-10 gap-6 sm:gap-10">
             {tabs.map(tab => (

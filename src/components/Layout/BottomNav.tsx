@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, LayoutGrid, Store, ShoppingCart, Heart, User, LogIn } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
@@ -15,6 +15,8 @@ export const BottomNav: React.FC<BottomNavProps> = memo(({ onCartClick }) => {
   const { items: wishlistItems } = useWishlist();
   const { user } = useAuth();
   const location = useLocation();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const isHome = location.pathname === '/';
 
@@ -41,11 +43,24 @@ export const BottomNav: React.FC<BottomNavProps> = memo(({ onCartClick }) => {
 
   const [isBrowseOpen, setIsBrowseOpen] = React.useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 50);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
     // Outer nav grows to fill safe-area; inner row is always a fixed 60px
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100"
+        className={`fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-100 transition-transform duration-500 ease-out ${
+          isVisible ? 'translate-y-0' : 'translate-y-full'
+        }`}
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         aria-label="Bottom navigation"
       >

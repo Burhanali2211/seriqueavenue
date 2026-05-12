@@ -20,24 +20,26 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isAuthPage = location.pathname === '/auth';
   const isCheckoutPage = location.pathname.startsWith('/checkout');
   const isHome = location.pathname === '/';
+  const isProductsPage = location.pathname === '/products' || location.pathname.startsWith('/categories/');
+  const isProductDetailPage = location.pathname.startsWith('/products/') && location.pathname !== '/products';
 
   return (
     <div className="min-h-screen transition-colors duration-300 bg-background-primary">
 
-      {!isDashboardPage && !isAuthPage && !isCheckoutPage && (
+      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductsPage && !isProductDetailPage && (
         <Header
           onAuthClick={() => { }}
           onCartClick={() => setIsCartOpen(true)}
         />
       )}
 
-      <main className={`${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome ? "pt-[98px] md:pt-[92px]" : ""} relative`}>
-        <div className={`min-h-[calc(100vh-200px)] ${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome ? "pb-16 md:pb-0" : ""}`}>
+      <main className={`${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome && !isProductDetailPage ? "pt-[98px] md:pt-[92px]" : ""} relative`}>
+        <div className={`min-h-[calc(100vh-200px)] ${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome && !isProductsPage ? "pb-16 md:pb-0" : ""}`}>
           {children}
         </div>
       </main>
 
-      {!isDashboardPage && !isAuthPage && !isCheckoutPage && <Footer />}
+      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductsPage && !isProductDetailPage && <Footer />}
 
       {!isDashboardPage && !isAuthPage && !isCheckoutPage && (
         <BottomNav onCartClick={() => setIsCartOpen(true)} />
