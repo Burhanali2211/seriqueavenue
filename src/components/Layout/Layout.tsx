@@ -26,7 +26,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen transition-colors duration-300 bg-background-primary">
 
-      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductsPage && !isProductDetailPage && (
+      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductDetailPage && (
         <Header
           onAuthClick={() => { }}
           onCartClick={() => setIsCartOpen(true)}
@@ -34,12 +34,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       )}
 
       <main className={`${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome && !isProductDetailPage ? "pt-[98px] md:pt-[92px]" : ""} relative`}>
-        <div className={`min-h-[calc(100vh-200px)] ${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome && !isProductsPage ? "pb-16 md:pb-0" : ""}`}>
+        <div className={`min-h-[calc(100vh-200px)] ${!isDashboardPage && !isAuthPage && !isCheckoutPage && !isHome && !isProductsPage && !isProductDetailPage ? "pb-16 md:pb-0" : ""}`}>
           {children}
         </div>
       </main>
 
-      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductsPage && !isProductDetailPage && <Footer />}
+      {!isDashboardPage && !isAuthPage && !isCheckoutPage && !isProductDetailPage && <Footer />}
 
       {!isDashboardPage && !isAuthPage && !isCheckoutPage && (
         <BottomNav onCartClick={() => setIsCartOpen(true)} />
