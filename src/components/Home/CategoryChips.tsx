@@ -112,8 +112,12 @@ export const CategoryChips: React.FC<CategoryChipsProps> = memo(({ categories, l
           >
             <div className="relative p-[2px] rounded-full transition-all duration-500 group-hover:scale-110">
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black via-black/40 to-black/80 opacity-0 group-hover:opacity-10 transition-opacity" />
-              <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-black flex items-center justify-center shadow-xl shadow-black/5">
-                <LayoutGrid className="h-6 w-6 sm:h-10 sm:w-10 text-white/90" />
+              <div className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden shadow-xl shadow-black/5">
+                <img 
+                  src="/images/collection.png" 
+                  alt="All Collections" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" 
+                />
               </div>
             </div>
             <div className="text-center">

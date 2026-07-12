@@ -226,16 +226,13 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
         <div className="flex items-center justify-between gap-2 sm:gap-6 lg:gap-12">
             
           {/* Logo Area */}
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 group min-w-0">
-            <div className={`rounded-full overflow-hidden transition-all duration-500 flex-shrink-0 flex items-center justify-center ${isHome && !isScrolled ? 'ring-1 ring-white/20' : 'shadow-md ring-1 ring-black/10'}`}>
-              <img src="/sa-logo.jpg" alt="SeriqueAvenue" className="w-9 h-9 sm:w-11 sm:h-11 object-cover group-hover:scale-110 transition-transform duration-500" />
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group min-w-0">
+            <div className="transition-all duration-500 flex-shrink-0 flex items-center justify-center">
+              <img src="/logo.png" alt="SeriqueAvenue Logo" className="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className={`text-base sm:text-lg font-semibold tracking-wide truncate ${headerStyles.logo}`}>
-                SeriqueAvenue
-              </span>
-              <span className={`hidden sm:block text-[8px] font-medium tracking-widest uppercase mt-0.5 ${isHome && !isScrolled ? 'text-white/60' : 'text-black/40'}`}>
-                Est. MMXXIV
+              <span className={`text-lg sm:text-xl font-semibold tracking-wide truncate ${headerStyles.logo}`}>
+                Serique Avenue
               </span>
             </div>
           </Link>

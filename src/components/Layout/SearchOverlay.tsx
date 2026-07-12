@@ -113,20 +113,11 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose, i
           {/* Brand header inside overlay */}
           <div className="flex items-center justify-between mb-4 px-1">
             <div className="flex items-center gap-2">
-              {/* Logo from DB, fallback to Leaf icon */}
-              {logoUrl ? (
-                <img
-                  src={logoUrl}
-                  alt={siteName}
-                  className="w-7 h-7 object-contain rounded-lg"
-                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                />
-              ) : (
-                <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center">
-                  <Leaf className="w-4 h-4 text-white" />
-                </div>
-              )}
-              <span className="text-white font-bold text-sm">{siteName}</span>
+              <img
+                src="/logo.png"
+                alt="SeriqueAvenue"
+                className="h-8 w-auto object-contain rounded-lg"
+              />
             </div>
             <button
               onClick={onClose}

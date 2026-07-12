@@ -45,18 +45,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16">
           {/* Brand & Newsletter Section */}
           <div className="lg:col-span-4 space-y-8">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2.5 rounded-2xl bg-black shadow-lg shadow-black/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-black/20">
-                <Leaf className="h-6 w-6 text-white transition-transform group-hover:rotate-12" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black tracking-tighter leading-none uppercase text-gray-900">
-                  {siteName.split(' ')[0]}<span className="text-stone-300">.</span>
-                </span>
-                <span className="text-[8px] font-black tracking-[0.4em] uppercase leading-none mt-2 text-gray-400">
-                  Est. MMXXIV
-                </span>
-              </div>
+            <Link to="/" className="flex items-center group">
+              <img src="/logo.png" alt="SeriqueAvenue Logo" className="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
             </Link>
 
               <p className="text-gray-500 leading-relaxed max-w-sm font-medium">
