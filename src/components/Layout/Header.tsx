@@ -177,6 +177,7 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
 
   const isHome = location.pathname === '/';
   const siteName = getSiteSetting('site_name') || 'Seriqueavenue';
+  const logoUrl = getSiteSetting('logo_url');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -222,18 +223,18 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${headerStyles.bg} ${isScrolled ? 'py-3' : 'py-6'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-12">
-          
+        <div className="flex items-center justify-between gap-2 sm:gap-6 lg:gap-12">
+            
           {/* Logo Area */}
-          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            <div className={`p-2 rounded-2xl transition-all duration-500 ${isHome && !isScrolled ? 'bg-white/10 ring-1 ring-white/20' : 'bg-black shadow-lg shadow-black/10'}`}>
-              <Leaf className={`h-5 w-5 text-white transition-transform group-hover:rotate-12`} />
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 group min-w-0">
+            <div className={`rounded-full overflow-hidden transition-all duration-500 flex-shrink-0 flex items-center justify-center ${isHome && !isScrolled ? 'ring-1 ring-white/20' : 'shadow-md ring-1 ring-black/10'}`}>
+              <img src="/sa-logo.jpg" alt="SeriqueAvenue" className="w-9 h-9 sm:w-11 sm:h-11 object-cover group-hover:scale-110 transition-transform duration-500" />
             </div>
-            <div className="flex flex-col">
-              <span className={`text-xl font-black tracking-tighter leading-none uppercase ${headerStyles.logo}`}>
-                {siteName.split(' ')[0]}
+            <div className="flex flex-col min-w-0">
+              <span className={`text-base sm:text-lg font-semibold tracking-wide truncate ${headerStyles.logo}`}>
+                SeriqueAvenue
               </span>
-              <span className={`text-[8px] font-black tracking-[0.4em] uppercase leading-none mt-1.5 ${isHome && !isScrolled ? 'text-white/40' : 'text-black/20'}`}>
+              <span className={`hidden sm:block text-[8px] font-medium tracking-widest uppercase mt-0.5 ${isHome && !isScrolled ? 'text-white/60' : 'text-black/40'}`}>
                 Est. MMXXIV
               </span>
             </div>
@@ -249,7 +250,7 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-5 py-2 text-[10px] font-black uppercase tracking-[0.25em] rounded-full transition-all hover:bg-black/5 ${headerStyles.text}`}
+                className={`px-5 py-2 text-[10px] font-semibold uppercase tracking-widest rounded-full transition-all hover:bg-black/5 ${headerStyles.text}`}
               >
                 {link.label}
               </Link>
@@ -262,24 +263,24 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1 flex-shrink-0">
             <Link
               to="/wishlist"
-              className={`p-3 rounded-full transition-all hover:bg-black/5 relative ${headerStyles.text}`}
+              className={`p-2 sm:p-3 rounded-full transition-all hover:bg-black/5 relative ${headerStyles.text}`}
             >
-              <Heart className="h-5 w-5" />
+              <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
               {wishlistItems.length > 0 && (
-                <span className="absolute top-2.5 right-2.5 h-2.5 w-2.5 bg-black rounded-full border-2 border-white ring-1 ring-black/10" />
+                <span className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 h-2 w-2 sm:h-2.5 sm:w-2.5 bg-black rounded-full border-2 border-white ring-1 ring-black/10" />
               )}
             </Link>
 
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => user ? setIsUserMenuOpen(!isUserMenuOpen) : navigate('/auth')}
-                className={`p-3 rounded-full transition-all hover:bg-black/5 flex items-center gap-2 ${headerStyles.text}`}
+                className={`p-2 sm:p-3 rounded-full transition-all hover:bg-black/5 flex items-center gap-2 ${headerStyles.text}`}
               >
-                <User className="h-5 w-5" />
-                {user && user.name && <span className="hidden xl:block text-[10px] font-black uppercase tracking-widest">{user.name.split(' ')[0]}</span>}
+                <User className="h-4 w-4 sm:h-5 sm:w-5" />
+                {user && user.name && <span className="hidden xl:block text-[10px] font-semibold uppercase tracking-widest">{user.name.split(' ')[0]}</span>}
               </button>
               
               <AnimatePresence>
@@ -288,20 +289,20 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 15 }}
-                    className="absolute right-0 top-full mt-4 w-64 bg-white rounded-3xl shadow-2xl border border-black/5 py-4 z-50"
+                    className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-xl border border-black/5 py-3 z-50"
                   >
-                    <div className="px-6 py-4 border-b border-black/[0.03]">
-                      <p className="text-[11px] font-black uppercase tracking-widest text-black">{user.name}</p>
-                      <p className="text-[10px] font-serif italic text-black/30 mt-1">{user.email}</p>
+                    <div className="px-5 py-3 border-b border-black/[0.03]">
+                      <p className="text-[11px] font-semibold uppercase tracking-widest text-black truncate">{user.name}</p>
+                      <p className="text-[10px] text-black/50 mt-1 truncate">{user.email}</p>
                     </div>
                     <div className="p-2">
-                      <Link to="/dashboard" className="flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-black/60 hover:bg-[#F9F9F9] hover:text-black rounded-2xl transition-all">
+                      <Link to="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-black/60 hover:bg-gray-50 hover:text-black rounded-xl transition-all">
                         <User className="h-4 w-4" /> My Profile
                       </Link>
-                      <Link to="/orders" className="flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-black/60 hover:bg-[#F9F9F9] hover:text-black rounded-2xl transition-all">
+                      <Link to="/orders" className="flex items-center gap-3 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-black/60 hover:bg-gray-50 hover:text-black rounded-xl transition-all">
                         <ShoppingCart className="h-4 w-4" /> Order History
                       </Link>
-                      <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-2xl transition-all">
+                      <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-xl transition-all">
                         <LogOut className="h-4 w-4" /> Sign Out
                       </button>
                     </div>
@@ -312,11 +313,11 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
 
             <button
               onClick={onCartClick}
-              className={`p-3.5 rounded-full transition-all bg-black text-white hover:bg-black/90 relative shadow-xl shadow-black/20 active:scale-95`}
+              className={`ml-1 p-2 sm:p-3 rounded-full transition-all bg-black text-white hover:bg-black/90 relative shadow-sm active:scale-95`}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 h-6 w-6 bg-white text-black text-[10px] font-black rounded-full flex items-center justify-center border-2 border-black">
+                <span className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 bg-white text-black text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-black">
                   {itemCount}
                 </span>
               )}
@@ -327,4 +328,3 @@ export const Header: React.FC<HeaderProps> = ({ onAuthClick, onCartClick }) => {
     </header>
   );
 };
-

@@ -19,7 +19,6 @@ import {
   BarChart3,
   PieChart,
   Users,
-  Sparkles,
   Target,
   Award,
   Zap
@@ -276,7 +275,7 @@ export const SellerDashboardOverview: React.FC = () => {
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <Sparkles className="w-6 h-6 text-white" />
+                <></>
               </div>
               <div>
                 <h2 className="text-xl lg:text-2xl font-bold text-white">

@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
-        serif: ['"Playfair Display"', 'Georgia', ...defaultTheme.fontFamily.serif],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"San Francisco"', '"Helvetica Neue"', 'Helvetica', 'Ubuntu', 'Roboto', 'Noto', '"Segoe UI"', 'Arial', 'sans-serif'],
+        serif: ['-apple-system', 'BlinkMacSystemFont', '"San Francisco"', '"Helvetica Neue"', 'Helvetica', 'Ubuntu', 'Roboto', 'Noto', '"Segoe UI"', 'Arial', 'sans-serif'],
       },
       // Enhanced typography scale with proper line heights and letter spacing
       fontSize: {

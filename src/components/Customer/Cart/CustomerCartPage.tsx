@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShoppingCart, Sparkles } from 'lucide-react';
+import { ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShoppingCart } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 import { useNotification } from '../../../contexts/NotificationContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -41,7 +41,7 @@ export const CustomerCartPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/products">
               <button className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2">
-                <Sparkles className="h-5 w-5" />
+                <></>
                 <span>Start Shopping</span>
               </button>
             </Link>
@@ -198,7 +198,7 @@ export const CustomerCartPage: React.FC = () => {
           <div className="mt-8 pt-8 border-t border-gray-100 grid grid-cols-2 gap-4">
             <div className="text-center">
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 text-green-600">
-                <Sparkles className="w-5 h-5" />
+                <></>
               </div>
               <p className="text-xs font-medium text-gray-700 uppercase tracking-wider">Secure Payment</p>
             </div>

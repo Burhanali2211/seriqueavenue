@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   CreditCard, Smartphone, Building, Wallet, Banknote, 
-  Shield, CheckCircle, X, Lock, ArrowRight, Sparkles,
+  Shield, CheckCircle, X, Lock, ArrowRight,
   AlertCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';

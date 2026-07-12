@@ -25,7 +25,7 @@
     --color-error: #ef4444;
 
     /* Typography */
-    --font-family-sans: 'Roboto', 'Inter', system-ui, sans-serif;
+    --font-family-sans: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
@@ -282,13 +282,13 @@
 /* Mobile Touch Targets */
 @media (max-width: 768px) {
     .touch-target {
-        min-height: 44px;
-        min-width: 44px;
+        min-height: 40px;
+        min-width: 40px;
     }
 
     .btn-base {
-        min-height: 44px;
-        font-size: var(--font-size-base);
+        min-height: 40px;
+        font-size: var(--font-size-sm);
     }
 }
 
@@ -326,11 +326,4 @@
     border: 0;
 }
 
-/* Dark Mode Support (Future Enhancement) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-gray-50: #1f2937;
-        --color-gray-100: #374151;
-        --color-gray-900: #f9fafb;
-    }
-}
+/* Force Light Mode - Removed Dark Mode Overrides */

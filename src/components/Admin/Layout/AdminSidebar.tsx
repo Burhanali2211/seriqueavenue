@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Sparkles,
   Settings,
   Globe,
   Palette,
@@ -177,7 +176,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           {isOpen ? (
             <Link to="/" className="flex items-center space-x-2 min-w-0">
               <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Sparkles className="h-5 w-5 text-white" />
+                <></>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent truncate">
                 Admin
@@ -185,7 +184,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             </Link>
           ) : (
             <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto flex-shrink-0">
-              <Sparkles className="h-5 w-5 text-white" />
+              <></>
             </div>
           )}
         </div>
@@ -304,7 +303,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         <div className="flex items-center justify-between h-14 sm:h-16 px-4 border-b border-gray-200 flex-shrink-0">
           <Link to="/" className="flex items-center space-x-2 min-w-0">
             <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Sparkles className="h-5 w-5 text-white" />
+              <></>
             </div>
             <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent truncate">
               Admin

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  X, Home, ShoppingBag, Sparkles, Tag, Info, User, ShoppingCart, Heart, 
+  X, Home, ShoppingBag, Tag, Info, User, ShoppingCart, Heart, 
   ChevronRight, LogOut, Package
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -69,7 +69,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
     { 
       name: 'New Arrivals', 
       href: '/new-arrivals', 
-      icon: <Sparkles className="h-5 w-5" />,
+      icon: <></>,
       badge: 'NEW',
       badgeColor: 'bg-emerald-500'
     },

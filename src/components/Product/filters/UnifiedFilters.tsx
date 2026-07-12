@@ -6,7 +6,6 @@ import {
   Package,
   MapPin,
   Clock,
-  Sparkles,
   Flower2,
   Droplets,
   Search,
@@ -167,7 +166,7 @@ export const UnifiedFilters: React.FC<UnifiedFiltersProps> = ({
                   }`}
                 >
                   {opt.label}
-                  {filters.sortBy === opt.value && <Sparkles className="h-3 w-3" />}
+                  {filters.sortBy === opt.value && <></>}
                 </button>
               ))}
             </div>

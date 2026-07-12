@@ -71,8 +71,8 @@
   --color-info-light: #e0f2fe;
 
   /* ===== TYPOGRAPHY ===== */
-  --font-sans: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
+  --font-serif: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
 
   /* Font Sizes - Mobile First */
   --text-xs: 0.75rem;
@@ -185,7 +185,7 @@
   justify-content: center;
   font-family: var(--font-sans);
   font-weight: var(--font-medium);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
   transition: all var(--transition-base);
   cursor: pointer;
   border: none;
@@ -196,8 +196,15 @@
 .btn-primary {
   background-color: var(--color-brand-600);
   color: white;
-  padding: var(--space-3) var(--space-6);
-  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 768px) {
+  .btn-primary {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+  }
 }
 
 .btn-primary:hover {
@@ -209,8 +216,15 @@
   background-color: white;
   color: var(--color-brand-600);
   border: 2px solid var(--color-brand-600);
-  padding: var(--space-3) var(--space-6);
-  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 768px) {
+  .btn-secondary {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+  }
 }
 
 .btn-secondary:hover {

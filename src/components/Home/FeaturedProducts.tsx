@@ -1,5 +1,5 @@
 import React, { useEffect, memo } from 'react';
-import { Star, ArrowRight, Sparkles } from 'lucide-react';
+import { Star, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useProducts } from '../../contexts/ProductContext';
 import { ProductGridSkeleton } from '../Common/ProductCardSkeleton';
@@ -30,7 +30,7 @@ export const FeaturedProducts: React.FC = memo(() => {
                             viewport={{ once: true }}
                             className="inline-flex items-center gap-2 text-amber-600 font-bold text-[10px] uppercase tracking-[0.3em]"
                         >
-                            <Sparkles className="h-3 w-3" />
+                            <></>
                             Curated Selection
                         </motion.div>
                         <motion.h2 

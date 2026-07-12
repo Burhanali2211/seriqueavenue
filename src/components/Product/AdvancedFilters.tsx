@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Filter, X, ChevronDown, ChevronUp, Crown, Sparkles, Clock, DollarSign, Package, MapPin, Flower2, Droplets } from 'lucide-react';
+import { Filter, X, ChevronDown, ChevronUp, Crown, Clock, DollarSign, Package, MapPin, Flower2, Droplets } from 'lucide-react';
 
 interface AdvancedFilterState {
     category: string;
@@ -226,7 +226,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                 {/* Quick Filters */}
                 <div className="p-6 border-b border-gray-100 bg-gray-50">
                     <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                        <Sparkles className="h-5 w-5 mr-2 text-purple-500" />
+                        <></>
                         Quick Filters
                     </h4>
                     <div className="flex flex-wrap gap-3">
@@ -390,7 +390,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                                                     : 'text-gray-300 hover:text-yellow-400'
                                                 }`}
                                         >
-                                            <Sparkles className="w-5 h-5" />
+                                            <></>
                                         </button>
                                     ))}
                                     <span className="text-sm text-gray-600 ml-2">
@@ -494,7 +494,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                             {/* Advanced Attributes */}
                             <FilterSection
                                 title="Advanced Attributes"
-                                icon={<Sparkles className="h-5 w-5" />}
+                                icon={<></>}
                                 sectionKey="advanced"
                             >
                                 <div className="space-y-4">

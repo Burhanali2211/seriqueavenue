@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, ShoppingCart, Trash2, Share2, Sparkles, TrendingUp } from 'lucide-react';
+import { Heart, ShoppingCart, Trash2, Share2, TrendingUp } from 'lucide-react';
 import { useWishlist } from '../../../contexts/WishlistContext';
 import { useCart } from '../../../contexts/CartContext';
 import { useNotification } from '../../../contexts/NotificationContext';
@@ -58,7 +58,7 @@ export const CustomerWishlistPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/products">
               <button className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2">
-                <Sparkles className="h-5 w-5" />
+                <></>
                 <span>Discover Products</span>
               </button>
             </Link>

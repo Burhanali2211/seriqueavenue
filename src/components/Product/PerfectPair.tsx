@@ -2,7 +2,7 @@ import React from 'react';
 import { useProducts } from '../../contexts/ProductContext';
 import { Product } from '../../types';
 import { ProductCard } from './ProductCard';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import {  ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface PerfectPairProps {
@@ -22,7 +22,7 @@ export const PerfectPair: React.FC<PerfectPairProps> = ({ currentProduct }) => {
       <div className="flex flex-col md:flex-row items-center gap-12 bg-white p-8 md:p-12 rounded-luxury-xl shadow-luxury border border-stone-100 relative overflow-hidden">
         <div className="flex-1 space-y-6 relative z-10">
           <div className="flex items-center gap-2 text-stone-400 text-[10px] uppercase tracking-[0.3em] font-bold">
-            <Sparkles className="h-4 w-4 text-amber-400" /> Olfactory Synergy
+            <></> Olfactory Synergy
           </div>
           <h3 className="font-serif text-4xl text-stone-900 leading-tight">The Perfect Layer</h3>
           <p className="text-stone-500 font-light leading-relaxed max-w-md">

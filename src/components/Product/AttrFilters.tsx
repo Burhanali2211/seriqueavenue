@@ -9,7 +9,6 @@ import {
   Package,
   MapPin,
   Clock,
-  Sparkles,
   Flower2,
   Crown,
   Droplets
@@ -251,7 +250,7 @@ export const AttrFilters: React.FC<AttrFiltersProps> = ({
           <p className="text-sm text-neutral-600">
             <span className="font-semibold text-neutral-900">{productCount}</span> exquisite attars found
           </p>
-          <Sparkles className="h-4 w-4 text-amber-500" />
+          <></>
         </div>
       </div>
 
@@ -438,7 +437,7 @@ export const AttrFilters: React.FC<AttrFiltersProps> = ({
           {/* Sillage Filter */}
           <FilterSection
             title="Sillage (Projection)"
-            icon={<Sparkles className="h-5 w-5" />}
+            icon={<></>}
             sectionKey="sillage"
             premium
           >

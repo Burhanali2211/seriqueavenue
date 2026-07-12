@@ -192,7 +192,7 @@ const PromoBanner: React.FC = memo(() => (
         </div>
         <Link
           to="/products"
-          className="flex-shrink-0 group flex items-center gap-4 bg-white text-black font-black text-[10px] uppercase tracking-[0.25em] px-10 py-5 rounded-full transition-all hover:bg-[#F0F0F0] active:scale-95 shadow-xl shadow-black/20"
+          className="flex-shrink-0 group inline-flex items-center gap-3 sm:gap-4 bg-white text-black font-bold text-[9px] sm:text-[10px] uppercase tracking-widest sm:tracking-[0.25em] px-6 py-3.5 sm:px-10 sm:py-5 rounded-full transition-all hover:bg-[#F0F0F0] active:scale-95 shadow-xl shadow-black/20"
         >
           Explore Collection
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -276,7 +276,7 @@ export default function HomePage() {
 
             <Link
               to="/products"
-              className="inline-flex items-center gap-4 bg-white text-black hover:bg-[#F0F0F0] font-black text-xs uppercase tracking-[0.2em] px-12 py-6 rounded-full transition-all shadow-2xl active:scale-95 group"
+              className="inline-flex items-center gap-3 sm:gap-4 bg-white text-black hover:bg-[#F0F0F0] font-bold text-[10px] sm:text-xs uppercase tracking-widest sm:tracking-[0.2em] px-8 py-4 sm:px-12 sm:py-6 rounded-full transition-all shadow-2xl active:scale-95 group"
             >
               Start Exploring 
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

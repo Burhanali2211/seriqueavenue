@@ -1,5 +1,5 @@
 import React, { useEffect, memo, useRef, useState, useCallback } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useProducts } from '../../contexts/ProductContext';
 import { ProductGridSkeleton } from '../Common/ProductCardSkeleton';
@@ -60,7 +60,7 @@ export const LatestArrivals: React.FC = memo(() => {
               viewport={{ once: true }}
               className="inline-flex items-center gap-2 text-black font-bold text-[9px] uppercase tracking-[0.3em]"
             >
-              <Sparkles className="h-3 w-3" />
+              <></>
               Just Landed
             </motion.div>
             <motion.h2 
@@ -114,7 +114,7 @@ export const LatestArrivals: React.FC = memo(() => {
           </div>
         ) : (
           <div className="text-center py-24 bg-white rounded-[3rem] border border-black/[0.03]">
-            <Sparkles className="h-10 w-10 text-black/10 mx-auto mb-6" />
+            <></>
             <h3 className="text-black text-xl font-black uppercase tracking-widest">Awaiting Arrivals</h3>
             <p className="text-black/30 font-medium mt-2">The next collection is currently in transit.</p>
           </div>

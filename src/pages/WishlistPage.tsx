@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, ShoppingCart, Trash2, Sparkles, TrendingUp } from 'lucide-react';
+import { Heart, ShoppingCart, Trash2, TrendingUp } from 'lucide-react';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useCart } from '../contexts/CartContext';
 import { useNotification } from '../contexts/NotificationContext';
@@ -89,7 +89,7 @@ export const WishlistPage: React.FC = () => {
                 to="/products"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-colors"
               >
-                <Sparkles className="h-4 w-4" />
+                <></>
                 Browse products
               </Link>
               <Link

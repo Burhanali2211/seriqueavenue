@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import {
   X, Mail, Lock, User, Eye, EyeOff, ArrowLeft,
   Fingerprint, Shield, Star, Gift,
-  Heart, ShoppingCart, Bell, Settings, LogOut,
-  Sparkles, Crown, AlertCircle, Loader2, Phone, Calendar
+  Heart, ShoppingCart, Bell, Settings, LogOut, Crown, AlertCircle, Loader2, Phone, Calendar
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -286,7 +285,7 @@ export const MobileAuthView: React.FC<MobileAuthViewProps> = ({
               {(mode === 'login' || (mode === 'signup' && step === 1)) && (
                 <div className="text-center mb-2">
                   <div className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-full px-4 py-2 mb-3">
-                    <Sparkles className="h-4 w-4 text-purple-600" />
+                    <></>
                     <span className="text-xs font-semibold text-purple-800">Premium Attar Collection</span>
                     <Crown className="h-4 w-4 text-amber-500" />
                   </div>

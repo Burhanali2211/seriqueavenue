@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Grid3X3, LayoutList, SlidersHorizontal, ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { Search, Grid3X3, LayoutList, SlidersHorizontal, ChevronRight, ArrowLeft } from 'lucide-react';
 
 interface Category {
     id: string;
@@ -60,7 +60,7 @@ export const MobileProductHeader: React.FC<MobileProductHeaderProps> = ({
                 <div className="flex-1 flex flex-col">
                     <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-600">Welcome back</span>
-                        <Sparkles className="h-4 w-4 text-amber-500" />
+                        <></>
                     </div>
                     <h1 className="text-lg font-bold text-gray-900">Discover Products</h1>
                 </div>

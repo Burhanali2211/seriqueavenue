@@ -2,8 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback, useRef, memo } from '
 import { useSearchParams, useParams, Link, useNavigate } from 'react-router-dom';
 import {
     Search, Grid3X3, LayoutList, Star, Heart, ShoppingCart,
-    ChevronDown, ChevronUp, X, SlidersHorizontal, Home,
-    Sparkles, TrendingUp, Percent, Package, ArrowUpDown,
+    ChevronDown, ChevronUp, X, SlidersHorizontal, Home, TrendingUp, Percent, Package, ArrowUpDown,
     Eye, Check, Flame, Clock, Filter, RotateCcw,
     ChevronLeft, ChevronRight, Zap, Droplet, Wind, Sun, Info, ArrowRight
 } from 'lucide-react';

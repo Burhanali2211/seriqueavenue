@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader2, Sparkles, Crown } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader2, Crown } from 'lucide-react';
 
 interface LoginFormProps {
   formData: any;
@@ -30,7 +30,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="text-center mb-2">
         <div className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-full px-4 py-2 mb-3">
-          <Sparkles className="h-4 w-4 text-purple-600" />
+          <></>
           <span className="text-xs font-semibold text-purple-800">Premium Attar Collection</span>
           <Crown className="h-4 w-4 text-amber-500" />
         </div>

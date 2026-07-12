@@ -146,21 +146,21 @@ export const Hero: React.FC = () => {
                   {slide.topTitle}
                 </motion.p>
                 
-                <motion.h2 variants={itemVariants} className="text-white text-6xl sm:text-8xl md:text-9xl font-serif leading-[0.85] mb-8 tracking-tighter relative">
-                  <span className="block font-light italic mb-2">{slide.titleMain}</span>
-                  <span className="block font-black uppercase tracking-[-0.05em] ml-8 sm:ml-20">{slide.titleSub}</span>
+                <motion.h2 variants={itemVariants} className="text-white text-5xl sm:text-7xl md:text-9xl font-serif leading-[0.85] mb-6 sm:mb-8 tracking-tighter relative">
+                  <span className="block font-light italic mb-1 sm:mb-2">{slide.titleMain}</span>
+                  <span className="block font-black uppercase tracking-[-0.05em] ml-2 sm:ml-12 md:ml-20 break-words">{slide.titleSub}</span>
                 </motion.h2>
 
                 <motion.p variants={itemVariants} className={`text-sm sm:text-lg md:text-xl font-medium tracking-wide mb-12 max-w-lg ${slide.accentColor} opacity-90`}>
                   {slide.subtitle}
                 </motion.p>
 
-                <motion.div variants={itemVariants} className="flex flex-wrap gap-6 items-center">
+                <motion.div variants={itemVariants} className="flex flex-wrap gap-4 sm:gap-6 items-center">
                   <Link
                     to={slide.ctaLink}
-                    className="group relative inline-flex items-center gap-4 bg-white text-stone-900 px-10 py-5 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95"
+                    className="group relative inline-flex items-center gap-3 sm:gap-4 bg-white text-stone-900 px-6 py-3.5 sm:px-10 sm:py-5 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95"
                   >
-                    <span className="relative z-10 text-sm font-black uppercase tracking-widest">
+                    <span className="relative z-10 text-xs sm:text-sm font-bold uppercase tracking-widest">
                       {slide.cta}
                     </span>
                     <ArrowRight className="relative z-10 h-5 w-5 transition-transform group-hover:translate-x-2" />
